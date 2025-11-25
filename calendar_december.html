@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nist Coffee December Schedule</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&family=Zen+Kaku+Gothic+New:wght@300;400;500;700;900&family=Zen+Old+Mincho:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f4f4f4;
+            /* Fallback */
+            background-image: url('img/concrete_bg.png');
+            /* Match site */
+            background-size: cover;
+            margin: 0;
+            font-family: var(--font-main);
+        }
+
+        .calendar-container {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 600px;
+            text-align: center;
+        }
+
+        .calendar-header {
+            margin-bottom: 30px;
+        }
+
+        .calendar-title {
+            font-family: var(--font-serif);
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .calendar-subtitle {
+            font-size: 1.2rem;
+            color: var(--accent-teal-dark);
+            font-weight: 700;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+        }
+
+        .day-name {
+            font-weight: 700;
+            color: #666;
+            padding: 10px 0;
+        }
+
+        .day-name.sun {
+            color: #d9534f;
+        }
+
+        .day-name.sat {
+            color: #00A4D8;
+        }
+
+        .day {
+            aspect-ratio: 1/1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.2rem;
+            color: #333;
+            position: relative;
+            font-weight: 500;
+        }
+
+        .day.empty {
+            background: none;
+        }
+
+        /* Business Day Circle Style */
+        .day.business-day::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 40px;
+            height: 40px;
+            border: 3px solid #d9534f;
+            /* Red circle for business day */
+            border-radius: 50%;
+            z-index: -1;
+        }
+
+        /* Alternative: Circle the text background */
+        /*
+        .day.business-day {
+            background-color: var(--primary-neon);
+            color: #000;
+            border-radius: 50%;
+            font-weight: 700;
+        }
+        */
+
+        .note {
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: #666;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="calendar-container">
+        <div class="calendar-header">
+            <h1 class="calendar-title">December 2025</h1>
+            <div class="calendar-subtitle">Nist Coffee Schedule</div>
+        </div>
+
+        <div class="calendar-grid">
+            <!-- Day Names -->
+            <div class="day-name sun">Sun</div>
+            <div class="day-name">Mon</div>
+            <div class="day-name">Tue</div>
+            <div class="day-name">Wed</div>
+            <div class="day-name">Thu</div>
+            <div class="day-name">Fri</div>
+            <div class="day-name sat">Sat</div>
+
+            <!-- Days -->
+            <!-- Dec 1 is Monday. So 1 empty slot for Sunday (since grid starts Sun) -->
+            <div class="day empty"></div>
+
+            <div class="day">1</div>
+            <div class="day">2</div>
+            <div class="day">3</div>
+            <div class="day business-day">4</div> <!-- Thu -->
+            <div class="day">5</div>
+            <div class="day">6</div>
+            <div class="day business-day">7</div> <!-- Sun -->
+
+            <div class="day business-day">8</div> <!-- Mon -->
+            <div class="day">9</div>
+            <div class="day">10</div>
+            <div class="day business-day">11</div> <!-- Thu -->
+            <div class="day">12</div>
+            <div class="day">13</div>
+            <div class="day business-day">14</div> <!-- Sun -->
+
+            <div class="day business-day">15</div> <!-- Mon -->
+            <div class="day business-day">16</div> <!-- Tue -->
+            <div class="day business-day">17</div> <!-- Wed -->
+            <div class="day business-day">18</div> <!-- Thu -->
+            <div class="day">19</div>
+            <div class="day business-day">20</div> <!-- Sat -->
+            <div class="day business-day">21</div> <!-- Sun (Assumed from 20日20一日) -->
+
+            <div class="day business-day">22</div> <!-- Mon -->
+            <div class="day business-day">23</div> <!-- Tue -->
+            <div class="day business-day">24</div> <!-- Wed -->
+            <div class="day business-day">25</div> <!-- Thu -->
+            <div class="day business-day">26</div> <!-- Fri -->
+            <div class="day business-day">27</div> <!-- Sat -->
+            <div class="day business-day">28</div> <!-- Sun -->
+
+            <div class="day business-day">29</div> <!-- Mon -->
+            <div class="day business-day">30</div> <!-- Tue -->
+            <div class="day">31</div>
+            <div class="day empty"></div>
+            <div class="day empty"></div>
+            <div class="day empty"></div>
+        </div>
+
+        <div class="note">
+            <span style="color: #d9534f; font-weight: bold;">○</span> is Business Day
+        </div>
+    </div>
+
+</body>
+
+</html>

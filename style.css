@@ -52,6 +52,8 @@ body {
     line-height: 1.8;
     letter-spacing: 0.05em;
     -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+    width: 100%;
 }
 
 a {
@@ -313,7 +315,7 @@ ul {
    ========================================================================== */
 .business-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 40px;
 }
 
@@ -420,7 +422,7 @@ ul {
    ========================================================================== */
 .video-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 30px;
 }
 
