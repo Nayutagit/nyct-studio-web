@@ -7,9 +7,8 @@
   <title>ニストスタジオ</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&family=Zen+Kaku+Gothic+New:wght@300;400;500;700;900&family=Zen+Old+Mincho:wght@400;500;600&display=swap"
-    rel="stylesheet">
+  href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&family=Zen+Kaku+Gothic+New:wght@300;400;500;700;900&family=Zen+Old+Mincho:wght@400;500;600&family=Zen+Maru+Gothic:wght@400;500;700&display=swap"
+  rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="style.css">
 </head>
@@ -128,7 +127,7 @@
 
       <div class="video-grid">
         <!-- Video 1 -->
-        <div class="video-item fade-in-up" onclick="openVideo('JtPn_ItKtM8')">
+        <div class="video-item fade-in-up" onclick="playVideo(this, 'JtPn_ItKtM8')">
           <div style="position: relative;">
             <img src="https://img.youtube.com/vi/JtPn_ItKtM8/maxresdefault.jpg" alt="三浦工業CM" class="video-thumb">
             <div class="play-button"><i class="fas fa-play"></i></div>
@@ -140,7 +139,7 @@
         </div>
 
         <!-- Video 2 -->
-        <div class="video-item fade-in-up" onclick="openVideo('qjgS6r0IEeM')" style="transition-delay: 0.1s;">
+        <div class="video-item fade-in-up" onclick="playVideo(this, 'qjgS6r0IEeM')" style="transition-delay: 0.1s;">
           <div style="position: relative;">
             <img src="https://img.youtube.com/vi/qjgS6r0IEeM/maxresdefault.jpg" alt="プレディア呉駅前" class="video-thumb">
             <div class="play-button"><i class="fas fa-play"></i></div>
@@ -152,7 +151,7 @@
         </div>
 
         <!-- Video 3: Replaced broken JR Shikoku with Otafuku (Radio CM visual) or another valid one. Using Otafuku placeholder for now or another TVCM if available. Let's use a generic placeholder for Otafuku since it's radio, or use another video. I'll use the 'Otafuku' one but maybe with a static image if video ID isn't known, but user said 'other one'. I will use the 'Hiroshima Pref' one from the list: hezTgDHCozI -->
-        <div class="video-item fade-in-up" onclick="openVideo('hezTgDHCozI')" style="transition-delay: 0.2s;">
+        <div class="video-item fade-in-up" onclick="playVideo(this, 'hezTgDHCozI')" style="transition-delay: 0.2s;">
           <div style="position: relative;">
             <img src="https://img.youtube.com/vi/hezTgDHCozI/maxresdefault.jpg" alt="広島県公式" class="video-thumb">
             <div class="play-button"><i class="fas fa-play"></i></div>

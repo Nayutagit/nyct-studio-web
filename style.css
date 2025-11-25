@@ -19,7 +19,7 @@
     --text-gray: #cccccc;
 
     /* Fonts */
-    --font-main: "Tsukushi B Gothic", "筑紫B丸ゴシック", "Zen Kaku Gothic New", "Noto Sans JP", sans-serif;
+    --font-main: "Tsukushi B Round Gothic", "Tsukushi B Gothic", "筑紫B丸ゴシック", "Zen Maru Gothic", "Zen Kaku Gothic New", sans-serif;
     --font-serif: "Zen Old Mincho", "Times New Roman", serif;
 
     /* Spacing */
@@ -420,7 +420,7 @@ ul {
    ========================================================================== */
 .video-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 30px;
 }
 
@@ -757,6 +757,10 @@ ul {
     .header-inner {
         flex-direction: column;
         gap: 15px;
+    }
+
+    .container {
+        padding: 0 1rem;
     }
 
     .nav-list {

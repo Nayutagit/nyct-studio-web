@@ -28,52 +28,33 @@ document.addEventListener('DOMContentLoaded', () => {
         observer.observe(el);
     });
 
-    // 3. Video Modal Logic
-    const modal = document.getElementById('videoModal');
-    const modalContent = modal.querySelector('.modal-content');
-    const closeBtn = modal.querySelector('.modal-close');
-    let player = null; // Placeholder for YouTube player if we use API, but simple iframe replacement works too
-
-    // Function to open modal
-    window.openVideo = (videoId) => {
+    // 3. Inline Video Playback
+    window.playVideo = (element, videoId) => {
+        // Create iframe
         const iframe = document.createElement('iframe');
         iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`;
         iframe.style.width = '100%';
-        iframe.style.height = '100%';
+        iframe.style.height = '100%'; // Will fill the aspect-ratio container
+        iframe.style.position = 'absolute';
+        iframe.style.top = '0';
+        iframe.style.left = '0';
         iframe.frameBorder = '0';
         iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
         iframe.allowFullscreen = true;
 
-        // Clear previous content (except close button if it was inside, but here it's outside)
-        modalContent.innerHTML = '';
-        modalContent.appendChild(iframe);
+        // Find the container (the relative div inside video-item)
+        const container = element.querySelector('div[style*="position: relative"]');
 
-        modal.classList.add('active');
-        document.body.style.overflow = 'hidden'; // Prevent background scrolling
+        if (container) {
+            container.innerHTML = ''; // Remove image and play button
+            container.appendChild(iframe);
+            container.style.paddingBottom = '56.25%'; // Ensure 16:9 aspect ratio
+        }
     };
 
-    // Function to close modal
-    const closeModal = () => {
-        modal.classList.remove('active');
-        modalContent.innerHTML = ''; // Stop video
-        document.body.style.overflow = '';
-    };
+    // (Modal logic removed as requested for inline playback)
 
-    closeBtn.addEventListener('click', closeModal);
-
-    // Close on click outside
-    modal.addEventListener('click', (e) => {
-        if (e.target === modal) {
-            closeModal();
-        }
-    });
-
-    // Close on Escape key
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && modal.classList.contains('active')) {
-            closeModal();
-        }
-    });
+    // Modal listeners removed
 
     // 4. Smooth Scroll for Anchors
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
