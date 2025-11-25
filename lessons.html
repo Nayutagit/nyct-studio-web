@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>レッスン詳細 | ニストボイススクール</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- スクロールインジケーター -->
+    <div class="scroll-indicator">
+        <div class="scroll-progress" id="scrollProgress"></div>
+    </div>
+
+    <!-- ヘッダー -->
+    <header id="header">
+        <div class="header-container">
+            <a href="index.html" class="logo">
+                ニストボイススクール
+                <span class="logo-kana">広島駅徒歩3分・オンライン対応</span>
+            </a>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="index.html">ホーム</a></li>
+                    <li><a href="#lessons">レッスン詳細</a></li>
+                    <li><a href="#pricing">料金</a></li>
+                    <li><a href="#faq">よくある質問</a></li>
+                    <li><a href="#contact">お問い合わせ</a></li>
+                    <li><a href="https://nyctstudio.com/" target="_blank">講師プロフィール</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ヒーローセクション -->
+    <section class="hero" id="lessons">
+        <div class="floating-elements">
+            <div class="floating-element"></div>
+            <div class="floating-element"></div>
+            <div class="floating-element"></div>
+        </div>
+        <div class="hero-container">
+            <div class="hero-content">
+                <p class="hero-subtitle">緊張を力に変える</p>
+                <h1 class="hero-title">レッスン詳細</h1>
+                <p class="hero-description">
+                    声を整え、自信をつける。<br>
+                    5つのステップであなたの声と表現力を<br>
+                    確実に引き出します。<br>
+                    初回体験レッスンは無料です。
+                </p>
+                <div class="cta-buttons">
+                    <a href="https://airrsv.net/nyct/calendar" target="_blank" class="btn btn-primary">
+                        <i class="fas fa-calendar"></i>
+                        無料体験予約
+                    </a>
+                    <a href="#lessons-content" class="btn btn-secondary">
+                        <i class="fas fa-arrow-down"></i>
+                        詳細を見る
+                    </a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div style="
+          width: 400px; 
+          height: 500px; 
+          background: linear-gradient(135deg, #fcc800 0%, #f9a825 100%);
+          border-radius: 20px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: white;
+          font-size: 3rem;
+          font-weight: 700;
+          box-shadow: var(--shadow-hover);
+        ">
+                    <i class="fas fa-microphone"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- レッスン内容詳細 -->
+    <section class="section" id="lessons-content">
+        <div class="container">
+            <div class="section-title">
+                <h2>5つのステップで確実に上達</h2>
+                <p class="section-subtitle">あなたの声と表現力を引き出すための体系的なアプローチ</p>
+            </div>
+            <div class="work-grid">
+                <div class="work-card">
+                    <div class="lesson-step-header">
+                        <div class="step-number">01</div>
+                    </div>
+                    <div class="work-card-content">
+                        <h3>基礎発声トレーニング</h3>
+                        <p>正しい姿勢・呼吸法・口の開き方・声帯の使い方を一から習得。フィットネスインストラクター歴9年の経験を活かし、体の使い方から丁寧に指導します。</p>
+                        <ul class="lesson-details">
+                            <li>腹式呼吸の習得</li>
+                            <li>正しい姿勢でのボディアライメント</li>
+                            <li>共鳴を活用した響く声づくり</li>
+                            <li>声帯への負担を減らす発声法</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="work-card">
+                    <div class="lesson-step-header">
+                        <div class="step-number">02</div>
+                    </div>
+                    <div class="work-card-content">
+                        <h3>喉と体のケア</h3>
+                        <p>毎日使う声だからこそ、喉を守ることが重要。日常に取り入れられるストレッチ・ボディワーク・生活習慣をお教えします。</p>
+                        <ul class="lesson-details">
+                            <li>首・肩・胸部のストレッチ</li>
+                            <li>喉を守る食事・水分補給のコツ</li>
+                            <li>疲労回復のためのボディケア</li>
+                            <li>声枯れ予防の実践テクニック</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="work-card">
+                    <div class="lesson-step-header">
+                        <div class="step-number">03</div>
+                    </div>
+                    <div class="work-card-content">
+                        <h3>滑舌・発音矯正</h3>
+                        <p>苦手な発音を一つずつ克服。CM・企業ナレーション経験を活かし、明瞭で聞きやすい声へと導きます。</p>
+                        <ul class="lesson-details">
+                            <li>50音の正確な発音練習</li>
+                            <li>早口言葉での滑舌強化</li>
+                            <li>方言・なまりの矯正</li>
+                            <li>アクセント・イントネーションの改善</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="work-card">
+                    <div class="lesson-step-header">
+                        <div class="step-number">04</div>
+                    </div>
+                    <div class="work-card-content">
+                        <h3>緊張対策・メンタルコントロール</h3>
+                        <p>人前で震えない呼吸法・イメージトレーニング。本番で実力を発揮できるメンタル面もサポートします。</p>
+                        <ul class="lesson-details">
+                            <li>緊張緩和の呼吸テクニック</li>
+                            <li>ポジティブなセルフトーク</li>
+                            <li>本番前のルーティン作り</li>
+                            <li>失敗を恐れない心構えの習得</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="work-card">
+                    <div class="lesson-step-header">
+                        <div class="step-number">05</div>
+                    </div>
+                    <div class="work-card-content">
+                        <h3>応用レッスン</h3>
+                        <p>実際の場面を想定した実践練習。プレゼン・面接・ナレーションなど、目的に合わせてカスタマイズします。</p>
+                        <ul class="lesson-details">
+                            <li>プレゼンテーション練習</li>
+                            <li>面接・スピーチ対策</li>
+                            <li>ナレーション・朗読技術</li>
+                            <li>接客・営業での声の使い方</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="work-card">
+                    <div class="lesson-step-header">
+                        <i class="fas fa-clock" style="font-size: 2.5rem; color: var(--primary-color);"></i>
+                    </div>
+                    <div class="work-card-content">
+                        <h3>1回のレッスンの流れ（60分）</h3>
+                        <p>効率的な60分で、確実にステップアップしていきます。</p>
+                        <ul class="lesson-details">
+                            <li>0-10分：ウォーミングアップ</li>
+                            <li>10-30分：基礎練習</li>
+                            <li>30-50分：応用練習</li>
+                            <li>50-60分：まとめ・宿題</li>
+                        </ul>
+                        <div class="lesson-note">
+                            <strong>レッスン後はその日の仕事・学校で即実践できる内容をお伝えします</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 受講スタイル -->
+    <section class="section">
+        <div class="container">
+            <div class="section-title">
+                <h2>あなたに合った受講スタイルを選択</h2>
+                <p class="section-subtitle">グループ・マンツーマン・オンラインから選べます</p>
+            </div>
+
+            <div class="work-grid">
+                <div class="work-card">
+                    <div class="lesson-step-header">
+                        <i class="fas fa-users" style="font-size: 2.5rem; color: var(--primary-color);"></i>
+                    </div>
+                    <div class="work-card-content">
+                        <h3>グループレッスン</h3>
+                        <div class="style-tags">
+                            <span class="work-tag">仲間と切磋琢磨</span>
+                            <span class="work-tag">リーズナブル</span>
+                        </div>
+                        <p>こんな方におすすめ：人前での練習に慣れたい方・コストを抑えたい方</p>
+                    </div>
+                </div>
+
+                <div class="work-card featured-card">
+                    <div class="lesson-step-header">
+                        <i class="fas fa-user" style="font-size: 2.5rem; color: var(--primary-color);"></i>
+                    </div>
+                    <div class="work-card-content">
+                        <h3>マンツーマン <span class="popular-badge">人気</span></h3>
+                        <div class="style-tags">
+                            <span class="work-tag">完全個別指導</span>
+                            <span class="work-tag">上達が早い</span>
+                        </div>
+                        <p>こんな方におすすめ：短期間で確実に上達したい方・個人的な悩みがある方</p>
+                        <div class="option-price">+2,000円</div>
+                    </div>
+                </div>
+
+                <div class="work-card">
+                    <div class="lesson-step-header">
+                        <i class="fas fa-laptop" style="font-size: 2.5rem; color: var(--primary-color);"></i>
+                    </div>
+                    <div class="work-card-content">
+                        <h3>オンライン</h3>
+                        <div class="style-tags">
+                            <span class="work-tag">自宅で受講</span>
+                            <span class="work-tag">移動時間不要</span>
+                        </div>
+                        <p>こんな方におすすめ：広島以外にお住まいの方・忙しくて通学が困難な方</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Morning Activity Section Removed -->
+
+    <!-- 料金セクション -->
+    <section class="section" id="pricing">
+        <div class="container">
+            <div class="section-title">
+                <h2>料金プラン（全世代一律）</h2>
+                <p class="section-subtitle">明確で分かりやすい料金体系</p>
+            </div>
+
+            <div class="pricing-table">
+                <div class="pricing-row">
+                    <div class="pricing-item">単発レッスン</div>
+                    <div class="pricing-price">6,600円（税込）</div>
+                </div>
+                <div class="pricing-row featured-pricing">
+                    <div class="pricing-item">月額コース（月2回）<span class="popular-badge">おすすめ</span></div>
+                    <div class="pricing-price">12,000円（税込）<span class="per-lesson">1回 6,000円</span></div>
+                </div>
+                <div class="pricing-row">
+                    <div class="pricing-item">月額コース（月3回）</div>
+                    <div class="pricing-price">15,000円（税込）<span class="per-lesson">1回 5,000円</span></div>
+                </div>
+                <div class="pricing-row">
+                    <div class="pricing-item">月額コース（月4回）</div>
+                    <div class="pricing-price">18,000円（税込）<span class="per-lesson">1回 4,500円</span></div>
+                </div>
+            </div>
+
+            <div
+                style="text-align: center; margin-top: 3rem; padding: 2rem; background: var(--white); border-radius: 20px; box-shadow: var(--shadow);">
+                <h3 style="margin-bottom: 1rem; color: var(--primary-color);">マンツーマンオプション</h3>
+                <p style="font-size: 1.1rem; margin-bottom: 2rem;">グループレッスンまたはオンラインレッスンに<strong
+                        style="color: var(--primary-color);">+2,000円</strong>で完全個別指導に変更可能</p>
+
+                <h4 style="margin-bottom: 1rem; color: var(--primary-color);">月額コースの特典</h4>
+                <div class="benefits-list">
+                    <div class="benefit-item">回数が多いほど1回あたりの料金がお得に</div>
+                    <div class="benefit-item">継続による着実な上達効果</div>
+                    <div class="benefit-item">振替レッスン対応</div>
+                    <div class="benefit-item">個人の進度に合わせたカリキュラム調整</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- よくある質問 -->
+    <section class="section" id="faq">
+        <div class="container">
+            <div class="section-title">
+                <h2>よくある質問</h2>
+                <p class="section-subtitle">ご不明な点がございましたらお気軽にお問い合わせください</p>
+            </div>
+
+            <div class="achievements-section">
+                <div class="achievements-list">
+                    <div class="faq-item">
+                        <h4>Q. 全くの初心者でも大丈夫ですか？</h4>
+                        <p>A. もちろんです！基礎から丁寧にお教えしますので、初心者の方でも安心してご参加ください。まずは正しい呼吸法から始めて、段階的にステップアップしていきます。</p>
+                    </div>
+
+                    <div class="faq-item">
+                        <h4>Q. 朝活の時間帯は具体的に何時からですか？</h4>
+                        <p>A. 朝8時から開始可能です。出勤前の7時半〜8時半、登校前の時間帯など、ご都合に合わせて調整いたします。早朝レッスンをご希望の方はお気軽にご相談ください。</p>
+                    </div>
+
+                    <div class="faq-item">
+                        <h4>Q. オンラインレッスンに必要な機材はありますか？</h4>
+                        <p>A. スマートフォンまたはPCがあれば受講可能です。より良い音質をご希望の方は、イヤホンマイクの使用をおすすめしています。ZoomまたはGoogle Meetを使用予定です。</p>
+                    </div>
+
+                    <div class="faq-item">
+                        <h4>Q. どのくらいの期間で効果が実感できますか？</h4>
+                        <p>A. 個人差はありますが、正しい呼吸法は1〜2回のレッスンで身につき、その日から効果を実感していただけます。継続的な改善には月4回×3ヶ月程度をおすすめしています。</p>
+                    </div>
+
+                    <div class="faq-item">
+                        <h4>Q. レッスンのキャンセルは可能ですか？</h4>
+                        <p>A. レッスン前日の17時までのキャンセルは無料で承ります。それ以降のキャンセルについては、振替レッスンでの対応も可能ですので、ご相談ください。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- お問い合わせセクション -->
+    <section class="section contact-section" id="contact">
+        <div class="container">
+            <div class="contact-content">
+                <div class="section-title">
+                    <h2>まずは無料体験レッスンから始めませんか？</h2>
+                    <p class="section-subtitle">
+                        あなたの声の可能性を一緒に探してみましょう。<br>
+                        緊張を力に変え、自信を持って話せるようになる第一歩を踏み出してください。
+                    </p>
+                </div>
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div>
+                            <h4>レッスン会場</h4>
+                            <p>広島駅徒歩3分「ショコラミュージック」<br>オンライン対応</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div>
+                            <h4>開講時間</h4>
+                            <p>朝8時から夜まで開講<br>朝活ボイトレ対応</p>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top: 3rem;">
+                    <a href="https://airrsv.net/nyct/calendar" target="_blank" class="btn btn-primary"
+                        style="font-size: 1.2rem; padding: 1.2rem 3rem; margin-right: 1rem;">
+                        <i class="fas fa-calendar"></i>
+                        無料体験レッスンを予約する
+                    </a>
+                    <a href="https://nyctstudio.com/" target="_blank" class="btn btn-secondary"
+                        style="font-size: 1.2rem; padding: 1.2rem 3rem;">
+                        <i class="fas fa-user"></i>
+                        講師プロフィールを見る
+                    </a>
+                </div>
+                <div style="margin-top: 2rem; font-size: 0.9rem; color: var(--text-gray);">
+                    <p>※ 初回体験レッスンは完全無料です<br>
+                        ※ 広島駅徒歩3分「ショコラミュージック」またはオンラインで実施</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
