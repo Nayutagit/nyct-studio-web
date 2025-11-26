@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog | 思考の記録 | ニストスタジオ</title>
+    <link rel="icon" href="img/favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&family=Zen+Kaku+Gothic+New:wght@300;400;500;700;900&family=Zen+Old+Mincho:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header class="header">
+        <div class="container header-inner">
+            <a href="index.html" class="logo">
+                <img src="img/logo_white.png" alt="Nyct Studio Logo">
+                ニストスタジオ
+            </a>
+            <nav>
+                <ul class="nav-list">
+                    <li><a href="udatsu.html" class="nav-link">Udatsu</a></li>
+                    <li><a href="about.html" class="nav-link">About</a></li>
+                    <li><a href="voice.html" class="nav-link">Voice</a></li>
+                    <li><a href="school.html" class="nav-link">School</a></li>
+                    <li><a href="incubation.html" class="nav-link">Incubation</a></li>
+                    <li><a href="blog.html" class="nav-link" style="color: var(--accent-teal);">Blog</a></li>
+                    <li><a href="contact.html" class="nav-link">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <style>
+        .blog-container {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 50px 20px;
+        }
+
+        @media (max-width: 900px) {
+            .blog-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .blog-main {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .blog-sidebar {
+            background: #fff;
+            padding: 30px;
+            border-radius: 4px;
+            height: fit-content;
+            color: #333;
+        }
+
+        .sidebar-section {
+            margin-bottom: 40px;
+        }
+
+        .sidebar-title {
+            font-size: 1.2rem;
+            border-bottom: 2px solid var(--accent-teal);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .category-list li {
+            margin-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+            cursor: pointer;
+        }
+
+        .category-list a {
+            color: #666;
+            transition: color 0.3s;
+            display: block;
+        }
+
+        .category-list a:hover,
+        .category-list a.active {
+            color: var(--accent-teal);
+            font-weight: bold;
+        }
+
+        .daily-message {
+            background: #f9f9f9;
+            border-left: 5px solid var(--accent-teal);
+            color: #333;
+            padding: 20px 30px;
+            border-radius: 4px;
+            margin-bottom: 50px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .daily-message i {
+            font-size: 2rem;
+            color: var(--accent-teal);
+        }
+
+        .article-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .article-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .article-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .article-content {
+            padding: 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .article-date {
+            color: var(--accent-teal);
+            font-size: 0.85rem;
+            margin-bottom: 10px;
+        }
+
+        .article-title {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: #333;
+            line-height: 1.4;
+        }
+
+        .article-excerpt {
+            font-size: 0.9rem;
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .article-cat {
+            margin-top: auto;
+            display: inline-block;
+            background: #f0f0f0;
+            color: #666;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+    </style>
+
+    <section class="section bg-dark-concrete" style="padding-top: 150px; padding-bottom: 50px;">
+        <div class="container">
+            <h1 class="section-title">Blog</h1>
+            <p style="margin-top: 20px; font-size: 1.2rem;">思考の記録・日々の気づき</p>
+        </div>
+    </section>
+
+    <div class="container">
+        <div class="daily-message">
+            <i class="fas fa-microphone-alt"></i>
+            <div>
+                <h2 style="font-size: 1.2rem; margin-bottom: 5px; font-weight: bold;">毎日、音声で執筆しています</h2>
+                <p style="font-size: 0.95rem; line-height: 1.6; margin: 0;">
+                    思考は、声に出すことで初めて形になります。飾らない、生の思考をお楽しみください。
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="blog-container">
+        <!-- Main Content -->
+        <div class="blog-main" id="article-grid">
+            <!-- Article 1 -->
+            <a href="blog/article1.html" class="article-card" data-category="Mindset" data-date="2025-11">
+                <img src="img/incubation_bg.png" alt="Energy" class="article-img">
+                <div class="article-content">
+                    <div class="article-date">2025.11.22</div>
+                    <h3 class="article-title">エネルギーを余していないか</h3>
+                    <p class="article-excerpt">できるのにやらない、挑戦者を笑う。そんな自分になっていないか？自戒を込めて。</p>
+                    <span class="article-cat">Mindset</span>
+                </div>
+            </a>
+
+            <!-- Article 2 -->
+            <a href="blog/article2.html" class="article-card" data-category="Udatsu / AI" data-date="2025-04">
+                <img src="img/design_bg.png" alt="AI vs Human" class="article-img">
+                <div class="article-content">
+                    <div class="article-date">2025.04.30</div>
+                    <h3 class="article-title">AIと喧嘩した話</h3>
+                    <p class="article-excerpt">「効率」のAIと「感情」の人間。ぶつかり合いの中で見つけた、クリエイターとしての共存の道。</p>
+                    <span class="article-cat">Udatsu / AI</span>
+                </div>
+            </a>
+
+            <!-- Article 3 -->
+            <a href="blog/article3.html" class="article-card" data-category="Business" data-date="2025-11">
+                <img src="img/coffee_bg.png" alt="Human Connection" class="article-img">
+                <div class="article-content">
+                    <div class="article-date">2025.11.22</div>
+                    <h3 class="article-title">「人で選べ」という時代</h3>
+                    <p class="article-excerpt">機能やスキルはAIが代替する。最後に残る価値は「誰がやるか」という人間味です。</p>
+                    <span class="article-cat">Business</span>
+                </div>
+            </a>
+
+            <!-- Article 4 -->
+            <a href="blog/article4.html" class="article-card" data-category="Udatsu" data-date="2025-04">
+                <img src="img/udatsu_hero_bg_v2.png" alt="Voice Journaling" class="article-img">
+                <div class="article-content">
+                    <div class="article-date">2025.04.15</div>
+                    <h3 class="article-title">ボイスジャーナリングのすすめ</h3>
+                    <p class="article-excerpt">書くよりも早く、深く。声に出して思考を整理する「音声日記」が、脳をクリアにします。</p>
+                    <span class="article-cat">Udatsu</span>
+                </div>
+            </a>
+
+            <!-- Article 5 -->
+            <a href="blog/article5.html" class="article-card" data-category="Business" data-date="2025-11">
+                <img src="img/udatsu_hero_bg.png" alt="Udatsu Service" class="article-img">
+                <div class="article-content">
+                    <div class="article-date">2025.11.24</div>
+                    <h3 class="article-title">Udatsuサービス構想</h3>
+                    <p class="article-excerpt">忙しい経営者のための「話すだけ」コンテンツ制作。音声を資産に変える新しいアプローチ。</p>
+                    <span class="article-cat">Business</span>
+                </div>
+            </a>
+
+            <!-- Article 6 -->
+            <a href="blog/article6.html" class="article-card" data-category="Voice" data-date="2025-11">
+                <img src="img/school_bg.png" alt="Presentation" class="article-img">
+                <div class="article-content">
+                    <div class="article-date">2025.11.22</div>
+                    <h3 class="article-title">プレゼン力は「人事」ではない</h3>
+                    <p class="article-excerpt">リーダーの声は組織の羅針盤。ボイストレーニングは、ビジネスを加速させる必須スキルです。</p>
+                    <span class="article-cat">Voice</span>
+                </div>
+            </a>
+
+            <!-- Article 7 -->
+            <a href="blog/article7.html" class="article-card" data-category="Mindset" data-date="2025-11">
+                <img src="img/incubation_bg.png" alt="Sales" class="article-img">
+                <div class="article-content">
+                    <div class="article-date">2025.11.25</div>
+                    <h3 class="article-title">「好き」と「営業」のジレンマ</h3>
+                    <p class="article-excerpt">良いものを作るだけでは届かない。クリエイターこそ「誠実な営業」が必要な理由。</p>
+                    <span class="article-cat">Mindset</span>
+                </div>
+            </a>
+
+            <!-- Article 8 -->
+            <a href="blog/article8.html" class="article-card" data-category="Vision" data-date="2025-11">
+                <img src="img/coffee_bg.png" alt="Community" class="article-img">
+                <div class="article-content">
+                    <div class="article-date">2025.11.24</div>
+                    <h3 class="article-title">ニストスタジオの挑戦</h3>
+                    <p class="article-excerpt">目指すのは単なる制作会社ではなく、人が集まる「コミュニティ」。私たちの長期ビジョン。</p>
+                    <span class="article-cat">Vision</span>
+                </div>
+            </a>
+
+            <!-- Article 9 -->
+            <a href="blog/article9.html" class="article-card" data-category="Business" data-date="2025-04">
+                <img src="img/voice_bg.png" alt="Podcast" class="article-img">
+                <div class="article-content">
+                    <div class="article-date">2025.04.26</div>
+                    <h3 class="article-title">ポッドキャストで「稼ぐ」とは</h3>
+                    <p class="article-excerpt">広告収入だけじゃない。採用、ブランディング、ファン作り。音声メディアの真の経済効果。</p>
+                    <span class="article-cat">Business</span>
+                </div>
+            </a>
+
+            <!-- Article 10 -->
+            <a href="blog/article10.html" class="article-card" data-category="Mindset" data-date="2025-04">
+                <img src="img/design_bg.png" alt="Execution" class="article-img">
+                <div class="article-content">
+                    <div class="article-date">2025.04.24</div>
+                    <h3 class="article-title">「有言実行」への道</h3>
+                    <p class="article-excerpt">信頼されるプロフェッショナルであるために。口先だけでなく、行動と結果で示すことの重要性。</p>
+                    <span class="article-cat">Mindset</span>
+                </div>
+            </a>
+
+
+            <!-- Article 11 -->
+            <a href="blog/article11.html" class="article-card" data-category="Mindset" data-date="2025-04">
+                <img src="img/incubation_bg.png" alt="習慣化の壁を越える" class="article-img">
+                <div class="article-content">
+                    <div class="article-date">2025.04.20</div>
+                    <h3 class="article-title">習慣化の壁を越える</h3>
+                    <p class="article-excerpt">三日坊主を卒業するために必要なこと。意志の力に頼らず、仕組みで解決する方法について。</p>
+                    <span class="article-cat">Mindset</span>
+                </div>
+            </a>
+
+            <!-- Article 12 -->
+            <a href="blog/article12.html" class="article-card">
+                <img src="img/coffee_bg.png" alt="レセプションでの気づき" class="article-img">
+                <div class="article-content">
+                    <div class="article-date">2025.04.24</div>
+                    <h3 class="article-title">レセプションでの気づき</h3>
+                    <p class="article-excerpt">先日参加したレセプションパーティーで感じた、リアルな場の熱量と、そこで生まれるチャンスについて。</p>
+                    <span class="article-cat">Business</span>
+                </div>
+            </a>
+
+            <!-- Article 13 -->
+            <a href="blog/article13.html" class="article-card">
+                <img src="img/voice_bg.png" alt="ポッドキャストの定義" class="article-img">
+                <div class="article-content">
+                    <div class="article-date">2025.04.28</div>
+                    <h3 class="article-title">ポッドキャストの定義</h3>
+                    <p class="article-excerpt">単なるラジオのアーカイブではない。ポッドキャストだからこそできる、深いコミュニケーションの形。</p>
+                    <span class="article-cat">Voice</span>
+                </div>
+            </a>
+
+            <!-- Article 14 -->
+            <a href="blog/article14.html" class="article-card">
+                <img src="img/school_bg.png" alt="マインドとスキルの関係" class="article-img">
+                <div class="article-content">
+                    <div class="article-date">2025.04.28</div>
+                    <h3 class="article-title">マインドとスキルの関係</h3>
+                    <p class="article-excerpt">スキルは車、マインドはエンジン。どちらが欠けても前に進まない理由。</p>
+                    <span class="article-cat">Mindset</span>
+                </div>
+            </a>
+
+            <!-- Article 15 -->
+            <a href="blog/article15.html" class="article-card">
+                <img src="img/design_bg.png" alt="「一旦置いといて」の効用" class="article-img">
+                <div class="article-content">
+                    <div class="article-date">2025.04.29</div>
+                    <h3 class="article-title">「一旦置いといて」の効用</h3>
+                    <p class="article-excerpt">悩みすぎて動けなくなった時、魔法の言葉「一旦置いといて」が思考の突破口になる。</p>
+                    <span class="article-cat">Mindset</span>
+                </div>
+            </a>
+
+            <!-- Article 16 -->
+            <a href="blog/article16.html" class="article-card">
+                <img src="img/udatsu_hero_bg.png" alt="本当の差別化とは" class="article-img">
+                <div class="article-content">
+                    <div class="article-date">2025.04.29</div>
+                    <h3 class="article-title">本当の差別化とは</h3>
+                    <p class="article-excerpt">奇をてらうことではない。当たり前のことを、誰よりも徹底してやり続けることの強さ。</p>
+                    <span class="article-cat">Business</span>
+                </div>
+            </a>
+
+            <!-- Article 17 -->
+            <a href="blog/article17.html" class="article-card">
+                <img src="img/coffee_bg.png" alt="なぜカフェをやりたいのか" class="article-img">
+                <div class="article-content">
+                    <div class="article-date">2025.05.01</div>
+                    <h3 class="article-title">なぜカフェをやりたいのか</h3>
+                    <p class="article-excerpt">コーヒーを売りたいわけではない。私がカフェという「場所」にこだわる本当の理由。</p>
+                    <span class="article-cat">Vision</span>
+                </div>
+            </a>
+
+            <!-- Article 18 -->
+            <a href="blog/article18.html" class="article-card">
+                <img src="img/incubation_bg.png" alt="手札を増やす" class="article-img">
+                <div class="article-content">
+                    <div class="article-date">2025.05.01</div>
+                    <h3 class="article-title">手札を増やす</h3>
+                    <p class="article-excerpt">一つのスキルに固執しない。複数の武器を掛け合わせることで、あなただけの価値が生まれる。</p>
+                    <span class="article-cat">Business</span>
+                </div>
+            </a>
+
+            <!-- Article 19 -->
+            <a href="blog/article19.html" class="article-card">
+                <img src="img/design_bg.png" alt="AI時代の人間の価値" class="article-img">
+                <div class="article-content">
+                    <div class="article-date">2025.05.01</div>
+                    <h3 class="article-title">AI時代の人間の価値</h3>
+                    <p class="article-excerpt">AIにできることはAIに任せればいい。人間が人間らしくあるために、今すべきこと。</p>
+                    <span class="article-cat">Udatsu / AI</span>
+                </div>
+            </a>
+
+            <!-- Article 20 -->
+            <a href="blog/article20.html" class="article-card">
+                <img src="img/udatsu_hero_bg_v2.png" alt="理想の働き方を求めて" class="article-img">
+                <div class="article-content">
+                    <div class="article-date">2025.05.01</div>
+                    <h3 class="article-title">理想の働き方を求めて</h3>
+                    <p class="article-excerpt">場所や時間に縛られない働き方。それを実現するために、私が捨てたものと得たもの。</p>
+                    <span class="article-cat">Life</span>
+                </div>
+            </a>
+
+            <!-- Article 21 -->
+            <a href="blog/article21.html" class="article-card">
+                <img src="img/school_bg.png" alt="目指すべき場所" class="article-img">
+                <div class="article-content">
+                    <div class="article-date">2025.11.27</div>
+                    <h3 class="article-title">目指すべき場所</h3>
+                    <p class="article-excerpt">ニストスタジオが描く10年後の未来図。地域に根ざし、世界と繋がるクリエイティブ拠点へ。</p>
+                    <span class="article-cat">Vision</span>
+                </div>
+            </a>
+
+            <!-- Article 22 -->
+            <a href="blog/article22.html" class="article-card">
+                <img src="img/voice_bg.png" alt="春の決意" class="article-img">
+                <div class="article-content">
+                    <div class="article-date">2025.04.06</div>
+                    <h3 class="article-title">春の決意</h3>
+                    <p class="article-excerpt">新しい季節の始まりに。初心に帰り、改めて自分自身と向き合う時間。</p>
+                    <span class="article-cat">Life</span>
+                </div>
+            </a>
+
+            <!-- Article 23 -->
+            <a href="blog/article23.html" class="article-card">
+                <img src="img/incubation_bg.png" alt="プロセスエコノミーの実践" class="article-img">
+                <div class="article-content">
+                    <div class="article-date">2025.05.24</div>
+                    <h3 class="article-title">プロセスエコノミーの実践</h3>
+                    <p class="article-excerpt">完成品だけでなく、制作過程そのものをコンテンツ化する。ファンと共に歩む新しいビジネスモデル。</p>
+                    <span class="article-cat">Business</span>
+                </div>
+            </a>
+
+            <!-- Article 24 -->
+            <a href="blog/article24.html" class="article-card">
+                <img src="img/udatsu_hero_bg.png" alt="音声とSEOの未来" class="article-img">
+                <div class="article-content">
+                    <div class="article-date">2025.05.24</div>
+                    <h3 class="article-title">音声とSEOの未来</h3>
+                    <p class="article-excerpt">検索エンジンの進化と音声コンテンツの可能性。声で検索される時代への備え。</p>
+                    <span class="article-cat">Udatsu / AI</span>
+                </div>
+            </a>
+
+            <!-- Article 25 -->
+            <a href="blog/article25.html" class="article-card">
+                <img src="img/design_bg.png" alt="思考の銀行" class="article-img">
+                <div class="article-content">
+                    <div class="article-date">2025.05.25</div>
+                    <h3 class="article-title">思考の銀行</h3>
+                    <p class="article-excerpt">日々のアイデアを貯金するように記録する。それがいつか、大きな利子を生む資産になる。</p>
+                    <span class="article-cat">Udatsu / AI</span>
+                </div>
+            </a>
+
+            <!-- Article 26 -->
+            <a href="blog/article26.html" class="article-card">
+                <img src="img/voice_bg.png" alt="iPhone一台で始める" class="article-img">
+                <div class="article-content">
+                    <div class="article-date">2025.05.26</div>
+                    <h3 class="article-title">iPhone一台で始める</h3>
+                    <p class="article-excerpt">高価な機材は必要ない。ポケットの中にあるスタジオで、今すぐ発信を始めよう。</p>
+                    <span class="article-cat">Voice</span>
+                </div>
+            </a>
+
+            <!-- Article 27 -->
+            <a href="blog/article27.html" class="article-card">
+                <img src="img/coffee_bg.png" alt="営業はリクエスト" class="article-img">
+                <div class="article-content">
+                    <div class="article-date">2025.05.27</div>
+                    <h3 class="article-title">営業はリクエスト</h3>
+                    <p class="article-excerpt">「売る」のではなく「リクエストに応える」。視点を変えるだけで、営業はもっと楽しくなる。</p>
+                    <span class="article-cat">Business</span>
+                </div>
+            </a>
+
+            <!-- Article 28 -->
+            <a href="blog/article28.html" class="article-card">
+                <img src="img/udatsu_hero_bg_v2.png" alt="記事代行のロードマップ" class="article-img">
+                <div class="article-content">
+                    <div class="article-date">2025.05.28</div>
+                    <h3 class="article-title">記事代行のロードマップ</h3>
+                    <p class="article-excerpt">Udatsuの記事制作プロセスを公開。ヒアリングから納品まで、私たちが大切にしていること。</p>
+                    <span class="article-cat">Business</span>
+                </div>
+            </a>
+
+            <!-- Article 29 -->
+            <a href="blog/article29.html" class="article-card">
+                <img src="img/udatsu_hero_bg.png" alt="Udatsuの原風景" class="article-img">
+                <div class="article-content">
+                    <div class="article-date">2025.04.14</div>
+                    <h3 class="article-title">Udatsuの原風景</h3>
+                    <p class="article-excerpt">なぜこのサービスを始めたのか。その原点にある、ある経営者との出会い。</p>
+                    <span class="article-cat">Vision</span>
+                </div>
+            </a>
+
+            <!-- Article 30 -->
+            <a href="blog/article30.html" class="article-card">
+                <img src="img/design_bg.png" alt="Udatsuが提供する価値" class="article-img">
+                <div class="article-content">
+                    <div class="article-date">2025.04.17</div>
+                    <h3 class="article-title">Udatsuが提供する価値</h3>
+                    <p class="article-excerpt">単なる時間短縮ではない。あなたの思考を深め、新たな気づきを与える壁打ち相手として。</p>
+                    <span class="article-cat">Udatsu / AI</span>
+                </div>
+            </a>
+
+            <!-- Article 31 -->
+            <a href="blog/article31.html" class="article-card">
+                <img src="img/voice_bg.png" alt="音声の可能性" class="article-img">
+                <div class="article-content">
+                    <div class="article-date">2025.04.15</div>
+                    <h3 class="article-title">音声の可能性</h3>
+                    <p class="article-excerpt">視覚情報に疲れた現代人にこそ、音声が響く。耳からの情報は、心に直接届く。</p>
+                    <span class="article-cat">Voice</span>
+                </div>
+            </a>
+
+            <!-- Article 32 -->
+            <a href="blog/article32.html" class="article-card">
+                <img src="img/incubation_bg.png" alt="代行サービスの裏側" class="article-img">
+                <div class="article-content">
+                    <div class="article-date">2025.05.30</div>
+                    <h3 class="article-title">代行サービスの裏側</h3>
+                    <p class="article-excerpt">プロのライターとAIはどう協業しているのか。品質を担保するための舞台裏。</p>
+                    <span class="article-cat">Business</span>
+                </div>
+            </a>
+
+            <!-- Article 33 -->
+            <a href="blog/article33.html" class="article-card">
+                <img src="img/school_bg.png" alt="嫉妬をエネルギーに変える" class="article-img">
+                <div class="article-content">
+                    <div class="article-date">2025.06.01</div>
+                    <h3 class="article-title">嫉妬をエネルギーに変える</h3>
+                    <p class="article-excerpt">他人の成功を羨むのは悪いことじゃない。その感情こそが、自分を成長させるガソリンになる。</p>
+                    <span class="article-cat">Mindset</span>
+                </div>
+            </a>
+
+            <!-- Article 34 -->
+            <a href="blog/article34.html" class="article-card">
+                <img src="img/coffee_bg.png" alt="営業を学び直す" class="article-img">
+                <div class="article-content">
+                    <div class="article-date">2025.06.02</div>
+                    <h3 class="article-title">営業を学び直す</h3>
+                    <p class="article-excerpt">クリエイターも数字から逃げてはいけない。改めて学ぶ、ビジネスの基礎体力。</p>
+                    <span class="article-cat">Business</span>
+                </div>
+            </a>
+
+            <!-- Article 35 -->
+            <a href="blog/article35.html" class="article-card">
+                <img src="img/incubation_bg.png" alt="粘り強さについて" class="article-img">
+                <div class="article-content">
+                    <div class="article-date">2025.06.03</div>
+                    <h3 class="article-title">粘り強さについて</h3>
+                    <p class="article-excerpt">才能の差なんて微々たるもの。最後に勝つのは、しつこく続けた人だけだ。</p>
+                    <span class="article-cat">Mindset</span>
+                </div>
+            </a>
+
+            <!-- Article 36 -->
+            <a href="blog/article36.html" class="article-card">
+                <img src="img/design_bg.png" alt="投資としての自己投資" class="article-img">
+                <div class="article-content">
+                    <div class="article-date">2025.06.04</div>
+                    <h3 class="article-title">投資としての自己投資</h3>
+                    <p class="article-excerpt">お金を使うことを恐れない。自分への投資は、最もリターンの高い金融商品だ。</p>
+                    <span class="article-cat">Business</span>
+                </div>
+            </a>
+
+            <!-- Article 37 -->
+            <a href="blog/article37.html" class="article-card">
+                <img src="img/udatsu_hero_bg.png" alt="道筋が見えなくても進む" class="article-img">
+                <div class="article-content">
+                    <div class="article-date">2025.06.05</div>
+                    <h3 class="article-title">道筋が見えなくても進む</h3>
+                    <p class="article-excerpt">正解がわかってから動くのではない。動くから正解が見えてくる。</p>
+                    <span class="article-cat">Mindset</span>
+                </div>
+            </a>
+
+            <!-- Article 38 -->
+            <a href="blog/article38.html" class="article-card">
+                <img src="img/coffee_bg.png" alt="私の履歴書" class="article-img">
+                <div class="article-content">
+                    <div class="article-date">2025.04.17</div>
+                    <h3 class="article-title">私の履歴書</h3>
+                    <p class="article-excerpt">失敗だらけのキャリアを振り返る。遠回りしたからこそ、見えた景色がある。</p>
+                    <span class="article-cat">Life</span>
+                </div>
+            </a>
+
+            <!-- Article 39 -->
+            <a href="blog/article39.html" class="article-card">
+                <img src="img/voice_bg.png" alt="キャッチコピーの重要性" class="article-img">
+                <div class="article-content">
+                    <div class="article-date">2025.06.07</div>
+                    <h3 class="article-title">キャッチコピーの重要性</h3>
+                    <p class="article-excerpt">たった一言で人生が変わることもある。言葉の力を味方につける方法。</p>
+                    <span class="article-cat">Business</span>
+                </div>
+            </a>
+
+            <!-- Article 40 -->
+            <a href="blog/article40.html" class="article-card">
+                <img src="img/school_bg.png" alt="30代からの挑戦" class="article-img">
+                <div class="article-content">
+                    <div class="article-date">2025.04.05</div>
+                    <h3 class="article-title">30代からの挑戦</h3>
+                    <p class="article-excerpt">遅すぎることなんてない。今が一番若い日。新しい一歩を踏み出すあなたへ。</p>
+                    <span class="article-cat">Life</span>
+                </div>
+            </a>
+        </div>
+
+        <!-- Sidebar -->
+        <aside class="blog-sidebar">
+            <div class="sidebar-section">
+                <h4 class="sidebar-title">Categories</h4>
+                <ul class="category-list">
+                    <li><a onclick="filterArticles('category', 'all')" class="active">All</a></li>
+                    <li><a onclick="filterArticles('category', 'Mindset')">Mindset (マインド)</a></li>
+                    <li><a onclick="filterArticles('category', 'Business')">Business (ビジネス)</a></li>
+                    <li><a onclick="filterArticles('category', 'Voice')">Voice (声・話し方)</a></li>
+                    <li><a onclick="filterArticles('category', 'Udatsu / AI')">Udatsu / AI (思考整理)</a></li>
+                    <li><a onclick="filterArticles('category', 'Vision')">Vision (ビジョン)</a></li>
+                    <li><a onclick="filterArticles('category', 'Life')">Life (日常)</a></li>
+                </ul>
+            </div>
+
+            <div class="sidebar-section">
+                <h4 class="sidebar-title">Popular Posts</h4>
+                <ul class="category-list">
+                    <li><a href="blog/article1.html">エネルギーを余していないか</a></li>
+                    <li><a href="blog/article4.html">ボイスジャーナリングのすすめ</a></li>
+                    <li><a href="blog/article2.html">AIと喧嘩した話</a></li>
+                </ul>
+            </div>
+
+            <div class="sidebar-section">
+                <h4 class="sidebar-title">Archives</h4>
+                <ul class="category-list">
+                    <li><a onclick="filterArticles('date', '2025-11')">2025年11月</a></li>
+                    <li><a onclick="filterArticles('date', '2025-10')">2025年10月</a></li>
+                    <li><a onclick="filterArticles('date', '2025-06')">2025年6月</a></li>
+                    <li><a onclick="filterArticles('date', '2025-05')">2025年5月</a></li>
+                    <li><a onclick="filterArticles('date', '2025-04')">2025年4月</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <a href="index.html" class="footer-logo">ニストスタジオ</a>
+                    <p style="color: #888;">Hiroshima, Japan</p>
+                </div>
+                <div class="footer-links">
+                    <div>
+                        <h4>Business</h4>
+                        <ul>
+                            <li><a href="voice.html">Voice / Narration</a></li>
+                            <li><a href="school.html">School</a></li>
+                            <li><a href="incubation.html">Incubation</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4>Studio</h4>
+                        <ul>
+                            <li><a href="about.html">About Us</a></li>
+                            <li><a href="contact.html">Contact</a></li>
+                            <li><a href="blog.html">Blog</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4>Social</h4>
+                        <ul>
+                            <li><a href="https://note.com/udatsu_vj" target="_blank">Note</a></li>
+                            <li><a href="https://instagram.com/nyctstudio" target="_blank">Instagram</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                &copy; 2025 Nyct Studio. All Rights Reserved.
+            </div>
+        </div>
+    </footer>
+    <script src="script.js"></script>
+    <script>
+        function filterArticles(type, value) {
+            const articles = document.querySelectorAll('.article-card');
+            const links = document.querySelectorAll('.category-list a');
+
+            // Remove active class from all links
+            links.forEach(link => link.classList.remove('active'));
+            // Add active class to clicked link (this is a simple approximation, 
+            // for robust highlighting we'd need to identify the specific clicked element passed to function)
+            event.target.classList.add('active');
+
+            articles.forEach(article => {
+                if (value === 'all') {
+                    article.style.display = 'flex';
+                    return;
+                }
+
+                let match = false;
+                if (type === 'category') {
+                    if (article.dataset.category === value) match = true;
+                } else if (type === 'date') {
+                    // Check if date starts with value (e.g. 2025-11)
+                    // We need to ensure data-date is in YYYY-MM format or similar
+                    // The data-date I added is YYYY-MM
+                    if (article.dataset.date === value) match = true;
+                }
+
+                if (match) {
+                    article.style.display = 'flex';
+                } else {
+                    article.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>
