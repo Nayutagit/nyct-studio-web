@@ -37,7 +37,7 @@
 }
 
 html {
-    scroll-behavior: smooth;
+    /* scroll-behavior: smooth; Removed as it can feel laggy on PC */
 }
 
 body {
@@ -47,7 +47,7 @@ body {
     background-color: #2a2a2a;
     background-image: url('img/concrete_bg.png');
     background-size: cover;
-    background-attachment: fixed;
+    /* background-attachment: fixed; Removed for smoother scrolling */
     /* No blend mode to keep the texture's natural look */
     line-height: 1.8;
     letter-spacing: 0.05em;
@@ -154,11 +154,17 @@ ul {
 
 .header.scrolled {
     background: rgba(20, 20, 20, 0.95);
-    backdrop-filter: blur(10px);
+    /* backdrop-filter: blur(10px); Heavy on mobile, removed for performance */
     padding: 15px 0;
     box-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
+
+/* @media (min-width: 769px) {
+    .header.scrolled {
+        backdrop-filter: blur(10px);
+    }
+} */
 
 .header-inner {
     display: flex;
