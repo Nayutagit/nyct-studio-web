@@ -36,9 +36,7 @@
     box-sizing: border-box;
 }
 
-html {
-    /* scroll-behavior: smooth; Removed as it can feel laggy on PC */
-}
+
 
 body {
     font-family: var(--font-main);
