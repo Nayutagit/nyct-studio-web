@@ -691,72 +691,84 @@ ul {
 }
 
 /* ==========================================================================
-   Buttons
+   Shop Page Styles
    ========================================================================== */
-.btn {
-    padding: 15px 40px;
-    border-radius: 50px;
-    font-weight: 700;
-    text-decoration: none;
-    display: inline-flex;
+.shop-hero {
+    height: 40vh;
+    min-height: 300px;
+    position: relative;
+    display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
+    overflow: hidden;
+    margin-bottom: 0;
+}
+
+.shop-nav-container {
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    position: sticky;
+    top: 70px;
+    /* Adjust based on header height */
+    z-index: 90;
+    padding: 15px 0;
+}
+
+.shop-category-nav {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.shop-category-nav a {
+    color: var(--text-gray);
+    font-size: 1rem;
+    font-weight: 600;
+    padding: 5px 15px;
+    border-radius: 20px;
     transition: all 0.3s ease;
-    cursor: pointer;
-    letter-spacing: 0.05em;
+    border: 1px solid transparent;
 }
 
-.btn-primary {
-    background: var(--primary-neon);
+.shop-category-nav a:hover,
+.shop-category-nav a.active {
     color: #000;
-    box-shadow: 0 0 20px rgba(252, 200, 0, 0.4);
+    background: var(--primary-neon);
+    box-shadow: 0 0 15px rgba(252, 200, 0, 0.4);
 }
 
-.btn-primary:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 0 30px rgba(252, 200, 0, 0.7);
-    background: #ffdb4d;
+.shop-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 60px 2rem 120px;
 }
 
-.btn-secondary {
-    background: transparent;
-    color: var(--text-white);
-    border: 2px solid var(--accent-teal);
-    box-shadow: 0 0 10px rgba(0, 104, 136, 0.2);
+.shop-section-title {
+    font-size: 2rem;
+    margin-bottom: 40px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: baseline;
+    gap: 20px;
+    scroll-margin-top: 140px;
+    /* For anchor links */
 }
 
-.btn-secondary:hover {
-    background: var(--accent-teal);
-    color: var(--text-white);
-    transform: translateY(-3px);
-    box-shadow: 0 0 20px rgba(0, 104, 136, 0.6);
+.shop-section-title span {
+    font-size: 1.1rem;
+    color: var(--primary-neon);
+    font-weight: normal;
+    font-family: var(--font-serif);
 }
 
-/* ==========================================================================
-   Animations
-   ========================================================================== */
-@keyframes fadeUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.fade-in-up {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: all 0.8s ease;
-}
-
-.fade-in-up.visible {
-    opacity: 1;
-    transform: translateY(0);
+.shop-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 40px;
+    margin-bottom: 80px;
 }
 
 /* Shopify Embed Overrides for Grid */
@@ -766,13 +778,11 @@ ul {
 
 .product-card {
     background: rgba(30, 30, 30, 0.6);
-    /* Semi-transparent dark bg */
     border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 8px;
-    padding: 20px;
+    border-radius: 12px;
+    padding: 30px;
     transition: all 0.3s ease;
-    min-height: 400px;
-    /* Ensure consistent height */
+    min-height: 450px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -783,12 +793,39 @@ ul {
 .product-card:hover {
     transform: translateY(-5px);
     border-color: var(--primary-neon);
-    box-shadow: 0 5px 20px rgba(252, 200, 0, 0.15);
-    background: rgba(40, 40, 40, 0.8);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    background: rgba(40, 40, 40, 0.9);
 }
 
-/* Responsive */
 @media (max-width: 768px) {
+    .shop-nav-container {
+        top: 60px;
+        padding: 10px 0;
+        overflow-x: auto;
+        white-space: nowrap;
+        justify-content: flex-start;
+    }
+
+    .shop-category-nav {
+        padding: 0 20px;
+        gap: 15px;
+    }
+
+    .shop-container {
+        padding: 40px 1rem 80px;
+    }
+
+    .shop-grid {
+        grid-template-columns: 1fr;
+        /* Single column on mobile for better visibility */
+        gap: 30px;
+    }
+
+    .product-card {
+        min-height: auto;
+        padding: 20px;
+    }
+
     .header-inner {
         flex-direction: column;
         gap: 15px;
