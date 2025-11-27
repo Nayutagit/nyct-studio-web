@@ -60,9 +60,8 @@
             <div class="shop-sidebar-section">
                 <h3>Categories</h3>
                 <ul class="shop-category-list">
-                    <li><a href="#" class="active">All Items</a></li>
-                    <li><a href="#">Apparel (T-Shirts)</a></li>
-                    <li><a href="#">Goods & Accessories</a></li>
+                    <li><a href="#apparel" class="active">Apparel (T-Shirts)</a></li>
+                    <li><a href="#goods">Goods & Accessories</a></li>
                 </ul>
             </div>
             <div class="shop-sidebar-section">
@@ -86,23 +85,29 @@
 
         <!-- Main Grid -->
         <main class="shop-main">
-            <div class="shop-section-title">
-                New Arrivals <span>新着アイテム</span>
+
+            <!-- Apparel Section -->
+            <div id="apparel" class="shop-section-title">
+                Apparel <span>Tシャツ・アパレル</span>
+            </div>
+            <div class="shop-grid">
+                <!-- Assuming first 2 are apparel based on ID order, user can swap if needed -->
+                <div id='product-component-1764224958604' class="product-card"></div>
+                <div id='product-component-1764224982628' class="product-card"></div>
             </div>
 
-            <!-- Product Grid -->
-            <!-- 
-                Note: Products are currently displayed in a single grid. 
-                To categorize them based on product names as requested, 
-                please verify the rendered output. Since I cannot see the product names 
-                in the code, I have grouped them under 'All Items' for now.
-            -->
-            <div class="shop-grid">
-                <div id='product-component-1764224958604'></div>
-                <div id='product-component-1764224982628'></div>
-                <div id='product-component-1764224936063'></div>
-                <div id='product-component-1764224890516'></div>
+            <div style="margin-bottom: 60px;"></div>
+
+            <!-- Goods Section -->
+            <div id="goods" class="shop-section-title">
+                Goods <span>グッズ・小物</span>
             </div>
+            <div class="shop-grid">
+                <!-- Assuming next 2 are goods -->
+                <div id='product-component-1764224936063' class="product-card"></div>
+                <div id='product-component-1764224890516' class="product-card"></div>
+            </div>
+
         </main>
     </div>
 
@@ -203,7 +208,8 @@
                                     "title": {
                                         "font-family": "Oxygen, sans-serif",
                                         "font-weight": "bold",
-                                        "color": "#f0f0f0"
+                                        "color": "#f0f0f0",
+                                        "text-align": "center" /* Center text */
                                     },
                                     "button": {
                                         "font-family": "Source Sans Pro, sans-serif",
@@ -216,17 +222,20 @@
                                         ":hover": {
                                             "background-color": "#e3b400"
                                         },
-                                        "border-radius": "4px"
+                                        "border-radius": "4px",
+                                        "width": "100%" /* Full width button */
                                     },
                                     "price": {
                                         "font-family": "Oxygen, sans-serif",
                                         "font-weight": "bold",
-                                        "color": "#f0f0f0"
+                                        "color": "#f0f0f0",
+                                        "text-align": "center"
                                     },
                                     "compareAt": {
                                         "font-family": "Oxygen, sans-serif",
                                         "font-weight": "bold",
-                                        "color": "#f0f0f0"
+                                        "color": "#f0f0f0",
+                                        "text-align": "center"
                                     }
                                 },
                                 "text": {
@@ -316,28 +325,28 @@
                         }
                     };
 
-                    // Product 1
+                    // Product 1 (Apparel)
                     ui.createComponent('product', {
                         id: '8532721991916',
                         node: document.getElementById('product-component-1764224958604'),
                         ...commonConfig
                     });
 
-                    // Product 2
+                    // Product 2 (Apparel)
                     ui.createComponent('product', {
                         id: '8532723597548',
                         node: document.getElementById('product-component-1764224982628'),
                         ...commonConfig
                     });
 
-                    // Product 3
+                    // Product 3 (Goods)
                     ui.createComponent('product', {
                         id: '8532718780652',
                         node: document.getElementById('product-component-1764224936063'),
                         ...commonConfig
                     });
 
-                    // Product 4
+                    // Product 4 (Goods)
                     ui.createComponent('product', {
                         id: '8532700791020',
                         node: document.getElementById('product-component-1764224890516'),

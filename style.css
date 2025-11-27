@@ -759,6 +759,34 @@ ul {
     transform: translateY(0);
 }
 
+/* Shopify Embed Overrides for Grid */
+.shop-grid>div {
+    width: 100% !important;
+}
+
+.product-card {
+    background: rgba(30, 30, 30, 0.6);
+    /* Semi-transparent dark bg */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 20px;
+    transition: all 0.3s ease;
+    min-height: 400px;
+    /* Ensure consistent height */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(5px);
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--primary-neon);
+    box-shadow: 0 5px 20px rgba(252, 200, 0, 0.15);
+    background: rgba(40, 40, 40, 0.8);
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     .header-inner {
