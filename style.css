@@ -892,3 +892,59 @@ ul {
 .content-box-light li {
     color: #444;
 }
+
+/* ==========================================================================
+   Animations
+   ========================================================================== */
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ==========================================================================
+   Buttons
+   ========================================================================== */
+.btn {
+    display: inline-block;
+    padding: 12px 30px;
+    border-radius: 50px;
+    font-weight: 700;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+.btn-primary {
+    background: var(--primary-neon);
+    color: #000;
+    box-shadow: 0 5px 15px rgba(252, 200, 0, 0.3);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(252, 200, 0, 0.5);
+    background: #ffdb4d;
+    color: #000;
+    text-shadow: none;
+}
+
+.btn-secondary {
+    background: transparent;
+    border: 2px solid var(--primary-neon);
+    color: var(--primary-neon);
+}
+
+.btn-secondary:hover {
+    background: var(--primary-neon);
+    color: #000;
+    text-shadow: none;
+}
