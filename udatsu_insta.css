@@ -1,0 +1,341 @@
+@charset "UTF-8";
+
+/* Import main styles to inherit variables */
+@import url('style.css');
+
+:root {
+    --slide-width: 1080px;
+    --slide-height: 1350px;
+    --preview-scale: 0.3;
+    /* Default scale for preview */
+}
+
+body {
+    background-color: #111;
+    color: #eee;
+    font-family: var(--font-main);
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+}
+
+/* Layout */
+.app-container {
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+
+/* Editor Panel (Sidebar) */
+.editor-panel {
+    width: 400px;
+    background: #222;
+    border-right: 1px solid #333;
+    overflow-y: auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    flex-shrink: 0;
+}
+
+.editor-header {
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #444;
+}
+
+.editor-header h1 {
+    font-size: 1.2rem;
+    color: var(--primary-neon);
+    margin: 0;
+}
+
+.control-group {
+    background: #2a2a2a;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #333;
+}
+
+.control-group h3 {
+    margin-top: 0;
+    font-size: 0.9rem;
+    color: var(--accent-teal);
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    cursor: pointer;
+}
+
+.control-group label {
+    display: block;
+    font-size: 0.8rem;
+    margin-bottom: 5px;
+    color: #aaa;
+}
+
+.control-group input[type="text"],
+.control-group textarea,
+.control-group select {
+    width: 100%;
+    background: #111;
+    border: 1px solid #444;
+    color: #fff;
+    padding: 8px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    font-family: inherit;
+}
+
+.control-group textarea {
+    resize: vertical;
+    min-height: 60px;
+}
+
+.btn {
+    background: var(--primary-neon);
+    color: #000;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    text-align: center;
+    display: block;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.btn:hover {
+    opacity: 0.9;
+}
+
+.btn-secondary {
+    background: #444;
+    color: #fff;
+}
+
+/* Preview Panel */
+.preview-panel {
+    flex-grow: 1;
+    background: #000;
+    background-image: radial-gradient(#333 1px, transparent 1px);
+    background-size: 20px 20px;
+    overflow: auto;
+    display: flex;
+    align-items: center;
+    padding: 50px;
+    position: relative;
+}
+
+.slides-container {
+    display: flex;
+    gap: 20px;
+    /* We will scale this container or individual slides */
+    transform-origin: left center;
+}
+
+/* Slide Styles */
+.slide {
+    width: var(--slide-width);
+    height: var(--slide-height);
+    background-color: #2a2a2a;
+    background-image: url('img/concrete_bg.png');
+    /* Fallback */
+    background-size: cover;
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    /* Default Padding */
+    padding: 80px;
+}
+
+/* Slide Overlay (Darken) - Controlled by variable */
+.slide::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #000;
+    opacity: var(--overlay-opacity, 0.3);
+    z-index: 0;
+    pointer-events: none;
+    transition: opacity 0.2s;
+}
+
+.slide-bg-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: var(--bg-opacity, 1);
+    z-index: -1;
+    transition: opacity 0.2s;
+}
+
+.slide-content {
+    position: relative;
+    z-index: 1;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    /* Dynamic Positioning */
+    transform: translate(var(--pos-x, 0px), var(--pos-y, 0px)) scale(var(--content-scale, 1));
+    transform-origin: center center;
+    justify-content: flex-start;
+    /* Align top to allow text growth */
+    padding-bottom: 100px;
+    /* Space for footer */
+}
+
+/* Typography in Slides */
+.slide-tag {
+    font-family: var(--font-serif);
+    color: var(--primary-neon);
+    font-size: calc(2rem * var(--font-scale, 1));
+    letter-spacing: 0.2em;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    text-shadow: 0 0 20px rgba(252, 200, 0, 0.5);
+    flex-shrink: 0;
+}
+
+.slide-title {
+    font-family: var(--font-main);
+    font-weight: 900;
+    font-size: calc(5rem * var(--font-scale, 1));
+    line-height: 1.2;
+    color: #fff;
+    margin-bottom: 30px;
+    text-shadow: 0 5px 30px rgba(0, 0, 0, 0.8);
+    flex-shrink: 0;
+}
+
+.slide-text {
+    font-size: calc(2.5rem * var(--font-scale, 1));
+    line-height: 2;
+    color: #eee;
+    white-space: pre-wrap;
+    /* Allow line breaks */
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+    /* Better readability */
+    flex-grow: 1;
+    overflow: hidden;
+    /* Prevent pushing footer off */
+}
+
+.slide-footer {
+    position: absolute;
+    bottom: 80px;
+    /* Fixed position from bottom */
+    left: 80px;
+    right: 80px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    border-top: 2px solid rgba(255, 255, 255, 0.2);
+    padding-top: 30px;
+    z-index: 10;
+}
+
+.slide-footer-logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.slide-footer-logo img {
+    height: 40px;
+}
+
+.slide-page-num {
+    font-family: var(--font-serif);
+    font-size: 3rem;
+    color: var(--accent-teal);
+    opacity: 0.8;
+}
+
+/* Specific Slide Layouts */
+.slide.layout-cover {
+    justify-content: center;
+    text-align: center;
+}
+
+.slide.layout-cover .slide-title {
+    font-size: 7rem;
+}
+
+.slide.layout-cover .slide-text {
+    font-size: 3rem;
+    color: var(--primary-neon);
+}
+
+.slide.layout-image-full {
+    padding: 0;
+}
+
+.slide.layout-image-full img.main-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.slide.layout-image-full .text-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
+    padding: 80px;
+}
+
+/* Screenshot Mode */
+body.screenshot-mode .editor-panel {
+    display: none;
+}
+
+body.screenshot-mode .preview-panel {
+    background: #111;
+    /* Solid background for cleaner screenshotting if needed, or keep grid */
+    justify-content: center;
+    padding: 0;
+    overflow: hidden;
+    /* Prevent scrollbars in screenshot if possible */
+}
+
+body.screenshot-mode .slides-container {
+    transform: scale(1) !important;
+    /* Reset scale for full res screenshot? Or user just zooms? */
+    /* Actually for screenshotting on a normal screen, we probably want to fit one slide or allow scrolling.
+       Let's keep the scroll but remove the UI. */
+    gap: 0;
+    /* Remove gap for seamless feel or keep it? Keep it for separate images. */
+    flex-direction: row;
+    overflow-x: auto;
+    padding: 50px;
+}
+
+/* Helper to fit preview on screen */
+.zoom-controls {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #222;
+    padding: 10px;
+    border-radius: 8px;
+    display: flex;
+    gap: 10px;
+    z-index: 100;
+}

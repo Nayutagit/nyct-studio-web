@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Schedule | ニストスタジオ</title>
+    <link rel="icon" href="img/favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css?v=3">
+    <style>
+        /* Admin specific styles */
+        .admin-controls {
+            background: rgba(0, 104, 136, 0.2);
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid var(--accent-teal);
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .slot.admin-mode:hover {
+            background: rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+        }
+
+        .slot.active-edit {
+            border: 2px solid var(--primary-neon);
+        }
+
+        /* Login Modal */
+        #loginModal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #1a1a1a;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .login-box {
+            background: #2a2a2a;
+            padding: 40px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .login-input {
+            padding: 10px;
+            font-size: 1.2rem;
+            margin: 20px 0;
+            background: #333;
+            border: 1px solid #555;
+            color: white;
+            border-radius: 4px;
+            width: 100%;
+        }
+
+        .login-btn {
+            background: var(--accent-teal);
+            color: white;
+            border: none;
+            padding: 10px 30px;
+            font-size: 1.1rem;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Login Modal -->
+    <div id="loginModal">
+        <div class="login-box">
+            <h2>Admin Access</h2>
+            <p>パスワードを入力してください</p>
+            <input type="password" id="passwordInput" class="login-input" placeholder="Password">
+            <button onclick="checkPassword()" class="login-btn">Login</button>
+            <p id="errorMsg" style="color: #ff4444; margin-top: 10px; display: none;">パスワードが間違っています</p>
+        </div>
+    </div>
+
+    <div id="adminContent" class="hidden">
+        <!-- Header (Simplified for Admin) -->
+        <header class="header">
+            <div class="container header-inner">
+                <a href="#" class="logo">
+                    <img src="img/logo_white.png" alt="Nyct Studio Logo">
+                    ニストスタジオ MANAGEMENT
+                </a>
+                <nav>
+                    <ul class="nav-list">
+                        <li><a href="index.html" class="nav-link" target="_blank">View Site</a></li>
+                        <li><span class="nav-link" style="color: var(--primary-neon);">Admin Mode</span></li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
+
+        <!-- Admin Hero -->
+        <section class="page-hero" style="padding-top: 150px; padding-bottom: 50px;">
+            <div class="container">
+                <h1 class="page-title" style="font-size: 2.5rem;">SCHEDULE MANAGER</h1>
+                <p class="page-desc">
+                    クリックしてステータスを変更（保存機能は未実装）
+                </p>
+            </div>
+        </section>
+
+        <!-- Schedule Section -->
+        <section class="section">
+            <div class="container">
+
+                <!-- Admin Controls -->
+                <div class="admin-controls">
+                    <p><strong>操作方法：</strong>枠をクリックするとステータスが切り替わります (◎ → △ → × → - → ◎)</p>
+                </div>
+
+                <!-- Calendar Legend -->
+                <div class="calendar-legend">
+                    <div class="legend-item"><span class="status-icon status-ok">◎</span> 余裕あり</div>
+                    <div class="legend-item"><span class="status-icon status-few">△</span> 残りわずか</div>
+                    <div class="legend-item"><span class="status-icon status-full">×</span> 満席</div>
+                    <div class="legend-item"><span class="status-icon status-ng">-</span> 受付不可</div>
+                </div>
+
+                <!-- Calendar Grid (Identical to schedule.html but interactive) -->
+                <div class="schedule-grid">
+                    <!-- Date Headers -->
+                    <div class="schedule-header">
+                        <div class="date-col">12/8 (Mon)</div>
+                        <div class="date-col">12/9 (Tue)</div>
+                        <div class="date-col">12/10 (Wed)</div>
+                        <div class="date-col">12/11 (Thu)</div>
+                        <div class="date-col">12/12 (Fri)</div>
+                        <div class="date-col sat">12/13 (Sat)</div>
+                        <div class="date-col sun">12/14 (Sun)</div>
+                    </div>
+
+                    <!-- Time Slots -->
+                    <!-- Morning -->
+                    <div class="time-header">Morning (08:00 - 12:00)</div>
+                    <div class="schedule-row">
+                        <div class="slot admin-mode status-ng" onclick="toggleStatus(this)">-</div>
+                        <div class="slot admin-mode status-ok" onclick="toggleStatus(this)">◎<br>09:00~</div>
+                        <div class="slot admin-mode status-ok" onclick="toggleStatus(this)">◎<br>10:00~</div>
+                        <div class="slot admin-mode status-full" onclick="toggleStatus(this)">×</div>
+                        <div class="slot admin-mode status-ok" onclick="toggleStatus(this)">◎<br>08:00~</div>
+                        <div class="slot admin-mode status-few" onclick="toggleStatus(this)">△<br>11:00~</div>
+                        <div class="slot admin-mode status-full" onclick="toggleStatus(this)">×</div>
+                    </div>
+
+                    <!-- Afternoon -->
+                    <div class="time-header">Afternoon (13:00 - 17:00)</div>
+                    <div class="schedule-row">
+                        <div class="slot admin-mode status-ok" onclick="toggleStatus(this)">◎<br>13:00~</div>
+                        <div class="slot admin-mode status-full" onclick="toggleStatus(this)">×</div>
+                        <div class="slot admin-mode status-ok" onclick="toggleStatus(this)">◎<br>14:00~</div>
+                        <div class="slot admin-mode status-ng" onclick="toggleStatus(this)">-</div>
+                        <div class="slot admin-mode status-few" onclick="toggleStatus(this)">△<br>16:00~</div>
+                        <div class="slot admin-mode status-full" onclick="toggleStatus(this)">×</div>
+                        <div class="slot admin-mode status-ok" onclick="toggleStatus(this)">◎<br>13:00~</div>
+                    </div>
+
+                    <!-- Night -->
+                    <div class="time-header">Night (18:00 - 21:00)</div>
+                    <div class="schedule-row">
+                        <div class="slot admin-mode status-full" onclick="toggleStatus(this)">×</div>
+                        <div class="slot admin-mode status-ok" onclick="toggleStatus(this)">◎<br>19:00~</div>
+                        <div class="slot admin-mode status-full" onclick="toggleStatus(this)">×</div>
+                        <div class="slot admin-mode status-ok" onclick="toggleStatus(this)">◎<br>20:00~</div>
+                        <div class="slot admin-mode status-full" onclick="toggleStatus(this)">×</div>
+                        <div class="slot admin-mode status-ng" onclick="toggleStatus(this)">-</div>
+                        <div class="slot admin-mode status-ng" onclick="toggleStatus(this)">-</div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </div>
+
+    <script>
+        function checkPassword() {
+            const input = document.getElementById('passwordInput').value;
+            if (input === 'Nayuta24!') {
+                document.getElementById('loginModal').style.display = 'none';
+                document.getElementById('adminContent').classList.remove('hidden');
+            } else {
+                document.getElementById('errorMsg').style.display = 'block';
+            }
+        }
+
+        // Allow Enter key
+        document.getElementById('passwordInput').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                checkPassword();
+            }
+        });
+
+        function toggleStatus(element) {
+            const statuses = ['status-ok', 'status-few', 'status-full', 'status-ng'];
+            const symbols = ['◎<br>Available', '△<br>Few', '×', '-']; // Simplified text for toggle
+
+            let currentStatus = '';
+            statuses.forEach(s => {
+                if (element.classList.contains(s)) currentStatus = s;
+            });
+
+            let nextIndex = (statuses.indexOf(currentStatus) + 1) % statuses.length;
+
+            // Remove all status classes
+            statuses.forEach(s => element.classList.remove(s));
+
+            // Add next status
+            element.classList.add(statuses[nextIndex]);
+
+            // Update text (Sample logic)
+            if (statuses[nextIndex] === 'status-ok') element.innerHTML = '◎';
+            else if (statuses[nextIndex] === 'status-few') element.innerHTML = '△';
+            else if (statuses[nextIndex] === 'status-full') element.innerHTML = '×';
+            else element.innerHTML = '-';
+        }
+    </script>
+</body>
+
+</html>
