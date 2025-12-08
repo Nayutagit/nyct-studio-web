@@ -68,33 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     top: targetPosition,
                     behavior: 'smooth'
                 });
-
-                // Close mobile menu if open
-                const navList = document.querySelector('.nav-list');
-                if (navList.classList.contains('active')) {
-                    navList.classList.remove('active');
-                }
             }
         });
     });
-
-    // 5. Mobile Menu Toggle
-    const menuToggle = document.querySelector('.menu-toggle');
-    const navList = document.querySelector('.nav-list');
-
-    if (menuToggle && navList) {
-        menuToggle.addEventListener('click', () => {
-            navList.classList.toggle('active');
-
-            // Toggle icon between bars and times
-            const icon = menuToggle.querySelector('i');
-            if (navList.classList.contains('active')) {
-                icon.classList.remove('fa-bars');
-                icon.classList.add('fa-times');
-            } else {
-                icon.classList.remove('fa-times');
-                icon.classList.add('fa-bars');
-            }
-        });
-    }
 });

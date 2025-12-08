@@ -67,13 +67,8 @@ img {
     display: block;
 }
 
-
 ul {
     list-style: none;
-}
-
-.menu-toggle {
-    display: none;
 }
 
 /* ==========================================================================
@@ -1092,142 +1087,20 @@ ul {
         padding: 20px;
     }
 
-    /* Mobile Menu Logic */
-    .menu-toggle {
-        display: block;
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        left: 20px;
-        z-index: 2000;
-        color: var(--text-white);
-        font-size: 1.5rem;
-        cursor: pointer;
-    }
-
     .header-inner {
         flex-direction: column;
         gap: 15px;
-        position: relative;
-        align-items: center;
-        /* Center logo */
     }
 
-    .logo {
-        margin-left: 0;
-        margin-top: 5px;
+    .container {
+        padding: 0 1rem;
     }
 
-    /* Schedule Table Styles (Hot Pepper) */
-    .schedule-table-container {
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-        margin-bottom: 20px;
-        background: #222;
-        /* Dark bg */
-        border-radius: 4px;
-        border: 1px solid #444;
-    }
-
-    .schedule-table {
-        width: 100%;
-        min-width: 600px;
-        border-collapse: collapse;
-        table-layout: fixed;
-    }
-
-    .schedule-table th,
-    .schedule-table td {
-        border: 1px solid #444;
-        padding: 10px 5px;
-        text-align: center;
-        vertical-align: middle;
-        color: var(--text-white);
-    }
-
-    .schedule-table thead th {
-        background: #333;
-        font-weight: 700;
-        padding: 15px 5px;
-    }
-
-    .schedule-table .time-col {
-        background: #2a2a2a;
-        width: 80px;
-        font-family: monospace;
-        color: var(--primary-neon);
-    }
-
-    .schedule-table .sat {
-        color: #84a9ff;
-    }
-
-    .schedule-table .sun {
-        color: #ff8484;
-    }
-
-    .schedule-table td.status-ok {
-        color: var(--primary-neon);
-        cursor: pointer;
-    }
-
-    .schedule-table td.status-few {
-        color: var(--accent-teal);
-        cursor: pointer;
-    }
-
-    .schedule-table td.status-full {
-        color: #ff4444;
-    }
-
-    .schedule-table td.status-ng {
-        color: #555;
-    }
-
-    .schedule-table td:hover {
-        background: rgba(255, 255, 255, 0.05);
-    }
-
-    .slot-icon {
-        font-size: 1.2rem;
-        font-weight: bold;
-    }
-
-    /* Remove old grid styles if no longer needed, or keep for Admin generic grid */
-
-    /* Mobile Menu Logic (Fixed) */
     .nav-list {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100vh;
-        background: rgba(10, 10, 10, 0.95);
-        backdrop-filter: blur(10px);
-        flex-direction: column;
+        gap: 15px;
+        font-size: 0.85rem;
+        flex-wrap: wrap;
         justify-content: center;
-        align-items: center;
-        gap: 30px;
-        font-size: 1.2rem;
-        z-index: 1500;
-        padding: 40px;
-    }
-
-
-    .nav-list.active {
-        display: flex;
-        animation: fadeIn 0.3s ease;
-    }
-
-    @keyframes fadeIn {
-        from {
-            opacity: 0;
-        }
-
-        to {
-            opacity: 1;
-        }
     }
 
     .hero-title {
@@ -1259,13 +1132,6 @@ ul {
 
     .social-hub {
         gap: 10px;
-    }
-}
-
-/* Ensure menu-toggle is hidden on desktop */
-@media (min-width: 769px) {
-    .menu-toggle {
-        display: none;
     }
 }
 

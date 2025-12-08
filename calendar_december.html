@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nist Coffee 12月スケジュール | ニストスタジオ</title>
+    <link rel="icon" href="img/favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&family=Zen+Kaku+Gothic+New:wght@300;400;500;700;900&family=Zen+Old+Mincho:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #2a2a2a;
+            background-image: url('img/concrete_bg.png');
+            background-size: cover;
+            background-attachment: fixed;
+            margin: 0;
+            font-family: var(--font-main);
+            color: #fff;
+        }
+
+        .calendar-container {
+            background: rgba(0, 0, 0, 0.3);
+            /* Slight dark overlay for readability */
+            padding: 40px;
+            border-radius: 10px;
+            /* No shadow or solid background */
+            width: 100%;
+            max-width: 600px;
+            text-align: center;
+            backdrop-filter: blur(2px);
+            position: relative;
+            /* For absolute positioning of elements */
+            overflow: hidden;
+            /* Keep images inside if desired, or remove if they should stick out */
+        }
+
+        .calendar-header {
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .month-number {
+            position: absolute;
+            top: -20px;
+            left: 0;
+            font-family: var(--font-serif);
+            font-size: 6rem;
+            font-weight: 900;
+            color: rgba(255, 255, 255, 0.6);
+            /* Even darker/more visible */
+            line-height: 1;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .calendar-title {
+            font-family: var(--font-serif);
+            font-size: 2.5rem;
+            color: #fff;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            position: relative;
+            z-index: 1;
+        }
+
+        .calendar-subtitle {
+            font-size: 1.2rem;
+            color: var(--accent-teal-dark);
+            font-weight: 700;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .day-name {
+            font-weight: 700;
+            color: #ccc;
+            padding: 10px 0;
+            text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+        }
+
+        .day-name.sun {
+            color: #ff6b6b;
+        }
+
+        .day-name.sat {
+            color: #4db8ff;
+        }
+
+        .day {
+            aspect-ratio: 1/1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.4rem;
+            color: #fff;
+            position: relative;
+            font-weight: 500;
+            text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+            cursor: pointer;
+            /* Indicate clickable */
+            transition: background 0.2s;
+            border-radius: 50%;
+        }
+
+        .day:hover:not(.empty) {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .day.empty {
+            background: none;
+        }
+
+        /* Business Day Circle Style */
+        .day.business-day::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 45px;
+            height: 45px;
+            border: 4px solid #ff0000;
+            /* Pure Red */
+            border-radius: 50%;
+            z-index: 0;
+            /* Ensure it's not hidden */
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+            /* Glow effect */
+        }
+
+        /* Alternative: Circle the text background */
+        /*
+        .day.business-day {
+            background-color: var(--primary-neon);
+            color: #000;
+            border-radius: 50%;
+            font-weight: 700;
+        }
+        */
+
+        .note {
+            margin-top: 30px;
+            font-size: 1rem;
+            color: #eee;
+            font-weight: 500;
+            text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Decorative Images */
+        .deco-container {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            width: 120px;
+            height: auto;
+            opacity: 0.9;
+            transform: rotate(-10deg);
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .mocha-pot-img {
+            width: 100%;
+            height: auto;
+            filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.5)) invert(1);
+            /* Invert to make it white-ish if it's black line art */
+        }
+
+        .heart-img {
+            position: absolute;
+            top: -50px;
+            /* Moved further up */
+            left: -40px;
+            /* Moved further left */
+            width: 45px;
+            /* Slightly larger */
+            height: auto;
+            filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.5));
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-5px);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="calendar-container" id="calendar-capture">
+        <div class="calendar-header">
+            <div class="month-number">12</div>
+            <h1 class="calendar-title">December 2025</h1>
+        </div>
+
+        <div class="calendar-grid">
+            <!-- Day Names -->
+            <div class="day-name sun">Sun</div>
+            <div class="day-name">Mon</div>
+            <div class="day-name">Tue</div>
+            <div class="day-name">Wed</div>
+            <div class="day-name">Thu</div>
+            <div class="day-name">Fri</div>
+            <div class="day-name sat">Sat</div>
+
+            <!-- Days -->
+            <!-- Dec 1 is Monday. So 1 empty slot for Sunday (since grid starts Sun) -->
+            <div class="day empty"></div>
+
+            <div class="day">1</div>
+            <div class="day">2</div>
+            <div class="day">3</div>
+            <div class="day business-day">4</div> <!-- Thu -->
+            <div class="day">5</div>
+            <div class="day">6</div>
+            <div class="day business-day">7</div> <!-- Sun -->
+
+            <div class="day business-day">8</div> <!-- Mon -->
+            <div class="day">9</div>
+            <div class="day">10</div>
+            <div class="day business-day">11</div> <!-- Thu -->
+            <div class="day">12</div>
+            <div class="day">13</div>
+            <div class="day business-day">14</div> <!-- Sun -->
+
+            <div class="day business-day">15</div> <!-- Mon -->
+            <div class="day business-day">16</div> <!-- Tue -->
+            <div class="day business-day">17</div> <!-- Wed -->
+            <div class="day business-day">18</div> <!-- Thu -->
+            <div class="day">19</div>
+            <div class="day business-day">20</div> <!-- Sat -->
+            <div class="day business-day">21</div> <!-- Sun (Assumed from 20日20一日) -->
+
+            <div class="day business-day">22</div> <!-- Mon -->
+            <div class="day business-day">23</div> <!-- Tue -->
+            <div class="day business-day">24</div> <!-- Wed -->
+            <div class="day business-day">25</div> <!-- Thu -->
+            <div class="day business-day">26</div> <!-- Fri -->
+            <div class="day business-day">27</div> <!-- Sat -->
+            <div class="day business-day">28</div> <!-- Sun -->
+
+            <div class="day business-day">29</div> <!-- Mon -->
+            <div class="day business-day">30</div> <!-- Tue -->
+            <div class="day">31</div>
+            <div class="day empty"></div>
+            <div class="day empty"></div>
+            <div class="day empty"></div>
+        </div>
+
+        <div class="note">
+            <span style="color: #ff0000; font-weight: bold; font-size: 1.2rem;">○</span>・・・8:00~11:00 Open
+        </div>
+
+        <!-- Decorative Images -->
+        <div class="deco-container">
+            <img src="img/heart_sketch.png" alt="Heart" class="heart-img">
+            <img src="img/mocha_pot_sketch.png" alt="Mocha Pot" class="mocha-pot-img">
+        </div>
+    </div>
+
+
+    <script>
+        // Toggle business day on click
+        document.querySelectorAll('.day').forEach(day => {
+            if (!day.classList.contains('empty')) {
+                day.addEventListener('click', () => {
+                    day.classList.toggle('business-day');
+                });
+            }
+        });
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Schedule | ニストスタジオ</title>
+    <link rel="icon" href="../img/favicon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../style.css?v=3">
+    <style>
+        .admin-controls {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .save-status {
+            margin-left: 20px;
+            color: var(--accent-teal);
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+
+        .save-status.show {
+            opacity: 1;
+        }
+
+        .schedule-grid {
+            border: 2px solid var(--primary-neon);
+        }
+    </style>
+</head>
+
+<body>
+    <header class="header">
+        <div class="container header-inner">
+            <span class="logo">管理画面</span>
+        </div>
+    </header>
+
+    <section class="section">
+        <div class="container">
+            <h1 class="section-title">スケジュール管理</h1>
+            <p style="text-align: center; margin-bottom: 30px;">クリックしてステータスを変更（◎ → △ → × → -）</p>
+
+            <div class="calendar-controls">
+                <button class="cal-btn" id="prevWeek">前の週</button>
+                <h2 class="current-month"></h2>
+                <button class="cal-btn" id="nextWeek">次の週</button>
+                <span id="saveStatus" class="save-status">保存しました</span>
+            </div>
+
+            <div class="schedule-grid">
+                <div class="schedule-header">
+                    <!-- JS Injected -->
+                </div>
+                <div id="schedule-body">
+                    <!-- JS Injected -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const pass = prompt("Password:");
+        if (pass !== "Nayuta24!") {
+            document.body.innerHTML = "<h1>Access Denied</h1>";
+            throw new Error("Access Denied");
+        }
+
+        const SUPABASE_URL = 'https://yptegzzukymqotzchgnp.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlwdGVnenp1a3ltcW90emNoZ25wIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM4NDU1MTYsImV4cCI6MjA3OTQyMTUxNn0.iKWkVYwlKrSBlJKUxRebbGRcgvprzkcyAOgDaCHKLSY';
+        const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        let currentStartDate = new Date();
+        const START_HOUR = 10;
+        const END_HOUR = 22;
+        const HOURS = [];
+        for (let i = START_HOUR; i <= END_HOUR; i++) {
+            HOURS.push(`${i}:00`);
+        }
+
+        const formatDateKey = (date) => {
+            const d = new Date(date);
+            return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+        };
+
+        const formatDisplayDate = (date) => {
+            const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            return `${date.getMonth() + 1}/${date.getDate()} (${days[date.getDay()]})`;
+        };
+
+        const STATUS_ORDER = ['status-ok', 'status-few', 'status-full', 'status-ng'];
+        const STATUS_TEXT = {
+            'status-ok': '◎',
+            'status-few': '△',
+            'status-full': '×',
+            'status-ng': '-'
+        };
+
+        async function fetchSchedule(startDate) {
+            const dates = [];
+            for (let i = 0; i < 7; i++) {
+                const d = new Date(startDate);
+                d.setDate(startDate.getDate() + i);
+                dates.push(d);
+            }
+
+            // Headers
+            const headerContainer = document.querySelector('.schedule-header');
+            headerContainer.innerHTML = '';
+            const corner = document.createElement('div');
+            corner.className = 'date-col header-corner';
+            headerContainer.appendChild(corner);
+
+            dates.forEach(d => {
+                const div = document.createElement('div');
+                div.className = 'date-col';
+                if (d.getDay() === 6) div.classList.add('sat');
+                if (d.getDay() === 0) div.classList.add('sun');
+                div.innerHTML = `<span>${formatDisplayDate(d)}</span>`;
+                headerContainer.appendChild(div);
+            });
+
+            // Data
+            const dateKeys = dates.map(formatDateKey);
+            let dataMap = {};
+
+            const { data, error } = await client
+                .from('schedule_slots')
+                .select('*')
+                .in('date', dateKeys);
+
+            if (data && !error) {
+                data.forEach(item => {
+                    if (!dataMap[item.date]) dataMap[item.date] = {};
+                    dataMap[item.date][item.time_code] = item.status;
+                });
+            }
+
+            // Body
+            const bodyContainer = document.getElementById('schedule-body');
+            bodyContainer.innerHTML = '';
+
+            HOURS.forEach(timeCode => {
+                const row = document.createElement('div');
+                row.className = 'schedule-row';
+
+                const timeLabel = document.createElement('div');
+                timeLabel.className = 'time-label';
+                timeLabel.textContent = timeCode;
+                row.appendChild(timeLabel);
+
+                dates.forEach(d => {
+                    const dateKey = formatDateKey(d);
+                    let status = 'status-ok';
+                    if (dataMap[dateKey] && dataMap[dateKey][timeCode]) {
+                        status = dataMap[dateKey][timeCode];
+                    }
+
+                    const div = document.createElement('div');
+                    div.className = `slot ${status}`;
+                    div.textContent = STATUS_TEXT[status];
+                    div.style.cursor = 'pointer';
+                    div.onclick = () => toggleStatus(div, dateKey, timeCode);
+                    row.appendChild(div);
+                });
+                bodyContainer.appendChild(row);
+            });
+
+            document.querySelector('.current-month').textContent = `${startDate.getFullYear()}年 ${startDate.getMonth() + 1}月`;
+        }
+
+        async function toggleStatus(element, date, time) {
+            let currentStatus = 'status-ok';
+            if (element.classList.contains('status-few')) currentStatus = 'status-few';
+            if (element.classList.contains('status-full')) currentStatus = 'status-full';
+            if (element.classList.contains('status-ng')) currentStatus = 'status-ng';
+
+            const currentIndex = STATUS_ORDER.indexOf(currentStatus);
+            const nextIndex = (currentIndex + 1) % STATUS_ORDER.length;
+            const nextStatus = STATUS_ORDER[nextIndex];
+
+            // Optimistic update
+            element.className = `slot ${nextStatus}`;
+            element.textContent = STATUS_TEXT[nextStatus];
+
+            // Save
+            const { error } = await client
+                .from('schedule_slots')
+                .upsert({
+                    date: date,
+                    time_code: time,
+                    status: nextStatus
+                }, { onConflict: 'date, time_code' });
+
+            if (error) {
+                console.error('Error saving:', error);
+                alert('保存に失敗しました');
+                // Revert
+                element.className = `slot ${currentStatus}`;
+                element.textContent = STATUS_TEXT[currentStatus];
+            } else {
+                showSaveStatus();
+            }
+        }
+
+        function showSaveStatus() {
+            const el = document.getElementById('saveStatus');
+            el.classList.add('show');
+            setTimeout(() => el.classList.remove('show'), 2000);
+        }
+
+        document.getElementById('prevWeek').addEventListener('click', () => {
+            const newDate = new Date(currentStartDate);
+            newDate.setDate(newDate.getDate() - 7);
+            currentStartDate = newDate;
+            fetchSchedule(currentStartDate);
+        });
+        document.getElementById('nextWeek').addEventListener('click', () => {
+            const newDate = new Date(currentStartDate);
+            newDate.setDate(newDate.getDate() + 7);
+            currentStartDate = newDate;
+            fetchSchedule(currentStartDate);
+        });
+
+        // Init
+        fetchSchedule(currentStartDate);
+    </script>
+</body>
+
+</html>
