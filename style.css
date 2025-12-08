@@ -1091,7 +1091,8 @@ ul {
     .menu-toggle {
         display: block;
         position: absolute;
-        top: 20px;
+        top: 25px;
+        /* Aligned with logo vertically */
         left: 20px;
         z-index: 2000;
         color: var(--text-white);
@@ -1103,11 +1104,37 @@ ul {
         flex-direction: column;
         gap: 15px;
         position: relative;
+        align-items: center;
+        /* Center logo */
     }
 
     .logo {
-        margin-left: 40px;
-        /* Offset for hamburger */
+        margin-left: 0;
+        /* Remove offset */
+        margin-top: 5px;
+    }
+
+    /* Fix Schedule Scrolling Sync */
+    .schedule-grid {
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .schedule-header,
+    .schedule-row {
+        display: flex;
+        overflow-x: visible;
+        /* Disable individual scrolling */
+        min-width: 600px;
+        /* Force width larger than screen */
+    }
+
+    .date-col,
+    .slot {
+        flex: 1;
+        /* Distribute evenly */
+        width: auto;
+        border-right: 1px solid rgba(255, 255, 255, 0.1);
     }
 
     .nav-list {
@@ -1125,6 +1152,7 @@ ul {
         gap: 30px;
         font-size: 1.2rem;
         z-index: 1500;
+
         padding: 40px;
     }
 
