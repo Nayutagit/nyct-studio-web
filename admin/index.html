@@ -11,16 +11,70 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="../style.css?v=3">
+    <link rel="stylesheet" href="../style.css?v=4">
     <style>
         /* Admin specific styles */
-        .admin-controls {
-            background: rgba(0, 104, 136, 0.2);
-            padding: 20px;
-            margin-bottom: 20px;
+        .admin-controls-panel {
+            background: #222;
+            padding: 25px;
+            margin-bottom: 30px;
             border: 1px solid var(--accent-teal);
             border-radius: 8px;
-            text-align: center;
+            box-shadow: 0 0 20px rgba(0, 104, 136, 0.2);
+        }
+
+        .control-group {
+            margin-bottom: 20px;
+        }
+
+        .control-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 700;
+            color: var(--primary-neon);
+        }
+
+        .checkbox-group {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+            color: var(--text-white);
+        }
+
+        .admin-select {
+            padding: 10px;
+            border-radius: 4px;
+            background: #333;
+            color: white;
+            border: 1px solid #555;
+            font-size: 1rem;
+            min-width: 200px;
+        }
+
+        .apply-btn {
+            background: var(--accent-teal);
+            color: white;
+            border: none;
+            padding: 12px 40px;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            font-weight: 700;
+            transition: all 0.3s;
+            margin-top: 10px;
+            width: 100%;
+        }
+
+        .apply-btn:hover {
+            background: var(--primary-neon);
+            color: black;
         }
 
         .slot.admin-mode:hover {
@@ -28,11 +82,7 @@
             cursor: pointer;
         }
 
-        .slot.active-edit {
-            border: 2px solid var(--primary-neon);
-        }
-
-        /* Login Modal */
+        /* Login Modal (Keep existing) */
         #loginModal {
             position: fixed;
             top: 0;
@@ -96,17 +146,18 @@
     </div>
 
     <div id="adminContent" class="hidden">
-        <!-- Header (Simplified for Admin) -->
+        <!-- Header -->
         <header class="header">
             <div class="container header-inner">
                 <a href="#" class="logo">
                     <img src="../img/logo_white.png" alt="Nyct Studio Logo">
                     ニストスタジオ MANAGEMENT
                 </a>
+                <!-- No navigation here to prevent accidental exit or leakage -->
                 <nav>
                     <ul class="nav-list">
-                        <li><a href="../index.html" class="nav-link" target="_blank">View Site</a></li>
-                        <li><span class="nav-link" style="color: var(--primary-neon);">Admin Mode</span></li>
+                        <li><a href="../index.html" class="nav-link" target="_blank">View Site <i
+                                    class="fas fa-external-link-alt"></i></a></li>
                     </ul>
                 </nav>
             </div>
@@ -117,82 +168,180 @@
             <div class="container">
                 <h1 class="page-title" style="font-size: 2.5rem;">SCHEDULE MANAGER</h1>
                 <p class="page-desc">
-                    クリックしてステータスを変更（保存機能は未実装）
+                    一括更新機能でスケジュールを効率的に管理できます。<br>
+                    （※これはデモ画面であり、実際のデータベースには保存されません）
                 </p>
             </div>
         </section>
 
-        <!-- Schedule Section -->
+        <!-- Main Content -->
         <section class="section">
             <div class="container">
 
-                <!-- Admin Controls -->
-                <div class="admin-controls">
-                    <p><strong>操作方法：</strong>枠をクリックするとステータスが切り替わります (◎ → △ → × → - → ◎)</p>
+                <!-- Helper Text -->
+                <div
+                    style="background: rgba(255,255,255,0.1); padding: 15px; border-radius: 4px; margin-bottom: 20px; text-align: center;">
+                    <i class="fas fa-info-circle"></i> <strong>更新方法</strong>:
+                    下記のパネルで条件を選択し「一括更新」を押すか、カレンダーの各枠を直接クリックして個別に切り替えてください。
                 </div>
 
-                <!-- Calendar Legend -->
-                <div class="calendar-legend">
-                    <div class="legend-item"><span class="status-icon status-ok">◎</span> 余裕あり</div>
-                    <div class="legend-item"><span class="status-icon status-few">△</span> 残りわずか</div>
-                    <div class="legend-item"><span class="status-icon status-full">×</span> 満席</div>
-                    <div class="legend-item"><span class="status-icon status-ng">-</span> 受付不可</div>
-                </div>
+                <div class="schedule-grid-layout" style="display: grid; grid-template-columns: 1fr 2fr; gap: 40px;">
 
-                <!-- Calendar Grid (Identical to schedule.html but interactive) -->
-                <div class="schedule-grid">
-                    <!-- Date Headers -->
-                    <div class="schedule-header">
-                        <div class="date-col">12/8 (Mon)</div>
-                        <div class="date-col">12/9 (Tue)</div>
-                        <div class="date-col">12/10 (Wed)</div>
-                        <div class="date-col">12/11 (Thu)</div>
-                        <div class="date-col">12/12 (Fri)</div>
-                        <div class="date-col sat">12/13 (Sat)</div>
-                        <div class="date-col sun">12/14 (Sun)</div>
+                    <!-- Left: Control Panel -->
+                    <div class="admin-panel-wrapper">
+                        <div class="admin-controls-panel">
+                            <h3 style="margin-bottom: 20px; border-bottom: 1px solid #555; padding-bottom: 10px;">
+                                <i class="fas fa-sliders-h"></i> 一括設定
+                            </h3>
+
+                            <!-- 1. Days -->
+                            <div class="control-group">
+                                <label>曜日を選択:</label>
+                                <div class="checkbox-group">
+                                    <label class="checkbox-label"><input type="checkbox" name="day" value="Mon">
+                                        月</label>
+                                    <label class="checkbox-label"><input type="checkbox" name="day" value="Tue">
+                                        火</label>
+                                    <label class="checkbox-label"><input type="checkbox" name="day" value="Wed">
+                                        水</label>
+                                    <label class="checkbox-label"><input type="checkbox" name="day" value="Thu">
+                                        木</label>
+                                    <label class="checkbox-label"><input type="checkbox" name="day" value="Fri">
+                                        金</label>
+                                    <label class="checkbox-label"><input type="checkbox" name="day" value="Sat">
+                                        土</label>
+                                    <label class="checkbox-label"><input type="checkbox" name="day" value="Sun">
+                                        日</label>
+                                </div>
+                                <div style="margin-top: 5px;">
+                                    <button onclick="selectAllDays()"
+                                        style="font-size: 0.8rem; padding: 2px 8px; background: #444; color: white; border: none; cursor: pointer;">全選択</button>
+                                    <button onclick="clearAllDays()"
+                                        style="font-size: 0.8rem; padding: 2px 8px; background: #444; color: white; border: none; cursor: pointer;">全解除</button>
+                                </div>
+                            </div>
+
+                            <!-- 2. Time Slot -->
+                            <div class="control-group">
+                                <label>時間帯:</label>
+                                <select id="timeDetails" class="admin-select">
+                                    <option value="ALL">すべて (Morning/Afternoon/Night)</option>
+                                    <option value="AM">Morning (08:00 - 12:00)</option>
+                                    <option value="PM">Afternoon (13:00 - 17:00)</option>
+                                    <option value="Night">Night (18:00 - 21:00)</option>
+                                </select>
+                            </div>
+
+                            <!-- 3. Status -->
+                            <div class="control-group">
+                                <label>ステータス:</label>
+                                <select id="statusDetails" class="admin-select">
+                                    <option value="status-ok">◎ 余裕あり</option>
+                                    <option value="status-few">△ 残りわずか</option>
+                                    <option value="status-full">× 満席</option>
+                                    <option value="status-ng">- 受付不可</option>
+                                </select>
+                            </div>
+
+                            <button onclick="applyBulkUpdate()" class="apply-btn">一括更新を適用</button>
+                        </div>
                     </div>
 
-                    <!-- Time Slots -->
-                    <!-- Morning -->
-                    <div class="time-header">Morning (08:00 - 12:00)</div>
-                    <div class="schedule-row">
-                        <div class="slot admin-mode status-ng" onclick="toggleStatus(this)">-</div>
-                        <div class="slot admin-mode status-ok" onclick="toggleStatus(this)">◎<br>09:00~</div>
-                        <div class="slot admin-mode status-ok" onclick="toggleStatus(this)">◎<br>10:00~</div>
-                        <div class="slot admin-mode status-full" onclick="toggleStatus(this)">×</div>
-                        <div class="slot admin-mode status-ok" onclick="toggleStatus(this)">◎<br>08:00~</div>
-                        <div class="slot admin-mode status-few" onclick="toggleStatus(this)">△<br>11:00~</div>
-                        <div class="slot admin-mode status-full" onclick="toggleStatus(this)">×</div>
-                    </div>
+                    <!-- Right: Preview Grid -->
+                    <div class="schedule-preview">
+                        <!-- Calendar Legend -->
+                        <div class="calendar-legend" style="justify-content: flex-start;">
+                            <div class="legend-item"><span class="status-icon status-ok">◎</span> 余裕あり</div>
+                            <div class="legend-item"><span class="status-icon status-few">△</span> 残りわずか</div>
+                            <div class="legend-item"><span class="status-icon status-full">×</span> 満席</div>
+                            <div class="legend-item"><span class="status-icon status-ng">-</span> 受付不可</div>
+                        </div>
 
-                    <!-- Afternoon -->
-                    <div class="time-header">Afternoon (13:00 - 17:00)</div>
-                    <div class="schedule-row">
-                        <div class="slot admin-mode status-ok" onclick="toggleStatus(this)">◎<br>13:00~</div>
-                        <div class="slot admin-mode status-full" onclick="toggleStatus(this)">×</div>
-                        <div class="slot admin-mode status-ok" onclick="toggleStatus(this)">◎<br>14:00~</div>
-                        <div class="slot admin-mode status-ng" onclick="toggleStatus(this)">-</div>
-                        <div class="slot admin-mode status-few" onclick="toggleStatus(this)">△<br>16:00~</div>
-                        <div class="slot admin-mode status-full" onclick="toggleStatus(this)">×</div>
-                        <div class="slot admin-mode status-ok" onclick="toggleStatus(this)">◎<br>13:00~</div>
-                    </div>
+                        <div class="schedule-grid">
+                            <!-- Date Headers -->
+                            <div class="schedule-header">
+                                <div class="date-col">12/8 (Mon)</div>
+                                <div class="date-col">12/9 (Tue)</div>
+                                <div class="date-col">12/10 (Wed)</div>
+                                <div class="date-col">12/11 (Thu)</div>
+                                <div class="date-col">12/12 (Fri)</div>
+                                <div class="date-col sat">12/13 (Sat)</div>
+                                <div class="date-col sun">12/14 (Sun)</div>
+                            </div>
 
-                    <!-- Night -->
-                    <div class="time-header">Night (18:00 - 21:00)</div>
-                    <div class="schedule-row">
-                        <div class="slot admin-mode status-full" onclick="toggleStatus(this)">×</div>
-                        <div class="slot admin-mode status-ok" onclick="toggleStatus(this)">◎<br>19:00~</div>
-                        <div class="slot admin-mode status-full" onclick="toggleStatus(this)">×</div>
-                        <div class="slot admin-mode status-ok" onclick="toggleStatus(this)">◎<br>20:00~</div>
-                        <div class="slot admin-mode status-full" onclick="toggleStatus(this)">×</div>
-                        <div class="slot admin-mode status-ng" onclick="toggleStatus(this)">-</div>
-                        <div class="slot admin-mode status-ng" onclick="toggleStatus(this)">-</div>
+                            <!-- Time Slots -->
+                            <!-- Morning -->
+                            <div class="time-header">Morning (08:00 - 12:00)</div>
+                            <div class="schedule-row">
+                                <div class="slot admin-mode status-ng" data-day="Mon" data-time="AM"
+                                    onclick="toggleStatus(this)">-</div>
+                                <div class="slot admin-mode status-ok" data-day="Tue" data-time="AM"
+                                    onclick="toggleStatus(this)">◎<br>09:00~</div>
+                                <div class="slot admin-mode status-ok" data-day="Wed" data-time="AM"
+                                    onclick="toggleStatus(this)">◎<br>10:00~</div>
+                                <div class="slot admin-mode status-full" data-day="Thu" data-time="AM"
+                                    onclick="toggleStatus(this)">×</div>
+                                <div class="slot admin-mode status-ok" data-day="Fri" data-time="AM"
+                                    onclick="toggleStatus(this)">◎<br>08:00~</div>
+                                <div class="slot admin-mode status-few" data-day="Sat" data-time="AM"
+                                    onclick="toggleStatus(this)">△<br>11:00~</div>
+                                <div class="slot admin-mode status-full" data-day="Sun" data-time="AM"
+                                    onclick="toggleStatus(this)">×</div>
+                            </div>
+
+                            <!-- Afternoon -->
+                            <div class="time-header">Afternoon (13:00 - 17:00)</div>
+                            <div class="schedule-row">
+                                <div class="slot admin-mode status-ok" data-day="Mon" data-time="PM"
+                                    onclick="toggleStatus(this)">◎<br>13:00~</div>
+                                <div class="slot admin-mode status-full" data-day="Tue" data-time="PM"
+                                    onclick="toggleStatus(this)">×</div>
+                                <div class="slot admin-mode status-ok" data-day="Wed" data-time="PM"
+                                    onclick="toggleStatus(this)">◎<br>14:00~</div>
+                                <div class="slot admin-mode status-ng" data-day="Thu" data-time="PM"
+                                    onclick="toggleStatus(this)">-</div>
+                                <div class="slot admin-mode status-few" data-day="Fri" data-time="PM"
+                                    onclick="toggleStatus(this)">△<br>16:00~</div>
+                                <div class="slot admin-mode status-full" data-day="Sat" data-time="PM"
+                                    onclick="toggleStatus(this)">×</div>
+                                <div class="slot admin-mode status-ok" data-day="Sun" data-time="PM"
+                                    onclick="toggleStatus(this)">◎<br>13:00~</div>
+                            </div>
+
+                            <!-- Night -->
+                            <div class="time-header">Night (18:00 - 21:00)</div>
+                            <div class="schedule-row">
+                                <div class="slot admin-mode status-full" data-day="Mon" data-time="Night"
+                                    onclick="toggleStatus(this)">×</div>
+                                <div class="slot admin-mode status-ok" data-day="Tue" data-time="Night"
+                                    onclick="toggleStatus(this)">◎<br>19:00~</div>
+                                <div class="slot admin-mode status-full" data-day="Wed" data-time="Night"
+                                    onclick="toggleStatus(this)">×</div>
+                                <div class="slot admin-mode status-ok" data-day="Thu" data-time="Night"
+                                    onclick="toggleStatus(this)">◎<br>20:00~</div>
+                                <div class="slot admin-mode status-full" data-day="Fri" data-time="Night"
+                                    onclick="toggleStatus(this)">×</div>
+                                <div class="slot admin-mode status-ng" data-day="Sat" data-time="Night"
+                                    onclick="toggleStatus(this)">-</div>
+                                <div class="slot admin-mode status-ng" data-day="Sun" data-time="Night"
+                                    onclick="toggleStatus(this)">-</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
             </div>
         </section>
     </div>
+
+    <!-- Mobile view warning -->
+    <style>
+        @media (max-width: 900px) {
+            .schedule-grid-layout {
+                grid-template-columns: 1fr !important;
+            }
+        }
+    </style>
 
     <script>
         function checkPassword() {
@@ -205,16 +354,66 @@
             }
         }
 
-        // Allow Enter key
         document.getElementById('passwordInput').addEventListener('keypress', function (e) {
-            if (e.key === 'Enter') {
-                checkPassword();
-            }
+            if (e.key === 'Enter') checkPassword();
         });
 
+        // Bulk Update Logic
+        function selectAllDays() {
+            document.querySelectorAll('input[name="day"]').forEach(c => c.checked = true);
+        }
+        function clearAllDays() {
+            document.querySelectorAll('input[name="day"]').forEach(c => c.checked = false);
+        }
+
+        function applyBulkUpdate() {
+            // 1. Get selected days
+            const selectedDays = Array.from(document.querySelectorAll('input[name="day"]:checked')).map(c => c.value);
+
+            // 2. Get selected time
+            const selectedTime = document.getElementById('timeDetails').value; // AM, PM, Night, ALL
+
+            // 3. Get selected status
+            const selectedStatus = document.getElementById('statusDetails').value;
+
+            if (selectedDays.length === 0) {
+                alert('曜日を選択してください');
+                return;
+            }
+
+            // 4. Update Grid
+            const allSlots = document.querySelectorAll('.slot');
+            let updateCount = 0;
+
+            allSlots.forEach(slot => {
+                const day = slot.getAttribute('data-day');
+                const time = slot.getAttribute('data-time');
+
+                // Check if slot matches criteria
+                const isDayMatch = selectedDays.includes(day);
+                const isTimeMatch = (selectedTime === 'ALL') || (selectedTime === time);
+
+                if (isDayMatch && isTimeMatch) {
+                    // Update classes
+                    slot.classList.remove('status-ok', 'status-few', 'status-full', 'status-ng');
+                    slot.classList.add(selectedStatus);
+
+                    // Update inner HTML
+                    if (selectedStatus === 'status-ok') slot.innerHTML = '◎<br>Available';
+                    else if (selectedStatus === 'status-few') slot.innerHTML = '△<br>Few';
+                    else if (selectedStatus === 'status-full') slot.innerHTML = '×';
+                    else slot.innerHTML = '-';
+
+                    updateCount++;
+                }
+            });
+
+            alert(`${updateCount}箇所のスケジュールを更新しました（デモ）`);
+        }
+
+        // Single Toggle Logic (Keep existing)
         function toggleStatus(element) {
             const statuses = ['status-ok', 'status-few', 'status-full', 'status-ng'];
-            const symbols = ['◎<br>Available', '△<br>Few', '×', '-']; // Simplified text for toggle
 
             let currentStatus = '';
             statuses.forEach(s => {
@@ -223,16 +422,13 @@
 
             let nextIndex = (statuses.indexOf(currentStatus) + 1) % statuses.length;
 
-            // Remove all status classes
             statuses.forEach(s => element.classList.remove(s));
-
-            // Add next status
             element.classList.add(statuses[nextIndex]);
 
-            // Update text (Sample logic)
-            if (statuses[nextIndex] === 'status-ok') element.innerHTML = '◎';
-            else if (statuses[nextIndex] === 'status-few') element.innerHTML = '△';
-            else if (statuses[nextIndex] === 'status-full') element.innerHTML = '×';
+            const nextStatus = statuses[nextIndex];
+            if (nextStatus === 'status-ok') element.innerHTML = '◎<br>Available';
+            else if (nextStatus === 'status-few') element.innerHTML = '△<br>Few';
+            else if (nextStatus === 'status-full') element.innerHTML = '×';
             else element.innerHTML = '-';
         }
     </script>
