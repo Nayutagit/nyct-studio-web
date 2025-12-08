@@ -35,7 +35,8 @@
                     <li><a href="../blog.html" class="nav-link">Blog</a></li>
                     <li><a href="../shop.html" class="nav-link">Shop</a></li>
                     <li><a href="../contact.html" class="nav-link">Contact</a></li>
-                </ul><div class="menu-toggle"><i class="fas fa-bars"></i></div>
+                </ul>
+                <div class="menu-toggle"><i class="fas fa-bars"></i></div>
                 <!-- Mobile Menu Toggle -->
                 <div class="menu-toggle">
                     <i class="fas fa-bars"></i>
@@ -77,61 +78,31 @@
                 <div class="legend-item"><span class="status-icon status-ng">-</span> 受付不可</div>
             </div>
 
-            <!-- Calendar Grid -->
-            <div class="schedule-grid fade-in-up">
-                <!-- Date Headers -->
-                <div class="schedule-header">
-                    <div class="date-col">12/8 (Mon)</div>
-                    <div class="date-col">12/9 (Tue)</div>
-                    <div class="date-col">12/10 (Wed)</div>
-                    <div class="date-col">12/11 (Thu)</div>
-                    <div class="date-col">12/12 (Fri)</div>
-                    <div class="date-col sat">12/13 (Sat)</div>
-                    <div class="date-col sun">12/14 (Sun)</div>
-                </div>
-
-                <!-- Time Slots -->
-                <!-- Morning -->
-                <div class="time-header">Morning (08:00 - 12:00)</div>
-                <div class="schedule-row">
-                    <div class="slot status-ng" data-time="Mon AM">-</div>
-                    <div class="slot status-ok" data-time="Tue AM"><a href="#book">◎<br>09:00~</a></div>
-                    <div class="slot status-ok" data-time="Wed AM"><a href="#book">◎<br>10:00~</a></div>
-                    <div class="slot status-full" data-time="Thu AM">×</div>
-                    <div class="slot status-ok" data-time="Fri AM"><a href="#book">◎<br>08:00~</a></div>
-                    <div class="slot status-few" data-time="Sat AM"><a href="#book">△<br>11:00~</a></div>
-                    <div class="slot status-full" data-time="Sun AM">×</div>
-                </div>
-
-                <!-- Afternoon -->
-                <div class="time-header">Afternoon (13:00 - 17:00)</div>
-                <div class="schedule-row">
-                    <div class="slot status-ok" data-time="Mon PM"><a href="#book">◎<br>13:00~</a></div>
-                    <div class="slot status-full" data-time="Tue PM">×</div>
-                    <div class="slot status-ok" data-time="Wed PM"><a href="#book">◎<br>14:00~</a></div>
-                    <div class="slot status-ng" data-time="Thu PM">-</div>
-                    <div class="slot status-few" data-time="Fri PM"><a href="#book">△<br>16:00~</a></div>
-                    <div class="slot status-full" data-time="Sat PM">×</div>
-                    <div class="slot status-ok" data-time="Sun PM"><a href="#book">◎<br>13:00~</a></div>
-                </div>
-
-                <!-- Night -->
-                <div class="time-header">Night (18:00 - 21:00)</div>
-                <div class="schedule-row">
-                    <div class="slot status-full" data-time="Mon Night">×</div>
-                    <div class="slot status-ok" data-time="Tue Night"><a href="#book">◎<br>19:00~</a></div>
-                    <div class="slot status-full" data-time="Wed Night">×</div>
-                    <div class="slot status-ok" data-time="Thu Night"><a href="#book">◎<br>20:00~</a></div>
-                    <div class="slot status-full" data-time="Fri Night">×</div>
-                    <div class="slot status-ng" data-time="Sat Night">-</div>
-                    <div class="slot status-ng" data-time="Sun Night">-</div>
-                </div>
+            <!-- Calendar Grid (Hot Pepper Style) -->
+            <div class="schedule-table-container fade-in-up">
+                <table class="schedule-table" id="scheduleTable">
+                    <thead>
+                        <tr>
+                            <th class="time-col-header"></th>
+                            <!-- JS will populate dates -->
+                            <th>12/8<br>(Mon)</th>
+                            <th>12/9<br>(Tue)</th>
+                            <th>12/10<br>(Wed)</th>
+                            <th>12/11<br>(Thu)</th>
+                            <th>12/12<br>(Fri)</th>
+                            <th class="sat">12/13<br>(Sat)</th>
+                            <th class="sun">12/14<br>(Sun)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="scheduleBody">
+                        <!-- JS will populate rows (10:00 - 22:00) -->
+                    </tbody>
+                </table>
             </div>
 
             <!-- Booking Note -->
             <div class="schedule-note fade-in-up">
                 <p>※ 上記はリアルタイムではない場合があります。最新の状況は予約フォームにてご確認ください。</p>
-                <p>※ オンラインレッスンは深夜23時まで対応可能な場合があります。お問い合わせください。</p>
             </div>
 
         </div>
@@ -144,17 +115,11 @@
                 <span class="section-subtitle">BOOKING</span>
                 <h2 class="section-title">ご予約・お問い合わせ</h2>
             </div>
-            <div class="cta-grid fade-in-up">
+            <div class="cta-grid fade-in-up" style="grid-template-columns: 1fr; max-width: 800px; margin: 0 auto;">
                 <div class="cta-card">
-                    <h3>初めての方</h3>
-                    <p>まずは現在のお悩みや目標をお聞かせください。<br>無料体験レッスンも随時受け付けております。</p>
+                    <h3>ご予約について</h3>
+                    <p>会員様は公式LINEより、ご希望の日時を送信してください。<br>初めての方は無料体験レッスンをご予約ください。</p>
                     <a href="../lessons.html#contact" class="btn btn-primary">無料体験レッスンを予約</a>
-                </div>
-                <div class="cta-card">
-                    <h3>会員様・2回目以降の方</h3>
-                    <p>以下の予約システム（Airリザーブ）または<br>公式LINEより直接ご予約ください。</p>
-                    <a href="https://airrsv.net/nyct/calendar" target="_blank" class="btn btn-secondary">予約システムへ移動 <i
-                            class="fas fa-external-link-alt"></i></a>
                 </div>
             </div>
         </div>
@@ -175,7 +140,8 @@
                             <li><a href="../voice.html">Voice / Narration</a></li>
                             <li><a href="../school.html">School</a></li>
                             <li><a href="../incubation.html">Incubation</a></li>
-                        </ul><div class="menu-toggle"><i class="fas fa-bars"></i></div>
+                        </ul>
+                        <div class="menu-toggle"><i class="fas fa-bars"></i></div>
                     </div>
                     <div>
                         <h4>Studio</h4>
@@ -183,14 +149,16 @@
                             <li><a href="../about.html">About Us</a></li>
                             <li><a href="#">Schedule</a></li>
                             <li><a href="../contact.html">Contact</a></li>
-                        </ul><div class="menu-toggle"><i class="fas fa-bars"></i></div>
+                        </ul>
+                        <div class="menu-toggle"><i class="fas fa-bars"></i></div>
                     </div>
                     <div>
                         <h4>Social</h4>
                         <ul>
                             <li><a href="https://note.com/udatsu_vj" target="_blank">Note</a></li>
                             <li><a href="https://instagram.com/nyctstudio" target="_blank">Instagram</a></li>
-                        </ul><div class="menu-toggle"><i class="fas fa-bars"></i></div>
+                        </ul>
+                        <div class="menu-toggle"><i class="fas fa-bars"></i></div>
                     </div>
                 </div>
             </div>
@@ -201,6 +169,7 @@
     </footer>
 
     <script src="../script.js"></script>
+    <script type="module" src="../js/schedule.js"></script>
 </body>
 
 </html>

@@ -67,8 +67,13 @@ img {
     display: block;
 }
 
+
 ul {
     list-style: none;
+}
+
+.menu-toggle {
+    display: none;
 }
 
 /* ==========================================================================
@@ -1091,8 +1096,8 @@ ul {
     .menu-toggle {
         display: block;
         position: absolute;
-        top: 25px;
-        /* Aligned with logo vertically */
+        top: 50%;
+        transform: translateY(-50%);
         left: 20px;
         z-index: 2000;
         color: var(--text-white);
@@ -1110,33 +1115,87 @@ ul {
 
     .logo {
         margin-left: 0;
-        /* Remove offset */
         margin-top: 5px;
     }
 
-    /* Fix Schedule Scrolling Sync */
-    .schedule-grid {
-        overflow-x: auto !important;
+    /* Schedule Table Styles (Hot Pepper) */
+    .schedule-table-container {
+        overflow-x: auto;
         -webkit-overflow-scrolling: touch;
+        margin-bottom: 20px;
+        background: #222;
+        /* Dark bg */
+        border-radius: 4px;
+        border: 1px solid #444;
     }
 
-    .schedule-header,
-    .schedule-row {
-        display: flex;
-        overflow-x: visible;
-        /* Disable individual scrolling */
+    .schedule-table {
+        width: 100%;
         min-width: 600px;
-        /* Force width larger than screen */
+        border-collapse: collapse;
+        table-layout: fixed;
     }
 
-    .date-col,
-    .slot {
-        flex: 1;
-        /* Distribute evenly */
-        width: auto;
-        border-right: 1px solid rgba(255, 255, 255, 0.1);
+    .schedule-table th,
+    .schedule-table td {
+        border: 1px solid #444;
+        padding: 10px 5px;
+        text-align: center;
+        vertical-align: middle;
+        color: var(--text-white);
     }
 
+    .schedule-table thead th {
+        background: #333;
+        font-weight: 700;
+        padding: 15px 5px;
+    }
+
+    .schedule-table .time-col {
+        background: #2a2a2a;
+        width: 80px;
+        font-family: monospace;
+        color: var(--primary-neon);
+    }
+
+    .schedule-table .sat {
+        color: #84a9ff;
+    }
+
+    .schedule-table .sun {
+        color: #ff8484;
+    }
+
+    .schedule-table td.status-ok {
+        color: var(--primary-neon);
+        cursor: pointer;
+    }
+
+    .schedule-table td.status-few {
+        color: var(--accent-teal);
+        cursor: pointer;
+    }
+
+    .schedule-table td.status-full {
+        color: #ff4444;
+    }
+
+    .schedule-table td.status-ng {
+        color: #555;
+    }
+
+    .schedule-table td:hover {
+        background: rgba(255, 255, 255, 0.05);
+    }
+
+    .slot-icon {
+        font-size: 1.2rem;
+        font-weight: bold;
+    }
+
+    /* Remove old grid styles if no longer needed, or keep for Admin generic grid */
+
+    /* Mobile Menu Logic (Fixed) */
     .nav-list {
         display: none;
         position: fixed;
@@ -1152,9 +1211,9 @@ ul {
         gap: 30px;
         font-size: 1.2rem;
         z-index: 1500;
-
         padding: 40px;
     }
+
 
     .nav-list.active {
         display: flex;
