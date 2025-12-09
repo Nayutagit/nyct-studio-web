@@ -8,7 +8,7 @@
     <link rel="icon" href="../../img/favicon.png">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="../../style.css?v=47">
+    <link rel="stylesheet" href="../../style.css?v=48">
     <script src="https://kit.fontawesome.com/aa13b8dc63.js" crossorigin="anonymous"></script>
     <style>
         .admin-controls {
@@ -35,388 +35,404 @@
 
 <body>
     <header class="header">
-        <div class="container header-inner">
-            <span class="logo">管理画面</span>
-        </div>
-    </header>
+        <!-- Header -->
+        <header
+            style="position: sticky; top: 0; z-index: 100; background: rgba(18, 18, 18, 0.95); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.1);">
+            <div class="container"
+                style="display: flex; align-items: center; justify-content: space-between; height: 70px;">
+                <div class="logo">
+                    <a href="../../index.html"
+                        style="font-size: 1.5rem; font-weight: 700; color: white; text-decoration: none;">
+                        Nist <span style="color: var(--accent-gold);">Studio</span> <span
+                            style="font-size: 0.8rem; opacity: 0.7;">Admin</span>
+                    </a>
+                </div>
+                <nav class="nav-links">
+                    <a href="index.html"
+                        style="color: var(--accent-gold); text-decoration: none; margin-right: 20px; font-weight: bold;">スケジュール</a>
+                    <a href="students.html" style="color: #ccc; text-decoration: none;">生徒管理</a>
+                    <a href="../../index.html" style="margin-left: 20px; font-size: 0.9rem; color: #666;">Exit</a>
+                </nav>
+            </div>
+        </header>
 
-    <section class="section">
-        <div class="container">
-            <h1 class="section-title">スケジュール管理</h1>
-            <p style="text-align: center; margin-bottom: 20px;">クリックしてステータスを変更（◎ → -）</p>
+        <section class="section">
+            <div class="container">
+                <h1 class="section-title">スケジュール管理</h1>
+                <p style="text-align: center; margin-bottom: 20px;">クリックしてステータスを変更（◎ → -）</p>
 
-            <!-- Bulk Update UI (Restored & Simplified) -->
-            <div
-                style="background: rgba(255, 255, 255, 0.05); padding: 20px; border-radius: 8px; margin-bottom: 30px; text-align: center;">
-                <h3 style="margin-bottom: 15px; font-size: 1.2rem; color: var(--accent-gold);">範囲一括更新</h3>
+                <!-- Bulk Update UI (Restored & Simplified) -->
                 <div
-                    style="display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; align-items: center; color: #ccc;">
-                    <div>
-                        <label>期間:</label>
-                        <input type="date" id="bulkStartDate"
-                            style="padding: 5px; background: #333; color: white; border: 1px solid #555;">
-                        <span>~</span>
-                        <input type="date" id="bulkEndDate"
-                            style="padding: 5px; background: #333; color: white; border: 1px solid #555;">
+                    style="background: rgba(255, 255, 255, 0.05); padding: 20px; border-radius: 8px; margin-bottom: 30px; text-align: center;">
+                    <h3 style="margin-bottom: 15px; font-size: 1.2rem; color: var(--accent-gold);">範囲一括更新</h3>
+                    <div
+                        style="display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; align-items: center; color: #ccc;">
+                        <div>
+                            <label>期間:</label>
+                            <input type="date" id="bulkStartDate"
+                                style="padding: 5px; background: #333; color: white; border: 1px solid #555;">
+                            <span>~</span>
+                            <input type="date" id="bulkEndDate"
+                                style="padding: 5px; background: #333; color: white; border: 1px solid #555;">
+                        </div>
+                        <div>
+                            <label>時間:</label>
+                            <select id="bulkStartTime"
+                                style="padding: 5px; background: #333; color: white; border: 1px solid #555;"></select>
+                            <span>~</span>
+                            <select id="bulkEndTime"
+                                style="padding: 5px; background: #333; color: white; border: 1px solid #555;"></select>
+                        </div>
+                        <div>
+                            <label>ステータス:</label>
+                            <select id="bulkStatus"
+                                style="padding: 10px; border-radius: 4px; border: 1px solid #444; background: #333; color: white;">
+                                <option value="status-ok">◎ 余裕あり</option>
+                                <option value="status-online">Online Only</option>
+                                <option value="status-ng">- 受付不可</option>
+                            </select>
+                        </div>
                     </div>
-                    <div>
-                        <label>時間:</label>
-                        <select id="bulkStartTime"
-                            style="padding: 5px; background: #333; color: white; border: 1px solid #555;"></select>
-                        <span>~</span>
-                        <select id="bulkEndTime"
-                            style="padding: 5px; background: #333; color: white; border: 1px solid #555;"></select>
+                    <button onclick="runBulkUpdate()" class="cal-btn"
+                        style="margin-top: 15px; background: var(--accent-blue); width: 150px;">一括適用</button>
+                </div>
+
+                <div class="calendar-controls">
+                    <button class="cal-btn" id="prevWeek">前の週</button>
+                    <h2 class="current-month"></h2>
+                    <button class="cal-btn" id="nextWeek">次の週</button>
+                    <span id="saveStatus" class="save-status">保存しました</span>
+                </div>
+
+                <div class="schedule-grid">
+                    <div class="schedule-header">
+                        <!-- JS Injected -->
                     </div>
-                    <div>
-                        <label>ステータス:</label>
-                        <select id="bulkStatus"
-                            style="padding: 10px; border-radius: 4px; border: 1px solid #444; background: #333; color: white;">
-                            <option value="status-ok">◎ 余裕あり</option>
-                            <option value="status-online">Online Only</option>
-                            <option value="status-ng">- 受付不可</option>
-                        </select>
+                    <div id="schedule-body">
+                        <!-- JS Injected -->
                     </div>
                 </div>
-                <button onclick="runBulkUpdate()" class="cal-btn"
-                    style="margin-top: 15px; background: var(--accent-blue); width: 150px;">一括適用</button>
             </div>
+        </section>
 
-            <div class="calendar-controls">
-                <button class="cal-btn" id="prevWeek">前の週</button>
-                <h2 class="current-month"></h2>
-                <button class="cal-btn" id="nextWeek">次の週</button>
-                <span id="saveStatus" class="save-status">保存しました</span>
-            </div>
-
-            <div class="schedule-grid">
-                <div class="schedule-header">
-                    <!-- JS Injected -->
-                </div>
-                <div id="schedule-body">
-                    <!-- JS Injected -->
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script>
-        /*
-        const pass = prompt("Password:");
-        if (pass !== "Nayuta24!") {
-            document.body.innerHTML = "<h1>Access Denied</h1>";
-            throw new Error("Access Denied");
-        }
-        */
-
-        const SUPABASE_URL = 'https://yptegzzukymqotzchgnp.supabase.co';
-        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlwdGVnenp1a3ltcW90emNoZ25wIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM4NDU1MTYsImV4cCI6MjA3OTQyMTUxNn0.iKWkVYwlKrSBlJKUxRebbGRcgvprzkcyAOgDaCHKLSY';
-        const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-        // Load Gemini Key (Removed)
-
-        // --- Bulk Update Logic ---
-        async function runBulkUpdate() {
-            const startDateStr = document.getElementById('bulkStartDate').value;
-            const endDateStr = document.getElementById('bulkEndDate').value;
-            const startTimeStr = document.getElementById('bulkStartTime').value;
-            const endTimeStr = document.getElementById('bulkEndTime').value;
-            const status = document.getElementById('bulkStatus').value;
-
-            if (!startDateStr || !endDateStr) {
-                alert("期間を選択してください");
-                return;
+        <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+        <script>
+            /*
+            const pass = prompt("Password:");
+            if (pass !== "Nayuta24!") {
+                document.body.innerHTML = "<h1>Access Denied</h1>";
+                throw new Error("Access Denied");
             }
+            */
 
-            const startHour = parseInt(startTimeStr.split(':')[0]);
-            const endHour = parseInt(endTimeStr.split(':')[0]);
+            const SUPABASE_URL = 'https://yptegzzukymqotzchgnp.supabase.co';
+            const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlwdGVnenp1a3ltcW90emNoZ25wIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM4NDU1MTYsImV4cCI6MjA3OTQyMTUxNn0.iKWkVYwlKrSBlJKUxRebbGRcgvprzkcyAOgDaCHKLSY';
+            const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-            // Generate updates
-            let updates = [];
-            let curr = new Date(startDateStr);
-            const end = new Date(endDateStr);
+            // Load Gemini Key (Removed)
 
-            while (curr <= end) {
-                const dateKey = formatDateKey(curr);
-                for (let h = startHour; h <= endHour; h++) {
-                    updates.push({
-                        date: dateKey,
-                        time_code: `${h}:00`,
-                        status: status
-                    });
+            // --- Bulk Update Logic ---
+            async function runBulkUpdate() {
+                const startDateStr = document.getElementById('bulkStartDate').value;
+                const endDateStr = document.getElementById('bulkEndDate').value;
+                const startTimeStr = document.getElementById('bulkStartTime').value;
+                const endTimeStr = document.getElementById('bulkEndTime').value;
+                const status = document.getElementById('bulkStatus').value;
+
+                if (!startDateStr || !endDateStr) {
+                    alert("期間を選択してください");
+                    return;
                 }
-                curr.setDate(curr.getDate() + 1);
-            }
 
-            if (updates.length === 0) {
-                alert("対象の枠がありません");
-                return;
-            }
+                const startHour = parseInt(startTimeStr.split(':')[0]);
+                const endHour = parseInt(endTimeStr.split(':')[0]);
 
-            if (!confirm(`${updates.length}件の枠を一括更新しますか？`)) return;
+                // Generate updates
+                let updates = [];
+                let curr = new Date(startDateStr);
+                const end = new Date(endDateStr);
 
-            const { error } = await client
-                .from('schedule_slots')
-                .upsert(updates, { onConflict: 'date, time_code' });
-
-            if (error) {
-                alert("エラー: " + error.message);
-                return;
-            }
-
-            alert("更新完了！");
-            fetchSchedule(currentStartDate);
-        }
-
-        let currentStartDate = new Date();
-        const START_HOUR = 8;
-        const END_HOUR = 22;
-        const HOURS = [];
-        for (let i = START_HOUR; i <= END_HOUR; i++) {
-            HOURS.push(`${i}:00`);
-        }
-
-        // Init Bulk Selects
-        setTimeout(() => {
-            const bulkStartSelect = document.getElementById('bulkStartTime');
-            const bulkEndSelect = document.getElementById('bulkEndTime');
-            if (bulkStartSelect && bulkEndSelect) {
-                HOURS.forEach(h => {
-                    const opt1 = document.createElement('option');
-                    opt1.value = h; opt1.textContent = h;
-                    bulkStartSelect.appendChild(opt1);
-                    const opt2 = document.createElement('option');
-                    opt2.value = h; opt2.textContent = h;
-                    bulkEndSelect.appendChild(opt2);
-                });
-                bulkEndSelect.value = "22:00";
-
-                // Init Bulk Dates
-                const today = new Date();
-                const nextMonth = new Date();
-                nextMonth.setMonth(nextMonth.getMonth() + 1);
-                document.getElementById('bulkStartDate').value = today.toISOString().split('T')[0];
-                document.getElementById('bulkEndDate').value = nextMonth.toISOString().split('T')[0];
-            }
-        }, 100);
-
-        const formatDateKey = (date) => {
-            const d = new Date(date);
-            return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
-        };
-
-        const formatDisplayDate = (date) => {
-            const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-            return `${date.getMonth() + 1}/${date.getDate()}<br><span style="font-size:0.85em">(${days[date.getDay()]})</span>`;
-        };
-
-        const STATUS_ORDER = ['status-ok', 'status-online', 'status-ng'];
-        const STATUS_TEXT = {
-            'status-ok': '◎',
-            'status-online': '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"></path><path d="M1.42 9a16 16 0 0 1 21.16 0"></path><path d="M8.53 16.11a6 6 0 0 1 6.95 0"></path><line x1="12" y1="20" x2="12.01" y2="20"></line></svg>',
-            'status-ng': '-'
-        };
-
-        async function fetchSchedule(startDate) {
-            const dates = [];
-            for (let i = 0; i < 7; i++) {
-                const d = new Date(startDate);
-                d.setDate(startDate.getDate() + i);
-                dates.push(d);
-            }
-
-            // Headers
-            const headerContainer = document.querySelector('.schedule-header');
-            headerContainer.innerHTML = '';
-            const corner = document.createElement('div');
-            corner.className = 'date-col header-corner';
-            headerContainer.appendChild(corner);
-
-            dates.forEach(d => {
-                const div = document.createElement('div');
-                div.className = 'date-col';
-                if (d.getDay() === 6) div.classList.add('sat');
-                if (d.getDay() === 0) div.classList.add('sun');
-                div.innerHTML = `<span>${formatDisplayDate(d)}</span>`;
-                headerContainer.appendChild(div);
-            });
-
-            // Right Corner
-            const cornerRight = document.createElement('div');
-            cornerRight.className = 'date-col header-corner header-corner-right';
-            headerContainer.appendChild(cornerRight);
-
-            // Data
-            const dateKeys = dates.map(formatDateKey);
-            let dataMap = {};
-
-            const { data, error } = await client
-                .from('schedule_slots')
-                .select('*')
-                .in('date', dateKeys);
-
-            if (data && !error) {
-                data.forEach(item => {
-                    if (!dataMap[item.date]) dataMap[item.date] = {};
-                    dataMap[item.date][item.time_code] = item.status;
-                });
-            }
-
-            // Body
-            const bodyContainer = document.getElementById('schedule-body');
-            bodyContainer.innerHTML = '';
-
-            HOURS.forEach(timeCode => {
-                const row = document.createElement('div');
-                row.className = 'schedule-row';
-
-                const timeLabel = document.createElement('div');
-                timeLabel.className = 'time-label';
-                timeLabel.textContent = timeCode;
-                row.appendChild(timeLabel);
-
-                dates.forEach(d => {
-                    const dateKey = formatDateKey(d);
-                    let status = 'status-ok';
-                    if (dataMap[dateKey] && dataMap[dateKey][timeCode]) {
-                        status = dataMap[dateKey][timeCode];
-                    }
-
-                    const div = document.createElement('div');
-                    div.className = `slot ${status}`;
-                    div.innerHTML = STATUS_TEXT[status];
-                    div.style.cursor = 'pointer';
-                    div.onclick = () => toggleStatus(div, dateKey, timeCode);
-                    row.appendChild(div);
-                });
-
-                // Right Time Label
-                const timeLabelRight = document.createElement('div');
-                timeLabelRight.className = 'time-label time-label-right';
-                timeLabelRight.textContent = timeCode;
-                row.appendChild(timeLabelRight);
-
-                bodyContainer.appendChild(row);
-            });
-
-            document.querySelector('.current-month').textContent = `${startDate.getFullYear()}年 ${startDate.getMonth() + 1}月`;
-        }
-
-        async function toggleStatus(element, date, time) {
-            let currentStatus = 'status-ok';
-            if (element.classList.contains('status-online')) currentStatus = 'status-online';
-            if (element.classList.contains('status-few')) currentStatus = 'status-few';
-            if (element.classList.contains('status-full')) currentStatus = 'status-full';
-            if (element.classList.contains('status-ng')) currentStatus = 'status-ng';
-
-            const currentIndex = STATUS_ORDER.indexOf(currentStatus);
-            const nextIndex = (currentIndex + 1) % STATUS_ORDER.length;
-            const nextStatus = STATUS_ORDER[nextIndex];
-
-            // Optimistic update
-            element.className = `slot ${nextStatus}`;
-            element.innerHTML = STATUS_TEXT[nextStatus];
-
-            // Save
-            const { error } = await client
-                .from('schedule_slots')
-                .upsert({
-                    date: date,
-                    time_code: time,
-                    status: nextStatus
-                }, { onConflict: 'date, time_code' });
-
-            if (error) {
-                console.error('Error saving:', error);
-                alert('保存エラー: ' + (error.message || JSON.stringify(error)) + '\n\nSupabaseのRLS設定を確認してください。');
-                // Revert
-                element.className = `slot ${currentStatus}`;
-                element.innerHTML = STATUS_TEXT[currentStatus];
-            } else {
-                showSaveStatus();
-            }
-        }
-
-        async function applyBulk() {
-            const startDateStr = document.getElementById('bulkStartDate').value;
-            const endDateStr = document.getElementById('bulkEndDate').value;
-            const startTimeStr = document.getElementById('bulkStartTime').value;
-            const endTimeStr = document.getElementById('bulkEndTime').value;
-            const status = document.getElementById('bulkStatus').value;
-
-            const daysChecked = Array.from(document.querySelectorAll('input[name="bulkDay"]:checked')).map(cb => parseInt(cb.value));
-
-            if (!startDateStr || !endDateStr) {
-                alert("期間を指定してください");
-                return;
-            }
-
-            const start = new Date(startDateStr);
-            const end = new Date(endDateStr);
-            const items = [];
-
-            // Loop Dates
-            for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
-                if (daysChecked.includes(d.getDay())) {
-                    const dateKey = formatDateKey(d);
-
-                    // Loop Hours
-                    let startH = parseInt(startTimeStr.split(':')[0]);
-                    let endH = parseInt(endTimeStr.split(':')[0]);
-
-                    for (let h = startH; h <= endH; h++) {
-                        items.push({
+                while (curr <= end) {
+                    const dateKey = formatDateKey(curr);
+                    for (let h = startHour; h <= endHour; h++) {
+                        updates.push({
                             date: dateKey,
                             time_code: `${h}:00`,
                             status: status
                         });
                     }
+                    curr.setDate(curr.getDate() + 1);
+                }
+
+                if (updates.length === 0) {
+                    alert("対象の枠がありません");
+                    return;
+                }
+
+                if (!confirm(`${updates.length}件の枠を一括更新しますか？`)) return;
+
+                const { error } = await client
+                    .from('schedule_slots')
+                    .upsert(updates, { onConflict: 'date, time_code' });
+
+                if (error) {
+                    alert("エラー: " + error.message);
+                    return;
+                }
+
+                alert("更新完了！");
+                fetchSchedule(currentStartDate);
+            }
+
+            let currentStartDate = new Date();
+            const START_HOUR = 8;
+            const END_HOUR = 22;
+            const HOURS = [];
+            for (let i = START_HOUR; i <= END_HOUR; i++) {
+                HOURS.push(`${i}:00`);
+            }
+
+            // Init Bulk Selects
+            setTimeout(() => {
+                const bulkStartSelect = document.getElementById('bulkStartTime');
+                const bulkEndSelect = document.getElementById('bulkEndTime');
+                if (bulkStartSelect && bulkEndSelect) {
+                    HOURS.forEach(h => {
+                        const opt1 = document.createElement('option');
+                        opt1.value = h; opt1.textContent = h;
+                        bulkStartSelect.appendChild(opt1);
+                        const opt2 = document.createElement('option');
+                        opt2.value = h; opt2.textContent = h;
+                        bulkEndSelect.appendChild(opt2);
+                    });
+                    bulkEndSelect.value = "22:00";
+
+                    // Init Bulk Dates
+                    const today = new Date();
+                    const nextMonth = new Date();
+                    nextMonth.setMonth(nextMonth.getMonth() + 1);
+                    document.getElementById('bulkStartDate').value = today.toISOString().split('T')[0];
+                    document.getElementById('bulkEndDate').value = nextMonth.toISOString().split('T')[0];
+                }
+            }, 100);
+
+            const formatDateKey = (date) => {
+                const d = new Date(date);
+                return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+            };
+
+            const formatDisplayDate = (date) => {
+                const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+                return `${date.getMonth() + 1}/${date.getDate()}<br><span style="font-size:0.85em">(${days[date.getDay()]})</span>`;
+            };
+
+            const STATUS_ORDER = ['status-ok', 'status-online', 'status-ng'];
+            const STATUS_TEXT = {
+                'status-ok': '◎',
+                'status-online': '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"></path><path d="M1.42 9a16 16 0 0 1 21.16 0"></path><path d="M8.53 16.11a6 6 0 0 1 6.95 0"></path><line x1="12" y1="20" x2="12.01" y2="20"></line></svg>',
+                'status-ng': '-'
+            };
+
+            async function fetchSchedule(startDate) {
+                const dates = [];
+                for (let i = 0; i < 7; i++) {
+                    const d = new Date(startDate);
+                    d.setDate(startDate.getDate() + i);
+                    dates.push(d);
+                }
+
+                // Headers
+                const headerContainer = document.querySelector('.schedule-header');
+                headerContainer.innerHTML = '';
+                const corner = document.createElement('div');
+                corner.className = 'date-col header-corner';
+                headerContainer.appendChild(corner);
+
+                dates.forEach(d => {
+                    const div = document.createElement('div');
+                    div.className = 'date-col';
+                    if (d.getDay() === 6) div.classList.add('sat');
+                    if (d.getDay() === 0) div.classList.add('sun');
+                    div.innerHTML = `<span>${formatDisplayDate(d)}</span>`;
+                    headerContainer.appendChild(div);
+                });
+
+                // Right Corner
+                const cornerRight = document.createElement('div');
+                cornerRight.className = 'date-col header-corner header-corner-right';
+                headerContainer.appendChild(cornerRight);
+
+                // Data
+                const dateKeys = dates.map(formatDateKey);
+                let dataMap = {};
+
+                const { data, error } = await client
+                    .from('schedule_slots')
+                    .select('*')
+                    .in('date', dateKeys);
+
+                if (data && !error) {
+                    data.forEach(item => {
+                        if (!dataMap[item.date]) dataMap[item.date] = {};
+                        dataMap[item.date][item.time_code] = item.status;
+                    });
+                }
+
+                // Body
+                const bodyContainer = document.getElementById('schedule-body');
+                bodyContainer.innerHTML = '';
+
+                HOURS.forEach(timeCode => {
+                    const row = document.createElement('div');
+                    row.className = 'schedule-row';
+
+                    const timeLabel = document.createElement('div');
+                    timeLabel.className = 'time-label';
+                    timeLabel.textContent = timeCode;
+                    row.appendChild(timeLabel);
+
+                    dates.forEach(d => {
+                        const dateKey = formatDateKey(d);
+                        let status = 'status-ok';
+                        if (dataMap[dateKey] && dataMap[dateKey][timeCode]) {
+                            status = dataMap[dateKey][timeCode];
+                        }
+
+                        const div = document.createElement('div');
+                        div.className = `slot ${status}`;
+                        div.innerHTML = STATUS_TEXT[status];
+                        div.style.cursor = 'pointer';
+                        div.onclick = () => toggleStatus(div, dateKey, timeCode);
+                        row.appendChild(div);
+                    });
+
+                    // Right Time Label
+                    const timeLabelRight = document.createElement('div');
+                    timeLabelRight.className = 'time-label time-label-right';
+                    timeLabelRight.textContent = timeCode;
+                    row.appendChild(timeLabelRight);
+
+                    bodyContainer.appendChild(row);
+                });
+
+                document.querySelector('.current-month').textContent = `${startDate.getFullYear()}年 ${startDate.getMonth() + 1}月`;
+            }
+
+            async function toggleStatus(element, date, time) {
+                let currentStatus = 'status-ok';
+                if (element.classList.contains('status-online')) currentStatus = 'status-online';
+                if (element.classList.contains('status-few')) currentStatus = 'status-few';
+                if (element.classList.contains('status-full')) currentStatus = 'status-full';
+                if (element.classList.contains('status-ng')) currentStatus = 'status-ng';
+
+                const currentIndex = STATUS_ORDER.indexOf(currentStatus);
+                const nextIndex = (currentIndex + 1) % STATUS_ORDER.length;
+                const nextStatus = STATUS_ORDER[nextIndex];
+
+                // Optimistic update
+                element.className = `slot ${nextStatus}`;
+                element.innerHTML = STATUS_TEXT[nextStatus];
+
+                // Save
+                const { error } = await client
+                    .from('schedule_slots')
+                    .upsert({
+                        date: date,
+                        time_code: time,
+                        status: nextStatus
+                    }, { onConflict: 'date, time_code' });
+
+                if (error) {
+                    console.error('Error saving:', error);
+                    alert('保存エラー: ' + (error.message || JSON.stringify(error)) + '\n\nSupabaseのRLS設定を確認してください。');
+                    // Revert
+                    element.className = `slot ${currentStatus}`;
+                    element.innerHTML = STATUS_TEXT[currentStatus];
+                } else {
+                    showSaveStatus();
                 }
             }
 
-            if (items.length === 0) {
-                alert("対象の枠がありません");
-                return;
+            async function applyBulk() {
+                const startDateStr = document.getElementById('bulkStartDate').value;
+                const endDateStr = document.getElementById('bulkEndDate').value;
+                const startTimeStr = document.getElementById('bulkStartTime').value;
+                const endTimeStr = document.getElementById('bulkEndTime').value;
+                const status = document.getElementById('bulkStatus').value;
+
+                const daysChecked = Array.from(document.querySelectorAll('input[name="bulkDay"]:checked')).map(cb => parseInt(cb.value));
+
+                if (!startDateStr || !endDateStr) {
+                    alert("期間を指定してください");
+                    return;
+                }
+
+                const start = new Date(startDateStr);
+                const end = new Date(endDateStr);
+                const items = [];
+
+                // Loop Dates
+                for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
+                    if (daysChecked.includes(d.getDay())) {
+                        const dateKey = formatDateKey(d);
+
+                        // Loop Hours
+                        let startH = parseInt(startTimeStr.split(':')[0]);
+                        let endH = parseInt(endTimeStr.split(':')[0]);
+
+                        for (let h = startH; h <= endH; h++) {
+                            items.push({
+                                date: dateKey,
+                                time_code: `${h}:00`,
+                                status: status
+                            });
+                        }
+                    }
+                }
+
+                if (items.length === 0) {
+                    alert("対象の枠がありません");
+                    return;
+                }
+
+                if (!confirm(`${items.length}件の枠を一括更新しますか？`)) return;
+
+                // Batch Upsert
+                const { error } = await client
+                    .from('schedule_slots')
+                    .upsert(items, { onConflict: 'date, time_code' });
+
+                if (error) {
+                    console.error('Bulk Error:', error);
+                    alert('一括更新エラー: ' + (error.message || JSON.stringify(error)) + '\n\nSupabaseのRLS設定を確認してください。');
+                } else {
+                    alert('一括更新完了しました');
+                    fetchSchedule(currentStartDate);
+                }
             }
 
-            if (!confirm(`${items.length}件の枠を一括更新しますか？`)) return;
+            function showSaveStatus() {
+                const el = document.getElementById('saveStatus');
+                el.classList.add('show');
+                setTimeout(() => el.classList.remove('show'), 2000);
+            }
 
-            // Batch Upsert
-            const { error } = await client
-                .from('schedule_slots')
-                .upsert(items, { onConflict: 'date, time_code' });
-
-            if (error) {
-                console.error('Bulk Error:', error);
-                alert('一括更新エラー: ' + (error.message || JSON.stringify(error)) + '\n\nSupabaseのRLS設定を確認してください。');
-            } else {
-                alert('一括更新完了しました');
+            document.getElementById('prevWeek').addEventListener('click', () => {
+                const newDate = new Date(currentStartDate);
+                newDate.setDate(newDate.getDate() - 7);
+                currentStartDate = newDate;
                 fetchSchedule(currentStartDate);
-            }
-        }
+            });
+            document.getElementById('nextWeek').addEventListener('click', () => {
+                const newDate = new Date(currentStartDate);
+                newDate.setDate(newDate.getDate() + 7);
+                currentStartDate = newDate;
+                fetchSchedule(currentStartDate);
+            });
 
-        function showSaveStatus() {
-            const el = document.getElementById('saveStatus');
-            el.classList.add('show');
-            setTimeout(() => el.classList.remove('show'), 2000);
-        }
-
-        document.getElementById('prevWeek').addEventListener('click', () => {
-            const newDate = new Date(currentStartDate);
-            newDate.setDate(newDate.getDate() - 7);
-            currentStartDate = newDate;
+            // Init
             fetchSchedule(currentStartDate);
-        });
-        document.getElementById('nextWeek').addEventListener('click', () => {
-            const newDate = new Date(currentStartDate);
-            newDate.setDate(newDate.getDate() + 7);
-            currentStartDate = newDate;
-            fetchSchedule(currentStartDate);
-        });
-
-        // Init
-        fetchSchedule(currentStartDate);
-    </script>
+        </script>
 </body>
 
 </html>

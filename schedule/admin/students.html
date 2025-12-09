@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Students | Nist Studio Admin</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link rel="stylesheet" href="../../style.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Noto+Sans+JP:wght@400;500;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .students-container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .action-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .search-box input {
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid #444;
+            background: #222;
+            color: white;
+            width: 300px;
+        }
+
+        .student-list {
+            width: 100%;
+            border-collapse: collapse;
+            background: #1a1a1a;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .student-list th,
+        .student-list td {
+            text-align: left;
+            padding: 15px;
+            border-bottom: 1px solid #333;
+        }
+
+        .student-list th {
+            background: #333;
+            color: var(--accent-gold);
+            font-weight: bold;
+        }
+
+        .student-list tr:hover {
+            background: rgba(255, 255, 255, 0.02);
+            cursor: pointer;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: #1a1a1a;
+            padding: 30px;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 500px;
+            border: 1px solid var(--accent-gold);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #ccc;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            background: #333;
+            border: 1px solid #555;
+            color: white;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header
+        style="position: sticky; top: 0; z-index: 100; background: rgba(18, 18, 18, 0.95); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.1);">
+        <div class="container"
+            style="display: flex; align-items: center; justify-content: space-between; height: 70px;">
+            <div class="logo">
+                <a href="../../index.html"
+                    style="font-size: 1.5rem; font-weight: 700; color: white; text-decoration: none;">
+                    Nist <span style="color: var(--accent-gold);">Studio</span> <span
+                        style="font-size: 0.8rem; opacity: 0.7;">Admin</span>
+                </a>
+            </div>
+            <nav class="nav-links">
+                <a href="index.html" style="color: #ccc; text-decoration: none; margin-right: 20px;">スケジュール</a>
+                <a href="students.html"
+                    style="color: var(--accent-gold); text-decoration: none; font-weight: bold;">生徒管理</a>
+                <a href="../../index.html" style="margin-left: 20px; font-size: 0.9rem; color: #666;">Exit</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="students-container">
+        <h1 class="section-title">生徒管理</h1>
+
+        <div class="action-bar">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="名前やメールで検索..." onkeyup="filterStudents()">
+            </div>
+            <button class="cal-btn" onclick="openAddModal()" style="background: var(--accent-blue);">+ 生徒登録</button>
+        </div>
+
+        <table class="student-list">
+            <thead>
+                <tr>
+                    <th>名前</th>
+                    <th>メールアドレス</th>
+                    <th>電話番号</th>
+                    <th>メモ</th>
+                </tr>
+            </thead>
+            <tbody id="studentTableBody">
+                <!-- JS Generated -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Add Student Modal -->
+    <div id="addModal" class="modal">
+        <div class="modal-content">
+            <h3 style="margin-bottom: 20px; color: var(--accent-gold);">新規生徒登録</h3>
+            <div class="form-group">
+                <label>名前 (必須)</label>
+                <input type="text" id="new_name" required>
+            </div>
+            <div class="form-group">
+                <label>メールアドレス</label>
+                <input type="email" id="new_email">
+            </div>
+            <div class="form-group">
+                <label>電話番号</label>
+                <input type="text" id="new_phone">
+            </div>
+            <div class="form-group">
+                <label>メモ</label>
+                <textarea id="new_memo" rows="3"></textarea>
+            </div>
+            <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px;">
+                <button class="cal-btn" onclick="closeModal()" style="background: #444;">キャンセル</button>
+                <button class="cal-btn" onclick="saveStudent()"
+                    style="background: var(--accent-gold); color: black;">登録</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const SUPABASE_URL = 'https://yptegzzukymqotzchgnp.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlwdGVnenp1a3ltcW90emNoZ25wIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM4NDU1MTYsImV4cCI6MjA3OTQyMTUxNn0.iKWkVYwlKrSBlJKUxRebbGRcgvprzkcyAOgDaCHKLSY';
+        const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        let allStudents = [];
+
+        async function fetchStudents() {
+            const { data, error } = await client
+                .from('students')
+                .select('*')
+                .order('created_at', { ascending: false });
+
+            if (error) {
+                console.error("Error fetching students:", error);
+                alert("生徒データの取得に失敗しました。テーブルが存在しない可能性があります。");
+                return;
+            }
+            allStudents = data;
+            renderStudents(allStudents);
+        }
+
+        function renderStudents(list) {
+            const tbody = document.getElementById('studentTableBody');
+            tbody.innerHTML = '';
+            list.forEach(student => {
+                const tr = document.createElement('tr');
+                tr.onclick = () => alert("詳細ページはまだ実装中です: " + student.name); // Placeholder for detail link
+                tr.innerHTML = `
+                    <td style="font-weight: bold; color: white;">${student.name}</td>
+                    <td>${student.email || '-'}</td>
+                    <td>${student.phone || '-'}</td>
+                    <td style="color: #888; font-size: 0.9em;">${student.memo || '-'}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function filterStudents() {
+            const term = document.getElementById('searchInput').value.toLowerCase();
+            const filtered = allStudents.filter(s =>
+                s.name.toLowerCase().includes(term) ||
+                (s.email && s.email.toLowerCase().includes(term))
+            );
+            renderStudents(filtered);
+        }
+
+        // Modal Logic
+        const modal = document.getElementById('addModal');
+        function openAddModal() { modal.style.display = 'flex'; }
+        function closeModal() { modal.style.display = 'none'; }
+
+        async function saveStudent() {
+            const name = document.getElementById('new_name').value.trim();
+            const email = document.getElementById('new_email').value.trim();
+            const phone = document.getElementById('new_phone').value.trim();
+            const memo = document.getElementById('new_memo').value.trim();
+
+            if (!name) { alert("名前は必須です"); return; }
+
+            const { error } = await client
+                .from('students')
+                .insert([{ name, email, phone, memo }]);
+
+            if (error) {
+                alert("登録エラー: " + error.message);
+                return;
+            }
+
+            alert("登録しました！");
+            closeModal();
+            // Clear inputs
+            document.getElementById('new_name').value = '';
+            document.getElementById('new_email').value = '';
+            document.getElementById('new_phone').value = '';
+            document.getElementById('new_memo').value = '';
+
+            fetchStudents();
+        }
+
+        // Init
+        fetchStudents();
+    </script>
+</body>
+
+</html>
