@@ -1641,92 +1641,91 @@ ul {
         font-size: 1.3rem !important;
     }
 
-    /* Mobile Light Theme for Calendar (Flexbox Restored) */
+    /* Mobile Light Theme with CSS Grid (Robust Sticky) */
     .schedule-grid {
         background: #f9f9f9;
         border: 1px solid #ddd;
-        /* Ensure overflow works */
-        overflow-x: auto;
-        overflow-y: auto;
+        /* Grid Layout for entire table */
+        display: grid;
+        grid-template-columns: 70px repeat(7, 100px);
+        /* Fixed columns */
+        overflow: auto;
+        /* Force container height constraint if needed, usually max-height: 80vh exists */
     }
 
-    #schedule-body {
-        display: block;
-        width: max-content;
-    }
-
+    /* Flatten DOM structure for Grid */
+    #schedule-body,
     .schedule-header,
-    .header-corner,
-    .date-col,
-    .time-label {
+    .schedule-row {
+        display: contents;
+    }
+
+    /* Hide the visual Right Column backup */
+    .time-label-right,
+    .header-corner-right {
+        display: none !important;
+    }
+
+    /* Sticky Positioning on Direct Grid Items */
+    .header-corner {
+        grid-column: 1;
+        grid-row: 1;
+        position: -webkit-sticky;
+        position: sticky;
+        left: 0;
+        top: 0;
+        z-index: 100;
+        /* Highest priority */
+        background: #f0f0f0;
+        border-right: 2px solid #bbb;
+        border-bottom: 2px solid #bbb;
+    }
+
+    .date-col {
+        grid-row: 1;
+        position: -webkit-sticky;
+        position: sticky;
+        top: 0;
+        z-index: 90;
+        /* High priority header */
         background: #f0f0f0;
         color: #333;
-        border-color: #ccc;
-    }
-
-    .header-corner {
-        z-index: 40;
-        border-right: 1px solid #bbb;
-        border-bottom: 1px solid #bbb;
-    }
-
-    .schedule-header {
-        border-bottom: 1px solid #bbb;
+        border-bottom: 2px solid #bbb;
+        border-right: 1px solid #ddd;
+        display: flex;
+        /* alignment */
+        align-items: center;
+        justify-content: center;
     }
 
     .time-label {
+        grid-column: 1;
+        position: -webkit-sticky;
+        position: sticky;
+        left: 0;
+        z-index: 80;
+        /* Above slots */
         background: #f0f0f0;
         color: #444;
         font-weight: bold;
         border-right: 2px solid #bbb;
-        z-index: 30;
-        left: 0;
-        position: -webkit-sticky;
-        position: sticky;
-        min-width: 70px;
-        height: 60px;
-        /* Force height */
+        border-bottom: 1px solid #e0e0e0;
         display: flex;
         align-items: center;
         justify-content: center;
-    }
-
-    .time-label-right {
-        border-right: none;
-        border-left: 2px solid #bbb;
-        position: static;
-        /* Static for now */
-        left: auto;
-    }
-
-    .header-corner-right {
-        border-right: none;
-        border-left: 1px solid #bbb;
-    }
-
-    .schedule-row {
-        display: flex;
-        /* Restore Flex */
-        width: max-content;
-        border-bottom: 1px solid #e0e0e0;
-    }
-
-    .date-col {
-        border-right: 1px solid #e0e0e0;
     }
 
     .slot {
-        display: flex;
-        /* Restore Flex for center alignment */
-        align-items: center;
-        justify-content: center;
-
         background: #fff;
         border-right: 1px solid #eee;
+        border-bottom: 1px solid #eee;
         color: #333;
-        width: 100px;
-        /* Restore Fixed Width */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        /* Width/Height handled by Grid */
         height: 60px;
+        /* Ensure row height */
     }
 
     .slot:hover {
