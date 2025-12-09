@@ -1324,12 +1324,12 @@ ul {
 /* Sticky Grid - Fixed Alignment */
 .schedule-grid {
     background: #1e1e1e;
-    border: 1px solid #444;
+    border: 1: 1px solid #444;
     border-radius: 8px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     overflow-x: auto;
-    overflow-y: hidden;
-    /* Let body handle Y height if needed, OR explicit height. Set limit */
+    overflow-y: auto;
+    /* Allow vertical scroll */
     position: relative;
     max-height: 80vh;
     /* Prevent diagonal scroll on parent by locking axis */
