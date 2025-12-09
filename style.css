@@ -1545,4 +1545,25 @@ ul {
         overflow-x: hidden;
         /* Prevent diagonal / horizontal body scroll */
     }
+
+    /* Compact Typography */
+    .page-hero {
+        padding: 110px 0 40px;
+    }
+
+    .page-title {
+        font-size: 1.8rem;
+        margin-bottom: 15px;
+        line-height: 1.2;
+    }
+
+    .page-desc {
+        font-size: 0.85rem;
+        line-height: 1.5;
+        padding: 0 15px;
+    }
+
+    .section-title {
+        font-size: 1.6rem;
+    }
 }
