@@ -8,7 +8,7 @@
     <link rel="icon" href="../../img/favicon.png">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="../../style.css?v=16">
+    <link rel="stylesheet" href="../../style.css?v=17">
     <style>
         .admin-controls {
             margin-bottom: 20px;
@@ -91,6 +91,20 @@
                     style="background: var(--accent-teal-dark); border: none;">一括適用</button>
             </div>
 
+            <!-- AI Update UI -->
+            <div
+                style="background: rgba(100, 200, 255, 0.05); padding: 20px; border-radius: 8px; margin-bottom: 30px; text-align: center; border: 1px solid var(--accent-teal);">
+                <h3 style="margin-bottom: 15px; font-size: 1.2rem; color: var(--accent-teal);">AIで更新 (Gemini)</h3>
+                <div style="max-width: 600px; margin: 0 auto;">
+                    <input type="password" id="geminiKey" placeholder="Gemini API Key"
+                        style="width: 100%; padding: 8px; margin-bottom: 10px; background: #222; color: white; border: 1px solid #444; border-radius: 4px;">
+                    <textarea id="aiInstruction" placeholder="例: 「来週の月曜と水曜、14時から18時まで満席にして」「12/25の全枠を受付不可に」"
+                        style="width: 100%; height: 80px; padding: 8px; background: #222; color: white; border: 1px solid #444; border-radius: 4px; margin-bottom: 10px;"></textarea>
+                    <button onclick="runAIUpdate()" id="aiBtn" class="cal-btn"
+                        style="background: var(--primary-neon); color: black; border: none; font-weight: bold;">AI実行</button>
+                </div>
+            </div>
+
             <div class="calendar-controls">
                 <button class="cal-btn" id="prevWeek">前の週</button>
                 <h2 class="current-month"></h2>
@@ -120,6 +134,95 @@
         const SUPABASE_URL = 'https://yptegzzukymqotzchgnp.supabase.co';
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlwdGVnenp1a3ltcW90emNoZ25wIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM4NDU1MTYsImV4cCI6MjA3OTQyMTUxNn0.iKWkVYwlKrSBlJKUxRebbGRcgvprzkcyAOgDaCHKLSY';
         const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        // Load Gemini Key
+        const savedKey = localStorage.getItem('gemini_key');
+        if (savedKey) document.getElementById('geminiKey').value = savedKey;
+
+        async function runAIUpdate() {
+            const key = document.getElementById('geminiKey').value.trim();
+            const text = document.getElementById('aiInstruction').value.trim();
+
+            if (!key) { alert("API Keyを入力してください"); return; }
+            if (!text) { alert("指示を入力してください"); return; }
+
+            localStorage.setItem('gemini_key', key);
+
+            const btn = document.getElementById('aiBtn');
+            const originalText = btn.textContent;
+            btn.textContent = "解析中...";
+            btn.disabled = true;
+
+            try {
+                // Construct Prompt
+                const todayStr = new Date().toISOString().split('T')[0];
+                const prompt = `
+                You are a schedule management assistant.
+                Today is ${todayStr}.
+                The user wants to update schedule slots.
+                Slots are hourly from 10:00 to 22:00.
+                Statuses:
+                - status-ok (Open/Available)
+                - status-few (Few left)
+                - status-full (Full/Booked)
+                - status-ng (Closed/Not Available)
+
+                Instruction: "${text}"
+
+                Return a JSON ARRAY of objects. Each object must have:
+                - "date": "YYYY-MM-DD"
+                - "time_code": "HH:MM" (e.g. "10:00", "11:00")
+                - "status": "status-..."
+
+                Only return the JSON array. No markdown.
+                If instruction implies a range (e.g. 14:00-18:00), generate objects for EACH hour (14:00, 15:00, 16:00, 17:00).
+                If instruction says "Next Monday", calculate the date based on Today (${todayStr}).
+                `;
+
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${key}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{ parts: [{ text: prompt }] }]
+                    })
+                });
+
+                const json = await response.json();
+                if (json.error) throw new Error(json.error.message);
+
+                let content = json.candidates[0].content.parts[0].text;
+                // Clean markdown
+                content = content.replace(/```json/g, '').replace(/```/g, '').trim();
+
+                const updates = JSON.parse(content);
+
+                if (!Array.isArray(updates) || updates.length === 0) {
+                    alert("更新内容を解析できませんでした");
+                    return;
+                }
+
+                if (!confirm(`${updates.length}件の枠を更新します。\n例: ${updates[0].date} ${updates[0].time_code} -> ${updates[0].status}`)) return;
+
+                // Execute Upsert
+                const { error } = await client
+                    .from('schedule_slots')
+                    .upsert(updates, { onConflict: 'date, time_code' });
+
+                if (error) {
+                    throw error;
+                }
+
+                alert("AI更新完了！");
+                fetchSchedule(currentStartDate);
+
+            } catch (e) {
+                console.error(e);
+                alert("エラー: " + e.message);
+            } finally {
+                btn.textContent = originalText;
+                btn.disabled = false;
+            }
+        }
 
         let currentStartDate = new Date();
         const START_HOUR = 10;
