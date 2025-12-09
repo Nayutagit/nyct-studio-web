@@ -1335,8 +1335,9 @@ ul {
     /* Prevent diagonal scroll on parent by locking axis */
     touch-action: pan-x pan-y;
 
-    /* Center on Desktop */
+    /* Center on Desktop, but prevent overflow */
     width: fit-content;
+    max-width: 100%;
     margin: 0 auto;
 }
 
