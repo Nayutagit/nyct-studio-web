@@ -1309,6 +1309,11 @@ ul {
     color: var(--primary-neon);
 }
 
+.status-online {
+    color: #00f0ff;
+    /* Neon Cyan for Online Only */
+}
+
 .status-few {
     color: var(--accent-teal);
 }
