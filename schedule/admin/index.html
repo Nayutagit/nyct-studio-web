@@ -8,7 +8,7 @@
     <link rel="icon" href="../../img/favicon.png">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="../../style.css?v=43">
+    <link rel="stylesheet" href="../../style.css?v=44">
     <script src="https://kit.fontawesome.com/aa13b8dc63.js" crossorigin="anonymous"></script>
     <style>
         .admin-controls {
@@ -45,69 +45,6 @@
             <h1 class="section-title">スケジュール管理</h1>
             <p style="text-align: center; margin-bottom: 20px;">クリックしてステータスを変更（◎ → △ → × → -）</p>
 
-            <!-- Bulk Update UI -->
-            <div
-                style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 8px; margin-bottom: 30px; text-align: center;">
-                <h3 style="margin-bottom: 15px; font-size: 1.2rem; color: var(--primary-neon);">一括更新</h3>
-                <div
-                    style="display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; align-items: center; margin-bottom: 15px;">
-                    <div>
-                        <label>期間:</label>
-                        <input type="date" id="bulkStartDate"
-                            style="padding: 5px; background: #333; color: white; border: 1px solid #555;">
-                        <span>〜</span>
-                        <input type="date" id="bulkEndDate"
-                            style="padding: 5px; background: #333; color: white; border: 1px solid #555;">
-                    </div>
-                    <div>
-                        <label>時間:</label>
-                        <select id="bulkStartTime"
-                            style="padding: 5px; background: #333; color: white; border: 1px solid #555;"></select>
-                        <span>〜</span>
-                        <select id="bulkEndTime"
-                            style="padding: 5px; background: #333; color: white; border: 1px solid #555;"></select>
-                    </div>
-                    <div>
-                        <label>ステータス:</label>
-                        <select id="bulkStatus"
-                            style="padding: 10px; border-radius: 4px; border: 1px solid #444; background: #333; color: white;">
-                            <option value="status-ok">◎ 余裕あり</option>
-                            <option value="status-online">Online Only</option>
-                            <option value="status-ng">- 受付不可</option>
-                        </select>
-                    </div>
-                </div>
-                <div style="margin-bottom: 15px;">
-                    <label>曜日:</label>
-                    <label><input type="checkbox" name="bulkDay" value="1" checked> 月</label>
-                    <label><input type="checkbox" name="bulkDay" value="2" checked> 火</label>
-                    <label><input type="checkbox" name="bulkDay" value="3" checked> 水</label>
-                    <label><input type="checkbox" name="bulkDay" value="4" checked> 木</label>
-                    <label><input type="checkbox" name="bulkDay" value="5" checked> 金</label>
-                    <label><input type="checkbox" name="bulkDay" value="6" checked> 土</label>
-                    <label><input type="checkbox" name="bulkDay" value="0" checked> 日</label>
-                </div>
-                <button onclick="applyBulk()" class="cal-btn"
-                    style="background: var(--accent-teal-dark); border: none;">一括適用</button>
-            </div>
-
-            <!-- AI Update UI -->
-            <div
-                style="background: rgba(100, 200, 255, 0.05); padding: 20px; border-radius: 8px; margin-bottom: 30px; text-align: center; border: 1px solid var(--accent-teal);">
-                <h3 style="margin-bottom: 15px; font-size: 1.2rem; color: var(--accent-teal);">AIで更新 (Gemini)</h3>
-                <div style="max-width: 600px; margin: 0 auto;">
-                    <input type="password" id="geminiKey" placeholder="Gemini API Key"
-                        style="padding: 10px; border-radius: 4px; border: 1px solid #444; background: #333; color: white; width: 300px;">
-                    <input type="text" id="geminiModel" placeholder="Model Name (e.g. gemini-2.0-flash)"
-                        value="gemini-2.0-flash-exp"
-                        style="padding: 10px; border-radius: 4px; border: 1px solid #444; background: #333; color: white; width: 200px; margin-left: 10px;">
-                    <textarea id="aiInstruction" placeholder="例: 「来週の月曜と水曜、14時から18時まで満席にして」「12/25の全枠を受付不可に」"
-                        style="width: 100%; height: 80px; padding: 8px; background: #222; color: white; border: 1px solid #444; border-radius: 4px; margin-bottom: 10px;"></textarea>
-                    <button onclick="runAIUpdate()" id="aiBtn" class="cal-btn"
-                        style="background: var(--primary-neon); color: black; border: none; font-weight: bold;">AI実行</button>
-                </div>
-            </div>
-
             <div class="calendar-controls">
                 <button class="cal-btn" id="prevWeek">前の週</button>
                 <h2 class="current-month"></h2>
@@ -140,111 +77,6 @@
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlwdGVnenp1a3ltcW90emNoZ25wIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM4NDU1MTYsImV4cCI6MjA3OTQyMTUxNn0.iKWkVYwlKrSBlJKUxRebbGRcgvprzkcyAOgDaCHKLSY';
         const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-        // Load Gemini Key
-        const savedKey = localStorage.getItem('gemini_key');
-        if (savedKey) document.getElementById('geminiKey').value = savedKey;
-
-        async function runAIUpdate() {
-            const key = document.getElementById('geminiKey').value.trim();
-            const text = document.getElementById('aiInstruction').value.trim();
-
-            if (!key) { alert("API Keyを入力してください"); return; }
-            if (!text) { alert("指示を入力してください"); return; }
-
-            localStorage.setItem('gemini_key', key);
-
-            const btn = document.getElementById('aiBtn');
-            const originalText = btn.textContent;
-            btn.textContent = "解析中...";
-            btn.disabled = true;
-
-            try {
-                // Construct Prompt
-                const todayStr = new Date().toISOString().split('T')[0];
-                const prompt = `
-                You are a schedule management assistant.
-                Today is ${todayStr}.
-                The user wants to update schedule slots.
-                Slots are hourly from 10:00 to 22:00.
-                Statuses:
-                - status-ok (Open/Available)
-                - status-few (Few left)
-                - status-full (Full/Booked)
-                - status-ng (Closed/Not Available)
-
-                Instruction: "${text}"
-
-                Return a JSON ARRAY of objects. Each object must have:
-                - "date": "YYYY-MM-DD"
-                - "time_code": "HH:MM" (e.g. "10:00", "11:00")
-                - "status": "status-..."
-
-                Only return the JSON array. No markdown.
-                If instruction implies a range (e.g. 14:00-18:00), generate objects for EACH hour (14:00, 15:00, 16:00, 17:00).
-                If instruction says "Next Monday", calculate the date based on Today (${todayStr}).
-                `;
-
-                const modelName = document.getElementById('geminiModel').value.trim() || 'gemini-2.0-flash';
-
-                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${key}`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        contents: [{ parts: [{ text: prompt }] }]
-                    })
-                });
-
-                const result = await response.json();
-
-                if (result.error) {
-                    // Diagnostic: Check available models if not found
-                    if (result.error.code === 404 || result.error.message.includes('not found')) {
-                        const listResp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${key}`);
-                        const listData = await listResp.json();
-                        if (listData.models) {
-                            const modelNames = listData.models.map(m => m.name.split('/').pop()).join(', ');
-                            alert(`指定したAIモデルがあなたのキーで見つかりませんでした。\n利用可能なモデル一覧: ${modelNames}\n\ngemini-proに切り替えて再試行してみてください。`);
-                            btn.textContent = 'AI実行 (エラー)';
-                            return;
-                        }
-                    }
-                    console.error('Gemini API Error:', result.error);
-                    alert(`AIエラー: ${result.error.message}`);
-                    btn.textContent = 'AI実行 (エラー)';
-                    return;
-                }
-
-                const jsonText = result.candidates[0].content.parts[0].text;
-                const cleanJson = jsonText.replace(/```json/g, '').replace(/```/g, '').trim();
-                const updates = JSON.parse(cleanJson);
-
-                // Confirmation
-                if (!confirm(`${updates.length}件の枠を更新します。\n例: ${updates[0].date} ${updates[0].time_code} -> ${updates[0].status}`)) {
-                    btn.textContent = originalText; // Revert button text if cancelled
-                    btn.disabled = false;
-                    return;
-                }
-
-                // Execute Upsert using existing client
-                const { error } = await client
-                    .from('schedule_slots')
-                    .upsert(updates, { onConflict: 'date, time_code' });
-
-                if (error) throw error;
-
-                alert("AI更新完了！");
-                fetchSchedule(currentStartDate);
-                btn.textContent = 'AI実行 (完了)';
-
-            } catch (e) {
-                console.error('AI Request Failed:', e);
-                alert('AIリクエストに失敗しました: ' + e.message);
-                btn.textContent = 'AI実行 (失敗)';
-            } finally {
-                btn.disabled = false;
-            }
-        }
-
         let currentStartDate = new Date();
         const START_HOUR = 10;
         const END_HOUR = 22;
@@ -252,26 +84,6 @@
         for (let i = START_HOUR; i <= END_HOUR; i++) {
             HOURS.push(`${i}:00`);
         }
-
-        // Init Bulk Selects
-        const bulkStartSelect = document.getElementById('bulkStartTime');
-        const bulkEndSelect = document.getElementById('bulkEndTime');
-        HOURS.forEach(h => {
-            const opt1 = document.createElement('option');
-            opt1.value = h; opt1.textContent = h;
-            bulkStartSelect.appendChild(opt1);
-            const opt2 = document.createElement('option');
-            opt2.value = h; opt2.textContent = h;
-            bulkEndSelect.appendChild(opt2);
-        });
-        bulkEndSelect.value = "22:00";
-
-        // Init Bulk Dates (Default: Today + 1 month)
-        const today = new Date();
-        const nextMonth = new Date();
-        nextMonth.setMonth(nextMonth.getMonth() + 1);
-        document.getElementById('bulkStartDate').value = today.toISOString().split('T')[0];
-        document.getElementById('bulkEndDate').value = nextMonth.toISOString().split('T')[0];
 
         const formatDateKey = (date) => {
             const d = new Date(date);
