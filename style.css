@@ -1334,6 +1334,10 @@ ul {
     max-height: 80vh;
     /* Prevent diagonal scroll on parent by locking axis */
     touch-action: pan-x pan-y;
+
+    /* Center on Desktop */
+    width: fit-content;
+    margin: 0 auto;
 }
 
 /* Force strict column widths for alignment */
