@@ -8,7 +8,7 @@
     <link rel="icon" href="../../img/favicon.png">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="../../style.css?v=41">
+    <link rel="stylesheet" href="../../style.css?v=42">
     <script src="https://kit.fontawesome.com/aa13b8dc63.js" crossorigin="anonymous"></script>
     <style>
         .admin-controls {
@@ -70,11 +70,9 @@
                     <div>
                         <label>ステータス:</label>
                         <select id="bulkStatus"
-                            style="padding: 5px; background: #333; color: white; border: 1px solid #555;">
+                            style="padding: 10px; border-radius: 4px; border: 1px solid #444; background: #333; color: white;">
                             <option value="status-ok">◎ 余裕あり</option>
-                            <option value="status-online">Wifi オンラインのみ</option>
-                            <option value="status-few">△ 残りわずか</option>
-                            <option value="status-full">× 満席</option>
+                            <option value="status-online">Online Only</option>
                             <option value="status-ng">- 受付不可</option>
                         </select>
                     </div>
@@ -285,12 +283,10 @@
             return `${date.getMonth() + 1}/${date.getDate()}<br><span style="font-size:0.85em">(${days[date.getDay()]})</span>`;
         };
 
-        const STATUS_ORDER = ['status-ok', 'status-online', 'status-few', 'status-full', 'status-ng'];
+        const STATUS_ORDER = ['status-ok', 'status-online', 'status-ng'];
         const STATUS_TEXT = {
             'status-ok': '◎',
             'status-online': '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"></path><path d="M1.42 9a16 16 0 0 1 21.16 0"></path><path d="M8.53 16.11a6 6 0 0 1 6.95 0"></path><line x1="12" y1="20" x2="12.01" y2="20"></line></svg>',
-            'status-few': '△',
-            'status-full': '×',
             'status-ng': '-'
         };
 
