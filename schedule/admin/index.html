@@ -8,7 +8,7 @@
     <link rel="icon" href="../../img/favicon.png">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="../../style.css?v=56">
+    <link rel="stylesheet" href="../../style.css?v=58">
     <script src="https://kit.fontawesome.com/aa13b8dc63.js" crossorigin="anonymous"></script>
     <style>
         .admin-controls {
@@ -42,9 +42,10 @@
                 style="display: flex; align-items: center; justify-content: space-between; height: 70px;">
                 <div class="logo">
                     <a href="../../index.html"
-                        style="font-size: 1.5rem; font-weight: 700; color: white; text-decoration: none;">
-                        ニスト<span style="color: var(--accent-gold);">スタジオ</span> <span
-                            style="font-size: 0.8rem; opacity: 0.7;">Admin</span>
+                        style="font-size: 1.5rem; font-weight: 700; color: white; text-decoration: none; display: flex; align-items: center; gap: 0;">
+                        <span style="color: white;">ニスト</span>
+                        <span style="color: var(--accent-gold);">スタジオ</span>
+                        <span style="font-size: 0.8rem; opacity: 0.7; margin-left: 10px; color: white;">Admin</span>
                     </a>
                 </div>
                 <nav class="nav-links">
@@ -302,20 +303,49 @@
                     headerContainer.appendChild(div);
                 });
 
-                // Fetch Schedule with Student Joining
+                // Fetch Data (Application-Side Join for Robustness)
                 const dateKeys = dates.map(formatDateKey);
                 scheduleData = {};
 
-                // Use 'select' with embedded resource 'students'
-                // Note: requires Foreign Key from schedule_slots.student_id -> students.id
-                const { data, error } = await client
+                // 1. Fetch Slots
+                const { data: slots, error: slotError } = await client
                     .from('schedule_slots')
-                    .select('*, students(*)')
+                    .select('*')
                     .in('date', dateKeys);
 
-                if (data && !error) {
-                    data.forEach(item => {
+                if (slotError) {
+                    console.error("Slot Fetch Error:", slotError);
+                    document.getElementById('schedule-body').innerHTML = '<p style="color:red; text-align:center;">データ取得エラーが発生しました</p>';
+                    return;
+                }
+
+                if (slots) {
+                    // 2. Extract Student IDs
+                    const studentIds = [...new Set(slots.filter(s => s.student_id).map(s => s.student_id))];
+
+                    let studentMap = {};
+                    if (studentIds.length > 0) {
+                        // 3. Fetch Students
+                        const { data: students, error: studentError } = await client
+                            .from('students')
+                            .select('*')
+                            .in('id', studentIds);
+
+                        if (students) {
+                            students.forEach(s => studentMap[s.id] = s);
+                        }
+                    }
+
+                    // 4. Merge
+                    slots.forEach(item => {
                         if (!scheduleData[item.date]) scheduleData[item.date] = {};
+                        if (item.student_id && studentMap[item.student_id]) {
+                            item.students = studentMap[item.student_id]; // Attach manually
+                            // Handle old schema fallback
+                            if (!item.students.last_name && item.students.name) {
+                                item.students.last_name = item.students.name;
+                            }
+                        }
                         scheduleData[item.date][item.time_code] = item;
                     });
                 }
@@ -335,25 +365,25 @@
                     dates.forEach(d => {
                         const dateKey = formatDateKey(d);
                         const record = scheduleData[dateKey] ? scheduleData[dateKey][timeCode] : null;
- let status = record ? record.status : 'status-ng'; // Default Closed
+
+                        let status = record ? record.status : 'status-ng'; // Default Closed
                         let displayText = STATUS_TEXT[status];
                         let slotClass = `slot ${status}`;
 
                         // If student assigned
                         if (record && record.student_id) {
                             slotClass += ' booked';
-                            status = 'status-booked'; // Custom class for styling?
-                            // Show student Name (Use new Split Names)
+                            status = 'status-booked';
+
                             let sName = "Unknown";
                             if (record.students) {
                                 if (record.students.last_name || record.students.first_name) {
                                     sName = `${record.students.last_name || ''} ${record.students.first_name || ''}`;
                                 } else {
-                                    sName = record.students.name || "Unknown";
+                                    sName = "No Name";
                                 }
                             }
                             displayText = `<div style="font-size:0.7em; line-height:1.1; color: var(--primary-neon);">Booked:<br>${sName}</div>`;
-                            // Override border color via style if needed
                         }
 
                         const div = document.createElement('div');
@@ -361,7 +391,8 @@
                         div.innerHTML = displayText;
                         div.style.cursor = 'pointer';
 
-                                      div.onclick = () => openBookingModal(dateKey, timeCode, record);
+                        // Open Modal
+                        div.onclick = () => openBookingModal(dateKey, timeCode, record);
                         row.appendChild(div);
                     });
 
@@ -379,15 +410,16 @@
                 document.getElementById('modalTitle').textContent = `${date} ${time}`;
 
                 // Set current values
-         getElementById('modalStatus').value = record ? record.status : 'status-ng';
+                document.getElementById('modalStatus').value = record ? record.status : 'status-ng';
                 document.getElementById('selectedStudentId').value = record ? (record.student_id || '') : '';
 
                 // Show name
-                const nameDiv = dotById('selectedStudentName');
+                const nameDiv = document.getElementById('selectedStudentName');
                 if (record && record.students) {
-                    let sName = (record.students.last_name && record.students.fi                                 ? `${record.students.last_name} ${record.students.first_ame}`
+                    let sName = (record.students.last_name && record.students.first_name)
+                        ? `${record.students.last_name} ${record.students.first_name}`
                         : (record.students.name || '');
-                    nameDv.textContent = `選択中: ${sName}`;
+                    nameDiv.textContent = `選択中: ${sName}`;
                 } else {
                     nameDiv.textContent = '';
                 }
@@ -452,8 +484,8 @@
                 const { date, time } = bookingModalTarget;
 
                 const updates = {
-                    date: da        time_code: time, 
-                     status: status === 'status-booked' ? 'status-ng' : status, // 'Booked' is visual only, status should be NG (Closed) or something? 
+                    date: da        time_code: time,
+                    status: status === 'status-booked' ? 'status-ng' : status, // 'Booked' is visual only, status should be NG (Closed) or something? 
                     // Wait, if booked, status should probably be 'status-ng' (Closed to public) but we flag it internally?
                     // NO. 'status' column controls visibility. 
                     // If booked, we usually set it to 'status-ng' so customers can't see it (shows '-')?
@@ -472,15 +504,15 @@
                     memo: memo
                 };
 
-  { error } = await client.from('schedule_slots').upsert(updates, { onConflict: 'date, time_code' });
+                { error } = await client.from('schedule_slots').upsert(updates, { onConflict: 'date, time_code' });
                 if (error) { alert("保存失敗: " + error.message); return; }
 
                 closeBookingModal();
                 fetchSchedule(currentStartDate);
             }
 
-             function clearBooking() {
-                 document.getElementById('selectedStudentId').value = '';
+            function clearBooking() {
+                document.getElementById('selectedStudentId').value = '';
                 document.getElementById('modalStatus').value = 'status-ok'; // Reset to Open?
                 // Or just clear assignment?
                 saveBooking();
