@@ -1669,28 +1669,39 @@ ul {
         border-bottom: 1px solid #bbb;
     }
 
+    /* Table Layout for Robust Sticky */
+    #schedule-body {
+        display: table;
+        width: max-content;
+        border-collapse: collapse;
+    }
+
+    .schedule-row {
+        display: table-row;
+        width: auto;
+        border-bottom: 1px solid #ddd;
+    }
+
     .time-label {
+        display: table-cell;
+        position: -webkit-sticky;
+        position: sticky;
+        left: 0;
+        z-index: 50;
+
         background: #f0f0f0;
         color: #444;
         font-weight: bold;
         border-right: 2px solid #bbb;
-        /* Stronger border for separation */
-        z-index: 50;
-        /* Super high */
-        left: 0;
-        position: -webkit-sticky;
-        /* Safari */
-        position: sticky;
+
+        width: 70px;
         min-width: 70px;
-        /* Ensure width doesn't collapse */
-    }
+        height: 60px;
+        /* Force height */
 
-    .schedule-row {
-        border-bottom: 1px solid #e0e0e0;
-    }
-
-    .date-col {
-        border-right: 1px solid #e0e0e0;
+        vertical-align: middle;
+        text-align: center;
+        padding: 0;
     }
 
     .slot {
