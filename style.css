@@ -1333,11 +1333,11 @@ ul {
     border-radius: 8px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     overflow-x: auto;
-    overflow-y: auto;
-    /* Restore internal scroll */
+    overflow-y: visible;
+    /* Allow full height expansion */
     position: relative;
-    max-height: 75vh;
-    /* Fix height to viewport percentage */
+    max-height: none;
+    /* Remove scroll trap */
 
     /* Center on Desktop, but prevent overflow */
     width: fit-content;

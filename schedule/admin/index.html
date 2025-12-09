@@ -8,7 +8,7 @@
     <link rel="icon" href="../../img/favicon.png">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="../../style.css?v=55">
+    <link rel="stylesheet" href="../../style.css?v=56">
     <script src="https://kit.fontawesome.com/aa13b8dc63.js" crossorigin="anonymous"></script>
     <style>
         .admin-controls {
@@ -43,7 +43,7 @@
                 <div class="logo">
                     <a href="../../index.html"
                         style="font-size: 1.5rem; font-weight: 700; color: white; text-decoration: none;">
-                        NYCT <span style="color: var(--accent-gold);">Studio</span> <span
+                        ニスト<span style="color: var(--accent-gold);">スタジオ</span> <span
                             style="font-size: 0.8rem; opacity: 0.7;">Admin</span>
                     </a>
                 </div>
@@ -335,8 +335,7 @@
                     dates.forEach(d => {
                         const dateKey = formatDateKey(d);
                         const record = scheduleData[dateKey] ? scheduleData[dateKey][timeCode] : null;
-
-                        let status = record ? record.status : 'status-ng'; // Default Closed
+ let status = record ? record.status : 'status-ng'; // Default Closed
                         let displayText = STATUS_TEXT[status];
                         let slotClass = `slot ${status}`;
 
@@ -362,8 +361,7 @@
                         div.innerHTML = displayText;
                         div.style.cursor = 'pointer';
 
-                        // Open Modal
-                        div.onclick = () => openBookingModal(dateKey, timeCode, record);
+                                      div.onclick = () => openBookingModal(dateKey, timeCode, record);
                         row.appendChild(div);
                     });
 
@@ -381,16 +379,15 @@
                 document.getElementById('modalTitle').textContent = `${date} ${time}`;
 
                 // Set current values
-                document.getElementById('modalStatus').value = record ? record.status : 'status-ng';
+         getElementById('modalStatus').value = record ? record.status : 'status-ng';
                 document.getElementById('selectedStudentId').value = record ? (record.student_id || '') : '';
 
                 // Show name
-                const nameDiv = document.getElementById('selectedStudentName');
+                const nameDiv = dotById('selectedStudentName');
                 if (record && record.students) {
-                    let sName = (record.students.last_name && record.students.first_name)
-                        ? `${record.students.last_name} ${record.students.first_name}`
+                    let sName = (record.students.last_name && record.students.fi                                 ? `${record.students.last_name} ${record.students.first_ame}`
                         : (record.students.name || '');
-                    nameDiv.textContent = `選択中: ${sName}`;
+                    nameDv.textContent = `選択中: ${sName}`;
                 } else {
                     nameDiv.textContent = '';
                 }
@@ -415,7 +412,7 @@
                 }
 
                 // Quick search (could be optimized)
-                const { data, error } = await client
+                const { data, client
                     .from('students')
                     .select('*')
                     .or(`last_name.ilike.%${term}%,first_name.ilike.%${term}%,name.ilike.%${term}%`)
@@ -433,8 +430,7 @@
                         div.style.borderBottom = '1px solid #444';
                         div.style.color = 'white';
 
-                        const sName = (s.last_name && s.first_name) ? `${s.last_name} ${s.first_name}` : s.name;
-                        div.textContent = sName;
+                        const sName = (s.last_name && s.first_name) ? `${s.last_name} ${s.first_na               div.textContent = sName;
                         div.onmouseover = () => div.style.background = '#444';
                         div.onmouseout = () => div.style.background = 'transparent';
                         div.onclick = () => {
@@ -456,9 +452,8 @@
                 const { date, time } = bookingModalTarget;
 
                 const updates = {
-                    date: date,
-                    time_code: time,
-                    status: status === 'status-booked' ? 'status-ng' : status, // 'Booked' is visual only, status should be NG (Closed) or something? 
+                    date: da        time_code: time, 
+                     status: status === 'status-booked' ? 'status-ng' : status, // 'Booked' is visual only, status should be NG (Closed) or something? 
                     // Wait, if booked, status should probably be 'status-ng' (Closed to public) but we flag it internally?
                     // NO. 'status' column controls visibility. 
                     // If booked, we usually set it to 'status-ng' so customers can't see it (shows '-')?
@@ -477,15 +472,15 @@
                     memo: memo
                 };
 
-                const { error } = await client.from('schedule_slots').upsert(updates, { onConflict: 'date, time_code' });
+  { error } = await client.from('schedule_slots').upsert(updates, { onConflict: 'date, time_code' });
                 if (error) { alert("保存失敗: " + error.message); return; }
 
                 closeBookingModal();
                 fetchSchedule(currentStartDate);
             }
 
-            function clearBooking() {
-                document.getElementById('selectedStudentId').value = '';
+             function clearBooking() {
+                 document.getElementById('selectedStudentId').value = '';
                 document.getElementById('modalStatus').value = 'status-ok'; // Reset to Open?
                 // Or just clear assignment?
                 saveBooking();
