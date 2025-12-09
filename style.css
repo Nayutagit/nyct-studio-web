@@ -1641,4 +1641,90 @@ ul {
     .booking-info #modalTime {
         font-size: 1.3rem !important;
     }
+
+    /* Mobile Light Theme for Calendar */
+    .schedule-grid {
+        background: #f9f9f9;
+        border: 1px solid #ddd;
+    }
+
+    .schedule-header,
+    .header-corner,
+    .date-col,
+    .time-label {
+        background: #f0f0f0;
+        /* Light Grey Header */
+        color: #333;
+        border-color: #ccc;
+    }
+
+    .header-corner {
+        z-index: 40;
+        /* Top-Left Corner above everything */
+        border-right: 1px solid #bbb;
+        border-bottom: 1px solid #bbb;
+    }
+
+    .schedule-header {
+        border-bottom: 1px solid #bbb;
+    }
+
+    .time-label {
+        background: #f0f0f0;
+        color: #444;
+        font-weight: bold;
+        border-right: 1px solid #bbb;
+        /* Stronger border for separation */
+        z-index: 30;
+        /* Above slots */
+        left: 0;
+        position: sticky;
+    }
+
+    .schedule-row {
+        border-bottom: 1px solid #e0e0e0;
+    }
+
+    .date-col {
+        border-right: 1px solid #e0e0e0;
+    }
+
+    .slot {
+        background: #fff;
+        border-right: 1px solid #eee;
+        color: #333;
+        /* Dark text for icons if needed */
+    }
+
+    .slot:hover {
+        background: #f5f5f5;
+    }
+
+    /* Adjust Status Colors for White BG */
+    .slot.status-ok {
+        color: #f39c12;
+    }
+
+    /* Darker Orange-Yellow */
+    .slot.status-online {
+        color: #007bff;
+    }
+
+    /* Standard Blue */
+    .slot.status-few {
+        color: #008080;
+    }
+
+    /* Teal */
+    .slot.status-full {
+        color: #e74c3c;
+    }
+
+    /* Red */
+    .slot.status-ng {
+        color: #ccc;
+    }
+
+    /* Grey */
+
 }
