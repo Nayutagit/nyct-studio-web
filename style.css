@@ -1673,12 +1673,16 @@ ul {
         background: #f0f0f0;
         color: #444;
         font-weight: bold;
-        border-right: 1px solid #bbb;
+        border-right: 2px solid #bbb;
         /* Stronger border for separation */
-        z-index: 30;
-        /* Above slots */
+        z-index: 50;
+        /* Super high */
         left: 0;
+        position: -webkit-sticky;
+        /* Safari */
         position: sticky;
+        min-width: 70px;
+        /* Ensure width doesn't collapse */
     }
 
     .schedule-row {
