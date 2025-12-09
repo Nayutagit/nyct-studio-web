@@ -8,7 +8,7 @@
     <link rel="icon" href="../../img/favicon.png">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="../../style.css?v=44">
+    <link rel="stylesheet" href="../../style.css?v=46">
     <script src="https://kit.fontawesome.com/aa13b8dc63.js" crossorigin="anonymous"></script>
     <style>
         .admin-controls {
@@ -43,7 +43,43 @@
     <section class="section">
         <div class="container">
             <h1 class="section-title">スケジュール管理</h1>
-            <p style="text-align: center; margin-bottom: 20px;">クリックしてステータスを変更（◎ → △ → × → -）</p>
+            <p style="text-align: center; margin-bottom: 20px;">クリックしてステータスを変更（◎ → -）</p>
+
+            <!-- Bulk Update UI (Restored & Simplified) -->
+            <div
+                style="background: rgba(255, 255, 255, 0.05); padding: 20px; border-radius: 8px; margin-bottom: 30px; text-align: center;">
+                <h3 style="margin-bottom: 15px; font-size: 1.2rem; color: var(--accent-gold);">範囲一括更新</h3>
+                <div
+                    style="display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; align-items: center; color: #ccc;">
+                    <div>
+                        <label>期間:</label>
+                        <input type="date" id="bulkStartDate"
+                            style="padding: 5px; background: #333; color: white; border: 1px solid #555;">
+                        <span>~</span>
+                        <input type="date" id="bulkEndDate"
+                            style="padding: 5px; background: #333; color: white; border: 1px solid #555;">
+                    </div>
+                    <div>
+                        <label>時間:</label>
+                        <select id="bulkStartTime"
+                            style="padding: 5px; background: #333; color: white; border: 1px solid #555;"></select>
+                        <span>~</span>
+                        <select id="bulkEndTime"
+                            style="padding: 5px; background: #333; color: white; border: 1px solid #555;"></select>
+                    </div>
+                    <div>
+                        <label>ステータス:</label>
+                        <select id="bulkStatus"
+                            style="padding: 10px; border-radius: 4px; border: 1px solid #444; background: #333; color: white;">
+                            <option value="status-ok">◎ 余裕あり</option>
+                            <option value="status-online">Online Only</option>
+                            <option value="status-ng">- 受付不可</option>
+                        </select>
+                    </div>
+                </div>
+                <button onclick="runBulkUpdate()" class="cal-btn"
+                    style="margin-top: 15px; background: var(--accent-blue); width: 150px;">一括適用</button>
+            </div>
 
             <div class="calendar-controls">
                 <button class="cal-btn" id="prevWeek">前の週</button>
@@ -77,6 +113,61 @@
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlwdGVnenp1a3ltcW90emNoZ25wIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM4NDU1MTYsImV4cCI6MjA3OTQyMTUxNn0.iKWkVYwlKrSBlJKUxRebbGRcgvprzkcyAOgDaCHKLSY';
         const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
+        // Load Gemini Key (Removed)
+
+        // --- Bulk Update Logic ---
+        async function runBulkUpdate() {
+            const startDateStr = document.getElementById('bulkStartDate').value;
+            const endDateStr = document.getElementById('bulkEndDate').value;
+            const startTimeStr = document.getElementById('bulkStartTime').value;
+            const endTimeStr = document.getElementById('bulkEndTime').value;
+            const status = document.getElementById('bulkStatus').value;
+
+            if (!startDateStr || !endDateStr) {
+                alert("期間を選択してください");
+                return;
+            }
+
+            const startHour = parseInt(startTimeStr.split(':')[0]);
+            const endHour = parseInt(endTimeStr.split(':')[0]);
+
+            // Generate updates
+            let updates = [];
+            let curr = new Date(startDateStr);
+            const end = new Date(endDateStr);
+
+            while (curr <= end) {
+                const dateKey = formatDateKey(curr);
+                for (let h = startHour; h <= endHour; h++) {
+                    updates.push({
+                        date: dateKey,
+                        time_code: `${h}:00`,
+                        status: status
+                    });
+                }
+                curr.setDate(curr.getDate() + 1);
+            }
+
+            if (updates.length === 0) {
+                alert("対象の枠がありません");
+                return;
+            }
+
+            if (!confirm(`${updates.length}件の枠を一括更新しますか？`)) return;
+
+            const { error } = await client
+                .from('schedule_slots')
+                .upsert(updates, { onConflict: 'date, time_code' });
+
+            if (error) {
+                alert("エラー: " + error.message);
+                return;
+            }
+
+            alert("更新完了！");
+            fetchSchedule(currentStartDate);
+        }
+
         let currentStartDate = new Date();
         const START_HOUR = 10;
         const END_HOUR = 22;
@@ -84,6 +175,30 @@
         for (let i = START_HOUR; i <= END_HOUR; i++) {
             HOURS.push(`${i}:00`);
         }
+
+        // Init Bulk Selects
+        setTimeout(() => {
+            const bulkStartSelect = document.getElementById('bulkStartTime');
+            const bulkEndSelect = document.getElementById('bulkEndTime');
+            if (bulkStartSelect && bulkEndSelect) {
+                HOURS.forEach(h => {
+                    const opt1 = document.createElement('option');
+                    opt1.value = h; opt1.textContent = h;
+                    bulkStartSelect.appendChild(opt1);
+                    const opt2 = document.createElement('option');
+                    opt2.value = h; opt2.textContent = h;
+                    bulkEndSelect.appendChild(opt2);
+                });
+                bulkEndSelect.value = "22:00";
+
+                // Init Bulk Dates
+                const today = new Date();
+                const nextMonth = new Date();
+                nextMonth.setMonth(nextMonth.getMonth() + 1);
+                document.getElementById('bulkStartDate').value = today.toISOString().split('T')[0];
+                document.getElementById('bulkEndDate').value = nextMonth.toISOString().split('T')[0];
+            }
+        }, 100);
 
         const formatDateKey = (date) => {
             const d = new Date(date);
