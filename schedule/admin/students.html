@@ -143,11 +143,10 @@
         <table class="student-list">
             <thead>
                 <tr>
-                    <th>名前</th>
+                    <th>氏名</th>
                     <th>ふりがな</th>
                     <th>メールアドレス</th>
                     <th>電話番号</th>
-                    <th>メモ</th>
                 </tr>
             </thead>
             <tbody id="studentTableBody">
@@ -160,14 +159,29 @@
     <div id="addModal" class="modal">
         <div class="modal-content">
             <h3 style="margin-bottom: 20px; color: var(--accent-gold);">新規生徒登録</h3>
-            <div class="form-group">
-                <label>名前 (必須)</label>
-                <input type="text" id="new_name" required>
+
+            <div style="display: flex; gap: 10px;">
+                <div class="form-group" style="flex: 1;">
+                    <label>姓 (必須)</label>
+                    <input type="text" id="new_last_name" required placeholder="例: 山田">
+                </div>
+                <div class="form-group" style="flex: 1;">
+                    <label>名 (必須)</label>
+                    <input type="text" id="new_first_name" required placeholder="例: 太郎">
+                </div>
             </div>
-            <div class="form-group">
-                <label>ふりがな</label>
-                <input type="text" id="new_furigana">
+
+            <div style="display: flex; gap: 10px;">
+                <div class="form-group" style="flex: 1;">
+                    <label>せい</label>
+                    <input type="text" id="new_last_furigana" placeholder="例: やまだ">
+                </div>
+                <div class="form-group" style="flex: 1;">
+                    <label>めい</label>
+                    <input type="text" id="new_first_furigana" placeholder="例: たろう">
+                </div>
             </div>
+
             <div class="form-group">
                 <label>メールアドレス</label>
                 <input type="email" id="new_email">
@@ -214,14 +228,22 @@
             const tbody = document.getElementById('studentTableBody');
             tbody.innerHTML = '';
             list.forEach(student => {
+                // Fallback for old data: name
+                const fullName = (student.last_name && student.first_name)
+                    ? `${student.last_name} ${student.first_name}`
+                    : (student.name || '-');
+
+                const fullKana = (student.last_furigana && student.first_furigana)
+                    ? `${student.last_furigana} ${student.first_furigana}`
+                    : (student.furigana || '');
+
                 const tr = document.createElement('tr');
                 tr.onclick = () => window.location.href = `student_detail.html?id=${student.id}`;
                 tr.innerHTML = `
-                    <td style="font-weight: bold; color: white;">${student.name}</td>
-                    <td style="color: #ccc;">${student.furigana || ''}</td>
+                    <td style="font-weight: bold; color: white;">${fullName}</td>
+                    <td style="color: #ccc;">${fullKana}</td>
                     <td>${student.email || '-'}</td>
                     <td>${student.phone || '-'}</td>
-                    <td style="color: #888; font-size: 0.9em;">${student.memo || '-'}</td>
                 `;
                 tbody.appendChild(tr);
             });
@@ -229,11 +251,12 @@
 
         function filterStudents() {
             const term = document.getElementById('searchInput').value.toLowerCase();
-            const filtered = allStudents.filter(s =>
-                s.name.toLowerCase().includes(term) ||
-                (s.furigana && s.furigana.toLowerCase().includes(term)) ||
-                (s.email && s.email.toLowerCase().includes(term))
-            );
+            const filtered = allStudents.filter(s => {
+                const fullName = ((s.last_name || '') + (s.first_name || '') + (s.name || '')).toLowerCase();
+                const fullKana = ((s.last_furigana || '') + (s.first_furigana || '') + (s.furigana || '')).toLowerCase();
+                const email = (s.email || '').toLowerCase();
+                return fullName.includes(term) || fullKana.includes(term) || email.includes(term);
+            });
             renderStudents(filtered);
         }
 
@@ -243,28 +266,36 @@
         function closeModal() { modal.style.display = 'none'; }
 
         async function saveStudent() {
-            const name = document.getElementById('new_name').value.trim();
-            const furigana = document.getElementById('new_furigana').value.trim(); // Optional
+            const last_name = document.getElementById('new_last_name').value.trim();
+            const first_name = document.getElementById('new_first_name').value.trim();
+            const last_furigana = document.getElementById('new_last_furigana').value.trim();
+            const first_furigana = document.getElementById('new_first_furigana').value.trim();
             const email = document.getElementById('new_email').value.trim();
             const phone = document.getElementById('new_phone').value.trim();
             const memo = document.getElementById('new_memo').value.trim();
 
-            if (!name) { alert("名前は必須です"); return; }
+            if (!last_name || !first_name) { alert("姓と名は必須です"); return; }
 
             const { error } = await client
                 .from('students')
-                .insert([{ name, furigana, email, phone, memo }]); // Include furigana
+                .insert([{
+                    last_name, first_name,
+                    last_furigana, first_furigana,
+                    email, phone, memo
+                }]);
 
             if (error) {
-                alert("登録エラー: " + error.message);
+                alert("登録エラー: " + (error.message || "SQL実行が必要です"));
                 return;
             }
 
             alert("登録しました！");
             closeModal();
             // Clear inputs
-            document.getElementById('new_name').value = '';
-            document.getElementById('new_furigana').value = '';
+            document.getElementById('new_last_name').value = '';
+            document.getElementById('new_first_name').value = '';
+            document.getElementById('new_last_furigana').value = '';
+            document.getElementById('new_first_furigana').value = '';
             document.getElementById('new_email').value = '';
             document.getElementById('new_phone').value = '';
             document.getElementById('new_memo').value = '';
