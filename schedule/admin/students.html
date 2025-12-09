@@ -144,6 +144,7 @@
             <thead>
                 <tr>
                     <th>名前</th>
+                    <th>ふりがな</th>
                     <th>メールアドレス</th>
                     <th>電話番号</th>
                     <th>メモ</th>
@@ -162,6 +163,10 @@
             <div class="form-group">
                 <label>名前 (必須)</label>
                 <input type="text" id="new_name" required>
+            </div>
+            <div class="form-group">
+                <label>ふりがな</label>
+                <input type="text" id="new_furigana">
             </div>
             <div class="form-group">
                 <label>メールアドレス</label>
@@ -213,6 +218,7 @@
                 tr.onclick = () => window.location.href = `student_detail.html?id=${student.id}`;
                 tr.innerHTML = `
                     <td style="font-weight: bold; color: white;">${student.name}</td>
+                    <td style="color: #ccc;">${student.furigana || ''}</td>
                     <td>${student.email || '-'}</td>
                     <td>${student.phone || '-'}</td>
                     <td style="color: #888; font-size: 0.9em;">${student.memo || '-'}</td>
@@ -225,6 +231,7 @@
             const term = document.getElementById('searchInput').value.toLowerCase();
             const filtered = allStudents.filter(s =>
                 s.name.toLowerCase().includes(term) ||
+                (s.furigana && s.furigana.toLowerCase().includes(term)) ||
                 (s.email && s.email.toLowerCase().includes(term))
             );
             renderStudents(filtered);
@@ -237,6 +244,7 @@
 
         async function saveStudent() {
             const name = document.getElementById('new_name').value.trim();
+            const furigana = document.getElementById('new_furigana').value.trim(); // Optional
             const email = document.getElementById('new_email').value.trim();
             const phone = document.getElementById('new_phone').value.trim();
             const memo = document.getElementById('new_memo').value.trim();
@@ -245,7 +253,7 @@
 
             const { error } = await client
                 .from('students')
-                .insert([{ name, email, phone, memo }]);
+                .insert([{ name, furigana, email, phone, memo }]); // Include furigana
 
             if (error) {
                 alert("登録エラー: " + error.message);
@@ -256,6 +264,7 @@
             closeModal();
             // Clear inputs
             document.getElementById('new_name').value = '';
+            document.getElementById('new_furigana').value = '';
             document.getElementById('new_email').value = '';
             document.getElementById('new_phone').value = '';
             document.getElementById('new_memo').value = '';

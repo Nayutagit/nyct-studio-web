@@ -96,8 +96,12 @@
         <div class="card">
             <h3 style="color: var(--accent-gold); margin-bottom: 20px;">基本情報</h3>
             <div class="form-group">
-                <label>名前</label>
+                <label>名前 (必須)</label>
                 <input type="text" id="s_name">
+            </div>
+            <div class="form-group">
+                <label>ふりがな</label>
+                <input type="text" id="s_furigana">
             </div>
             <div class="form-group">
                 <label>メールアドレス</label>
@@ -154,6 +158,7 @@
             }
 
             document.getElementById('s_name').value = student.name;
+            document.getElementById('s_furigana').value = student.furigana || '';
             document.getElementById('s_email').value = student.email || '';
             document.getElementById('s_phone').value = student.phone || '';
             document.getElementById('s_memo').value = student.memo || '';
@@ -195,6 +200,7 @@
         async function updateStudent() {
             const updates = {
                 name: document.getElementById('s_name').value,
+                furigana: document.getElementById('s_furigana').value,
                 email: document.getElementById('s_email').value,
                 phone: document.getElementById('s_phone').value,
                 memo: document.getElementById('s_memo').value
