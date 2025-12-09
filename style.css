@@ -1642,10 +1642,18 @@ ul {
         font-size: 1.3rem !important;
     }
 
-    /* Mobile Light Theme for Calendar */
+    /* Mobile Light Theme for Calendar (Flexbox Restored) */
     .schedule-grid {
         background: #f9f9f9;
         border: 1px solid #ddd;
+        /* Ensure overflow works */
+        overflow-x: auto;
+        overflow-y: auto;
+    }
+
+    #schedule-body {
+        display: block;
+        width: max-content;
     }
 
     .schedule-header,
@@ -1653,14 +1661,12 @@ ul {
     .date-col,
     .time-label {
         background: #f0f0f0;
-        /* Light Grey Header */
         color: #333;
         border-color: #ccc;
     }
 
     .header-corner {
         z-index: 40;
-        /* Top-Left Corner above everything */
         border-right: 1px solid #bbb;
         border-bottom: 1px solid #bbb;
     }
@@ -1669,46 +1675,46 @@ ul {
         border-bottom: 1px solid #bbb;
     }
 
-    /* Table Layout for Robust Sticky */
-    #schedule-body {
-        display: table;
-        width: max-content;
-        border-collapse: collapse;
-    }
-
-    .schedule-row {
-        display: table-row;
-        width: auto;
-        border-bottom: 1px solid #ddd;
-    }
-
     .time-label {
-        display: table-cell;
-        position: -webkit-sticky;
-        position: sticky;
-        left: 0;
-        z-index: 50;
-
         background: #f0f0f0;
         color: #444;
         font-weight: bold;
         border-right: 2px solid #bbb;
-
-        width: 70px;
+        z-index: 30;
+        left: 0;
+        position: -webkit-sticky;
+        position: sticky;
         min-width: 70px;
         height: 60px;
         /* Force height */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
 
-        vertical-align: middle;
-        text-align: center;
-        padding: 0;
+    .schedule-row {
+        display: flex;
+        /* Restore Flex */
+        width: max-content;
+        border-bottom: 1px solid #e0e0e0;
+    }
+
+    .date-col {
+        border-right: 1px solid #e0e0e0;
     }
 
     .slot {
+        display: flex;
+        /* Restore Flex for center alignment */
+        align-items: center;
+        justify-content: center;
+
         background: #fff;
         border-right: 1px solid #eee;
         color: #333;
-        /* Dark text for icons if needed */
+        width: 100px;
+        /* Restore Fixed Width */
+        height: 60px;
     }
 
     .slot:hover {
