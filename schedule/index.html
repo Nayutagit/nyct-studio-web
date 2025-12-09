@@ -12,7 +12,7 @@
         href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&family=Zen+Kaku+Gothic+New:wght@300;400;500;700;900&family=Zen+Old+Mincho:wght@400;500;600&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="../style.css?v=18?v=3">
+    <link rel="stylesheet" href="../style.css?v=19?v=3">
 </head>
 
 <body>
@@ -64,10 +64,14 @@
             </div>
 
             <div class="calendar-legend">
-                <div class="legend-item"><span class="status-icon status-ok">◎</span> 余裕あり</div>
-                <div class="legend-item"><span class="status-icon status-few">△</span> 残りわずか</div>
-                <div class="legend-item"><span class="status-icon status-full">×</span> 満席</div>
-                <div class="legend-item"><span class="status-icon status-ng">-</span> 受付不可</div>
+                <div class="legend" style="margin-top: 20px;">
+                    <span class="status-ok">◎</span> 余裕あり
+                    <span class="status-online" style="margin-left: 10px;"><i class="fa-solid fa-wifi"></i></span>
+                    オンラインのみ
+                    <span class="status-few" style="margin-left: 10px;">△</span> 残りわずか
+                    <span class="status-full" style="margin-left: 10px;">×</span> 満席
+                    <div style="margin-top: 5px; font-size: 0.8rem; color: #666;">- 受付不可</div>
+                </div>
             </div>
 
             <div class="schedule-grid">
@@ -317,18 +321,11 @@
                     div.className = `slot ${status}`;
                     div.dataset.date = dateKey;
                     div.dataset.time = timeCode;
-
-                    let content = '-';
-                    if (status === 'status-ok') content = '◎';
-                    else if (status === 'status-few') content = '△';
-                    else if (status === 'status-full') content = '×';
-                    else if (status === 'status-ng') content = '-';
+                    div.innerHTML = STATUS_TEXT[status]; // Use innerHTML for icons
 
                     if (status !== 'status-ng' && status !== 'status-full') {
-                        div.innerHTML = `<span class="slot-link" style="cursor: pointer;">${content}</span>`;
-                        div.onclick = () => openModal(dispDate, timeCode);
-                    } else {
-                        div.textContent = content;
+                        div.style.cursor = 'pointer';
+                        div.onclick = () => openModal(formatDisplayDate(d), timeCode);
                     }
 
                     row.appendChild(div);
