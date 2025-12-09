@@ -8,7 +8,7 @@
     <link rel="icon" href="../../img/favicon.png">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="../../style.css?v=20">
+    <link rel="stylesheet" href="../../style.css?v=21">
     <style>
         .admin-controls {
             margin-bottom: 20px;
@@ -263,9 +263,10 @@
             return `${date.getMonth() + 1}/${date.getDate()}<br><span style="font-size:0.85em">(${days[date.getDay()]})</span>`;
         };
 
-        const STATUS_ORDER = ['status-ok', 'status-few', 'status-full', 'status-ng'];
+        const STATUS_ORDER = ['status-ok', 'status-online', 'status-few', 'status-full', 'status-ng'];
         const STATUS_TEXT = {
             'status-ok': '◎',
+            'status-online': '<i class="fa-solid fa-wifi"></i>',
             'status-few': '△',
             'status-full': '×',
             'status-ng': '-'

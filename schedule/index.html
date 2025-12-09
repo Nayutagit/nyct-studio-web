@@ -12,7 +12,7 @@
         href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&family=Zen+Kaku+Gothic+New:wght@300;400;500;700;900&family=Zen+Old+Mincho:wght@400;500;600&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="../style.css?v=20?v=3">
+    <link rel="stylesheet" href="../style.css?v=21?v=3">
 </head>
 
 <body>
@@ -204,6 +204,14 @@
         const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
         let currentStartDate = new Date();
+
+        const STATUS_TEXT = {
+            'status-ok': '◎',
+            'status-online': '<i class="fa-solid fa-wifi"></i><span style="font-size:0.5em; display:block;">Online</span>',
+            'status-few': '△',
+            'status-full': '×',
+            'status-ng': '-'
+        };
 
         // Modal Logic
         function openModal(dateStr, timeStr) {
