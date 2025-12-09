@@ -8,7 +8,7 @@
     <link rel="icon" href="../../img/favicon.png">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="../../style.css?v=22">
+    <link rel="stylesheet" href="../../style.css?v=23">
     <style>
         .admin-controls {
             margin-bottom: 20px;
@@ -358,7 +358,7 @@
 
             // Optimistic update
             element.className = `slot ${nextStatus}`;
-            element.textContent = STATUS_TEXT[nextStatus];
+            element.innerHTML = STATUS_TEXT[nextStatus];
 
             // Save
             const { error } = await client
@@ -374,7 +374,7 @@
                 alert('保存エラー: ' + (error.message || JSON.stringify(error)) + '\n\nSupabaseのRLS設定を確認してください。');
                 // Revert
                 element.className = `slot ${currentStatus}`;
-                element.textContent = STATUS_TEXT[currentStatus];
+                element.innerHTML = STATUS_TEXT[currentStatus];
             } else {
                 showSaveStatus();
             }
