@@ -8,7 +8,7 @@
     <link rel="icon" href="../../img/favicon.png">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="../../style.css?v=38">
+    <link rel="stylesheet" href="../../style.css?v=39">
     <script src="https://kit.fontawesome.com/aa13b8dc63.js" crossorigin="anonymous"></script>
     <style>
         .admin-controls {
@@ -100,7 +100,10 @@
                 <div style="max-width: 600px; margin: 0 auto;">
                     <input type="password" id="geminiKey" placeholder="Gemini API Key"
                         value="AIzaSyAslWvhnf_AydoSKa-51AYQgHKQD-D2MwM"
-                        style="width: 100%; padding: 8px; margin-bottom: 10px; background: #222; color: white; border: 1px solid #444; border-radius: 4px;">
+                        style="padding: 10px; border-radius: 4px; border: 1px solid #444; background: #333; color: white; width: 300px;">
+                    <input type="text" id="geminiModel" placeholder="Model Name (e.g. gemini-2.0-flash)"
+                        value="gemini-2.0-flash"
+                        style="padding: 10px; border-radius: 4px; border: 1px solid #444; background: #333; color: white; width: 200px; margin-left: 10px;">
                     <textarea id="aiInstruction" placeholder="例: 「来週の月曜と水曜、14時から18時まで満席にして」「12/25の全枠を受付不可に」"
                         style="width: 100%; height: 80px; padding: 8px; background: #222; color: white; border: 1px solid #444; border-radius: 4px; margin-bottom: 10px;"></textarea>
                     <button onclick="runAIUpdate()" id="aiBtn" class="cal-btn"
@@ -184,7 +187,9 @@
                 If instruction says "Next Monday", calculate the date based on Today (${todayStr}).
                 `;
 
-                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${key}`, {
+                const modelName = document.getElementById('geminiModel').value.trim() || 'gemini-2.0-flash';
+
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${key}`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
