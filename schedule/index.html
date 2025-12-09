@@ -12,7 +12,7 @@
         href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&family=Zen+Kaku+Gothic+New:wght@300;400;500;700;900&family=Zen+Old+Mincho:wght@400;500;600&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="../style.css?v=32?v=3">
+    <link rel="stylesheet" href="../style.css?v=33?v=3">
 </head>
 
 <body>
@@ -265,13 +265,11 @@
                 dates.push(d);
             }
 
-            // Render Headers
+            // Headers
             const headerContainer = document.querySelector('.schedule-header');
             headerContainer.innerHTML = '';
-            // Empty corner cell
             const corner = document.createElement('div');
             corner.className = 'date-col header-corner';
-            corner.textContent = '';
             headerContainer.appendChild(corner);
 
             dates.forEach(d => {
@@ -283,61 +281,69 @@
                 headerContainer.appendChild(div);
             });
 
-            // Set date attributes for slots and fetch data
+            // Right Corner
+            const cornerRight = document.createElement('div');
+            cornerRight.className = 'date-col header-corner header-corner-right';
+            headerContainer.appendChild(cornerRight);
+
+            // Data
             const dateKeys = dates.map(formatDateKey);
-
             let dataMap = {};
-            try {
-                const { data, error } = await client
-                    .from('schedule_slots')
-                    .select('*')
-                    .in('date', dateKeys);
 
-                if (data && !error) {
-                    data.forEach(item => {
-                        if (!dataMap[item.date]) dataMap[item.date] = {};
-                        dataMap[item.date][item.time_code] = item.status;
-                    });
-                }
-            } catch (e) {
-                console.error('Supabase fetch error:', e);
+            const { data, error } = await client
+                .from('schedule_slots')
+                .select('*')
+                .in('date', dateKeys);
+
+            if (data && !error) {
+                data.forEach(item => {
+                    if (!dataMap[item.date]) dataMap[item.date] = {};
+                    dataMap[item.date][item.time_code] = item.status;
+                });
             }
 
+            // Body
             const bodyContainer = document.getElementById('schedule-body');
             bodyContainer.innerHTML = '';
 
-            HOURS.forEach((timeCode) => {
+            HOURS.forEach(timeCode => {
                 const row = document.createElement('div');
                 row.className = 'schedule-row';
 
-                // Time Label
                 const timeLabel = document.createElement('div');
                 timeLabel.className = 'time-label';
                 timeLabel.textContent = timeCode;
                 row.appendChild(timeLabel);
 
-                dates.forEach((d) => {
+                dates.forEach(d => {
                     const dateKey = formatDateKey(d);
-                    const dispDate = formatDisplayDate(d);
-
                     let status = 'status-ok';
+                    if (status.includes('ng')) status = 'status-ng'; // Default client side NG
                     if (dataMap[dateKey] && dataMap[dateKey][timeCode]) {
                         status = dataMap[dateKey][timeCode];
                     }
 
                     const div = document.createElement('div');
                     div.className = `slot ${status}`;
-                    div.dataset.date = dateKey;
-                    div.dataset.time = timeCode;
-                    div.innerHTML = STATUS_TEXT[status]; // Use innerHTML for icons
 
-                    if (status !== 'status-ng' && status !== 'status-full') {
+                    // Logic for clickable
+                    const isClickable = (status === 'status-ok' || status === 'status-few' || status === 'status-online');
+
+                    if (isClickable) {
                         div.style.cursor = 'pointer';
-                        div.onclick = () => openModal(formatDisplayDate(d), timeCode);
+                        div.onclick = () => openModal(dateKey, timeCode);
                     }
 
+                    div.innerHTML = STATUS_TEXT[status] || STATUS_TEXT['status-ng'];
                     row.appendChild(div);
                 });
+
+                // Right Time Label
+                const timeLabelRight = document.createElement('div');
+                timeLabelRight.className = 'time-label time-label-right';
+                timeLabelRight.textContent = timeCode;
+                row.appendChild(timeLabelRight);
+
                 bodyContainer.appendChild(row);
             });
 

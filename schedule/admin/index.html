@@ -8,7 +8,7 @@
     <link rel="icon" href="../../img/favicon.png">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="../../style.css?v=32">
+    <link rel="stylesheet" href="../../style.css?v=33">
     <script src="https://kit.fontawesome.com/aa13b8dc63.js" crossorigin="anonymous"></script>
     <style>
         .admin-controls {
@@ -300,6 +300,11 @@
                 headerContainer.appendChild(div);
             });
 
+            // Right Corner
+            const cornerRight = document.createElement('div');
+            cornerRight.className = 'date-col header-corner header-corner-right';
+            headerContainer.appendChild(cornerRight);
+
             // Data
             const dateKeys = dates.map(formatDateKey);
             let dataMap = {};
@@ -343,6 +348,13 @@
                     div.onclick = () => toggleStatus(div, dateKey, timeCode);
                     row.appendChild(div);
                 });
+
+                // Right Time Label
+                const timeLabelRight = document.createElement('div');
+                timeLabelRight.className = 'time-label time-label-right';
+                timeLabelRight.textContent = timeCode;
+                row.appendChild(timeLabelRight);
+
                 bodyContainer.appendChild(row);
             });
 

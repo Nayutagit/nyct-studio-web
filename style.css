@@ -1692,6 +1692,19 @@ ul {
         justify-content: center;
     }
 
+    .time-label-right {
+        border-right: none;
+        border-left: 2px solid #bbb;
+        position: static;
+        /* Static for now */
+        left: auto;
+    }
+
+    .header-corner-right {
+        border-right: none;
+        border-left: 1px solid #bbb;
+    }
+
     .schedule-row {
         display: flex;
         /* Restore Flex */
