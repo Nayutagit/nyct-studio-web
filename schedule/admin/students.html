@@ -210,7 +210,7 @@
             tbody.innerHTML = '';
             list.forEach(student => {
                 const tr = document.createElement('tr');
-                tr.onclick = () => alert("詳細ページはまだ実装中です: " + student.name); // Placeholder for detail link
+                tr.onclick = () => window.location.href = `student_detail.html?id=${student.id}`;
                 tr.innerHTML = `
                     <td style="font-weight: bold; color: white;">${student.name}</td>
                     <td>${student.email || '-'}</td>

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Detail | Nist Studio Admin</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link rel="stylesheet" href="../../style.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Noto+Sans+JP:wght@400;500;700&display=swap"
+        rel="stylesheet">
+    <style>
+        .container-detail {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #888;
+            font-size: 0.9rem;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            background: #222;
+            border: 1px solid #444;
+            color: white;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .booking-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .booking-item {
+            background: #222;
+            border-left: 4px solid var(--accent-gold);
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header
+        style="position: sticky; top: 0; z-index: 100; background: rgba(18, 18, 18, 0.95); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.1);">
+        <div class="container"
+            style="display: flex; align-items: center; justify-content: space-between; height: 70px;">
+            <div class="logo">
+                <a href="../../index.html"
+                    style="font-size: 1.5rem; font-weight: 700; color: white; text-decoration: none;">
+                    Nist <span style="color: var(--accent-gold);">Studio</span> <span
+                        style="font-size: 0.8rem; opacity: 0.7;">Admin</span>
+                </a>
+            </div>
+            <nav class="nav-links">
+                <a href="index.html" style="color: #ccc; text-decoration: none; margin-right: 20px;">スケジュール</a>
+                <a href="students.html"
+                    style="color: var(--accent-gold); text-decoration: none; font-weight: bold;">生徒管理</a>
+                <a href="../../index.html" style="margin-left: 20px; font-size: 0.9rem; color: #666;">Exit</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container-detail">
+        <div style="margin-bottom: 20px;">
+            <a href="students.html" style="color: #888; text-decoration: none;">&lt; 一覧に戻る</a>
+        </div>
+
+        <h1 class="section-title" style="text-align: left; margin-bottom: 30px;">生徒詳細</h1>
+
+        <div class="card">
+            <h3 style="color: var(--accent-gold); margin-bottom: 20px;">基本情報</h3>
+            <div class="form-group">
+                <label>名前</label>
+                <input type="text" id="s_name">
+            </div>
+            <div class="form-group">
+                <label>メールアドレス</label>
+                <input type="email" id="s_email">
+            </div>
+            <div class="form-group">
+                <label>電話番号</label>
+                <input type="text" id="s_phone">
+            </div>
+            <div class="form-group">
+                <label>メモ</label>
+                <textarea id="s_memo" rows="5"></textarea>
+            </div>
+            <div style="text-align: right;">
+                <button class="cal-btn" onclick="deleteStudent()"
+                    style="background: #d32f2f; color: white; margin-right: 15px;">削除</button>
+                <button class="cal-btn" onclick="updateStudent()" style="background: var(--accent-blue);">保存する</button>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3 style="color: var(--accent-gold); margin-bottom: 20px;">予約履歴</h3>
+            <ul class="booking-list" id="historyList">
+                <!-- JS Generated -->
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        const SUPABASE_URL = 'https://yptegzzukymqotzchgnp.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlwdGVnenp1a3ltcW90emNoZ25wIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM4NDU1MTYsImV4cCI6MjA3OTQyMTUxNn0.iKWkVYwlKrSBlJKUxRebbGRcgvprzkcyAOgDaCHKLSY';
+        const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        const params = new URLSearchParams(window.location.search);
+        const studentId = params.get('id');
+
+        if (!studentId) {
+            alert("無効なIDです");
+            window.location.href = 'students.html';
+        }
+
+        async function fetchDetail() {
+            // Fetch Student Profile
+            const { data: student, error } = await client
+                .from('students')
+                .select('*')
+                .eq('id', studentId)
+                .single();
+
+            if (error) {
+                alert("データの取得に失敗しました");
+                console.error(error);
+                return;
+            }
+
+            document.getElementById('s_name').value = student.name;
+            document.getElementById('s_email').value = student.email || '';
+            document.getElementById('s_phone').value = student.phone || '';
+            document.getElementById('s_memo').value = student.memo || '';
+
+            // Fetch History
+            const { data: history, error: hError } = await client
+                .from('schedule_slots')
+                .select('*')
+                .eq('student_id', studentId)
+                .order('date', { ascending: false })
+                .order('time_code', { ascending: true });
+
+            if (history) renderHistory(history);
+        }
+
+        function renderHistory(list) {
+            const container = document.getElementById('historyList');
+            container.innerHTML = '';
+            if (list.length === 0) {
+                container.innerHTML = '<p style="color: #666;">予約履歴はありません</p>';
+                return;
+            }
+            list.forEach(item => {
+                const li = document.createElement('li');
+                li.className = 'booking-item';
+                li.innerHTML = `
+                    <div>
+                        <span style="font-weight: bold; color: white; display: block;">${item.date} ${item.time_code}</span>
+                        <span style="font-size: 0.9em; color: #888;">${item.booking_type || 'Lesson'}</span>
+                    </div>
+                    <span style="color: ${item.status === 'status-ok' ? '#4caf50' : '#888'}">
+                        ${item.status === 'status-ng' ? '予約中' : 'キャンセル済'}
+                    </span>
+                `;
+                container.appendChild(li);
+            });
+        }
+
+        async function updateStudent() {
+            const updates = {
+                name: document.getElementById('s_name').value,
+                email: document.getElementById('s_email').value,
+                phone: document.getElementById('s_phone').value,
+                memo: document.getElementById('s_memo').value
+            };
+            const { error } = await client.from('students').update(updates).eq('id', studentId);
+            if (error) alert("保存失敗: " + error.message);
+            else alert("保存しました");
+        }
+
+        async function deleteStudent() {
+            if (!confirm("本当にこの生徒情報を削除しますか？\n(予約履歴とのリンクも切れる可能性があります)")) return;
+            const { error } = await client.from('students').delete().eq('id', studentId);
+            if (error) alert("削除失敗: " + error.message);
+            else window.location.href = 'students.html';
+        }
+
+        fetchDetail();
+    </script>
+</body>
+
+</html>
