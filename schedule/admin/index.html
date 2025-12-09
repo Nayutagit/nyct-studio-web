@@ -8,7 +8,7 @@
     <link rel="icon" href="../../img/favicon.png">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="../../style.css?v=54">
+    <link rel="stylesheet" href="../../style.css?v=55">
     <script src="https://kit.fontawesome.com/aa13b8dc63.js" crossorigin="anonymous"></script>
     <style>
         .admin-controls {
@@ -104,6 +104,60 @@
                     <span id="saveStatus" class="save-status">保存しました</span>
                 </div>
 
+                <!-- Booking Modal -->
+                <div id="bookingModal" class="modal-overlay">
+                    <div class="modal-content">
+                        <button class="modal-close" onclick="closeBookingModal()">×</button>
+                        <h3 style="color: var(--accent-gold); margin-bottom: 20px;">予約枠設定</h3>
+
+                        <div class="booking-info">
+                            <h4 id="modalTitle" style="color:white; margin:0;"></h4>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">ステータス</label>
+                            <select id="modalStatus" class="form-input">
+                                <option value="status-ok">◎ 予約可能</option>
+                                <option value="status-online">Online Only</option>
+                                <option value="status-ng">- 受付不可</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">生徒割り当て</label>
+                            <div style="display:flex; gap:10px;">
+                                <input type="text" id="studentSearch" class="form-input" placeholder="名前で検索..."
+                                    oninput="searchStudents()">
+                                <input type="hidden" id="selectedStudentId">
+                            </div>
+                            <div id="studentSearchResults"
+                                style="max-height: 150px; overflow-y: auto; margin-top: 5px; background: #333; border: 1px solid #555; display: none;">
+                            </div>
+                            <div id="selectedStudentName"
+                                style="margin-top: 10px; color: var(--primary-neon); font-weight: bold;"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Booking Type</label>
+                            <select id="modalBookingType" class="form-input">
+                                <option value="Lesson">Lesson</option>
+                                <option value="Counseling">Counseling</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">メモ</label>
+                            <textarea id="modalMemo" class="form-textarea" rows="3"></textarea>
+                        </div>
+
+                        <div style="display: flex; justify-content: space-between; margin-top: 30px;">
+                            <button class="btn btn-secondary" onclick="clearBooking()">割り当て解除 & ステータス変更</button>
+                            <button class="btn btn-primary" onclick="saveBooking()">保存</button>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="schedule-grid">
                     <div class="schedule-header">
                         <!-- JS Injected -->
@@ -129,9 +183,7 @@
             const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlwdGVnenp1a3ltcW90emNoZ25wIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM4NDU1MTYsImV4cCI6MjA3OTQyMTUxNn0.iKWkVYwlKrSBlJKUxRebbGRcgvprzkcyAOgDaCHKLSY';
             const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-            // Load Gemini Key (Removed)
-
-            // --- Bulk Update Logic ---
+            // --- Bulk Update Logic (Keep existing simple) ---
             async function runBulkUpdate() {
                 const startDateStr = document.getElementById('bulkStartDate').value;
                 const endDateStr = document.getElementById('bulkEndDate').value;
@@ -146,8 +198,6 @@
 
                 const startHour = parseInt(startTimeStr.split(':')[0]);
                 const endHour = parseInt(endTimeStr.split(':')[0]);
-
-                // Generate updates
                 let updates = [];
                 let curr = new Date(startDateStr);
                 const end = new Date(endDateStr);
@@ -171,15 +221,8 @@
 
                 if (!confirm(`${updates.length}件の枠を一括更新しますか？`)) return;
 
-                const { error } = await client
-                    .from('schedule_slots')
-                    .upsert(updates, { onConflict: 'date, time_code' });
-
-                if (error) {
-                    alert("エラー: " + error.message);
-                    return;
-                }
-
+                const { error } = await client.from('schedule_slots').upsert(updates, { onConflict: 'date, time_code' });
+                if (error) { alert("エラー: " + error.message); return; }
                 alert("更新完了！");
                 fetchSchedule(currentStartDate);
             }
@@ -206,8 +249,6 @@
                         bulkEndSelect.appendChild(opt2);
                     });
                     bulkEndSelect.value = "22:00";
-
-                    // Init Bulk Dates
                     const today = new Date();
                     const nextMonth = new Date();
                     nextMonth.setMonth(nextMonth.getMonth() + 1);
@@ -233,6 +274,10 @@
                 'status-ng': '-'
             };
 
+            // Global Data Cache
+            let scheduleData = {};
+            let studentCache = [];
+
             async function fetchSchedule(startDate) {
                 const dates = [];
                 for (let i = 0; i < 7; i++) {
@@ -257,24 +302,21 @@
                     headerContainer.appendChild(div);
                 });
 
-                // Right Corner
-                const cornerRight = document.createElement('div');
-                cornerRight.className = 'date-col header-corner header-corner-right';
-                headerContainer.appendChild(cornerRight);
-
-                // Data
+                // Fetch Schedule with Student Joining
                 const dateKeys = dates.map(formatDateKey);
-                let dataMap = {};
+                scheduleData = {};
 
+                // Use 'select' with embedded resource 'students'
+                // Note: requires Foreign Key from schedule_slots.student_id -> students.id
                 const { data, error } = await client
                     .from('schedule_slots')
-                    .select('*')
+                    .select('*, students(*)')
                     .in('date', dateKeys);
 
                 if (data && !error) {
                     data.forEach(item => {
-                        if (!dataMap[item.date]) dataMap[item.date] = {};
-                        dataMap[item.date][item.time_code] = item.status;
+                        if (!scheduleData[item.date]) scheduleData[item.date] = {};
+                        scheduleData[item.date][item.time_code] = item;
                     });
                 }
 
@@ -285,7 +327,6 @@
                 HOURS.forEach(timeCode => {
                     const row = document.createElement('div');
                     row.className = 'schedule-row';
-
                     const timeLabel = document.createElement('div');
                     timeLabel.className = 'time-label';
                     timeLabel.textContent = timeCode + '~';
@@ -293,128 +334,161 @@
 
                     dates.forEach(d => {
                         const dateKey = formatDateKey(d);
-                        let status = 'status-ok';
-                        if (dataMap[dateKey] && dataMap[dateKey][timeCode]) {
-                            status = dataMap[dateKey][timeCode];
+                        const record = scheduleData[dateKey] ? scheduleData[dateKey][timeCode] : null;
+
+                        let status = record ? record.status : 'status-ng'; // Default Closed
+                        let displayText = STATUS_TEXT[status];
+                        let slotClass = `slot ${status}`;
+
+                        // If student assigned
+                        if (record && record.student_id) {
+                            slotClass += ' booked';
+                            status = 'status-booked'; // Custom class for styling?
+                            // Show student Name (Use new Split Names)
+                            let sName = "Unknown";
+                            if (record.students) {
+                                if (record.students.last_name || record.students.first_name) {
+                                    sName = `${record.students.last_name || ''} ${record.students.first_name || ''}`;
+                                } else {
+                                    sName = record.students.name || "Unknown";
+                                }
+                            }
+                            displayText = `<div style="font-size:0.7em; line-height:1.1; color: var(--primary-neon);">Booked:<br>${sName}</div>`;
+                            // Override border color via style if needed
                         }
 
                         const div = document.createElement('div');
-                        div.className = `slot ${status}`;
-                        div.innerHTML = STATUS_TEXT[status];
+                        div.className = slotClass;
+                        div.innerHTML = displayText;
                         div.style.cursor = 'pointer';
-                        div.onclick = () => toggleStatus(div, dateKey, timeCode);
+
+                        // Open Modal
+                        div.onclick = () => openBookingModal(dateKey, timeCode, record);
                         row.appendChild(div);
                     });
 
-                    // Right Time Label
-                    const timeLabelRight = document.createElement('div');
-                    timeLabelRight.className = 'time-label time-label-right';
-                    timeLabelRight.textContent = timeCode;
-                    row.appendChild(timeLabelRight);
-
                     bodyContainer.appendChild(row);
                 });
-
                 document.querySelector('.current-month').textContent = `${startDate.getFullYear()}年 ${startDate.getMonth() + 1}月`;
             }
 
-            async function toggleStatus(element, date, time) {
-                let currentStatus = 'status-ok';
-                if (element.classList.contains('status-online')) currentStatus = 'status-online';
-                if (element.classList.contains('status-few')) currentStatus = 'status-few';
-                if (element.classList.contains('status-full')) currentStatus = 'status-full';
-                if (element.classList.contains('status-ng')) currentStatus = 'status-ng';
+            // Modal Logic
+            let bookingModalTarget = null; // {date, time, record}
 
-                const currentIndex = STATUS_ORDER.indexOf(currentStatus);
-                const nextIndex = (currentIndex + 1) % STATUS_ORDER.length;
-                const nextStatus = STATUS_ORDER[nextIndex];
+            async function openBookingModal(date, time, record) {
+                bookingModalTarget = { date, time, record };
+                const modal = document.getElementById('bookingModal');
+                document.getElementById('modalTitle').textContent = `${date} ${time}`;
 
-                // Optimistic update
-                element.className = `slot ${nextStatus}`;
-                element.innerHTML = STATUS_TEXT[nextStatus];
+                // Set current values
+                document.getElementById('modalStatus').value = record ? record.status : 'status-ng';
+                document.getElementById('selectedStudentId').value = record ? (record.student_id || '') : '';
 
-                // Save
-                const { error } = await client
-                    .from('schedule_slots')
-                    .upsert({
-                        date: date,
-                        time_code: time,
-                        status: nextStatus
-                    }, { onConflict: 'date, time_code' });
-
-                if (error) {
-                    console.error('Error saving:', error);
-                    alert('保存エラー: ' + (error.message || JSON.stringify(error)) + '\n\nSupabaseのRLS設定を確認してください。');
-                    // Revert
-                    element.className = `slot ${currentStatus}`;
-                    element.innerHTML = STATUS_TEXT[currentStatus];
+                // Show name
+                const nameDiv = document.getElementById('selectedStudentName');
+                if (record && record.students) {
+                    let sName = (record.students.last_name && record.students.first_name)
+                        ? `${record.students.last_name} ${record.students.first_name}`
+                        : (record.students.name || '');
+                    nameDiv.textContent = `選択中: ${sName}`;
                 } else {
-                    showSaveStatus();
+                    nameDiv.textContent = '';
                 }
+
+                document.getElementById('studentSearch').value = '';
+                document.getElementById('studentSearchResults').style.display = 'none';
+                document.getElementById('modalBookingType').value = record ? (record.booking_type || 'Lesson') : 'Lesson';
+                document.getElementById('modalMemo').value = record ? (record.memo || '') : '';
+
+                modal.classList.add('active');
             }
 
-            async function applyBulk() {
-                const startDateStr = document.getElementById('bulkStartDate').value;
-                const endDateStr = document.getElementById('bulkEndDate').value;
-                const startTimeStr = document.getElementById('bulkStartTime').value;
-                const endTimeStr = document.getElementById('bulkEndTime').value;
-                const status = document.getElementById('bulkStatus').value;
+            function closeBookingModal() {
+                document.getElementById('bookingModal').classList.remove('active');
+            }
 
-                const daysChecked = Array.from(document.querySelectorAll('input[name="bulkDay"]:checked')).map(cb => parseInt(cb.value));
-
-                if (!startDateStr || !endDateStr) {
-                    alert("期間を指定してください");
+            async function searchStudents() {
+                const term = document.getElementById('studentSearch').value;
+                if (term.length < 1) {
+                    document.getElementById('studentSearchResults').style.display = 'none';
                     return;
                 }
 
-                const start = new Date(startDateStr);
-                const end = new Date(endDateStr);
-                const items = [];
+                // Quick search (could be optimized)
+                const { data, error } = await client
+                    .from('students')
+                    .select('*')
+                    .or(`last_name.ilike.%${term}%,first_name.ilike.%${term}%,name.ilike.%${term}%`)
+                    .limit(5);
 
-                // Loop Dates
-                for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
-                    if (daysChecked.includes(d.getDay())) {
-                        const dateKey = formatDateKey(d);
+                const resultsDiv = document.getElementById('studentSearchResults');
+                resultsDiv.innerHTML = '';
+                resultsDiv.style.display = 'block';
 
-                        // Loop Hours
-                        let startH = parseInt(startTimeStr.split(':')[0]);
-                        let endH = parseInt(endTimeStr.split(':')[0]);
+                if (data) {
+                    data.forEach(s => {
+                        const div = document.createElement('div');
+                        div.style.padding = '8px';
+                        div.style.cursor = 'pointer';
+                        div.style.borderBottom = '1px solid #444';
+                        div.style.color = 'white';
 
-                        for (let h = startH; h <= endH; h++) {
-                            items.push({
-                                date: dateKey,
-                                time_code: `${h}:00`,
-                                status: status
-                            });
-                        }
-                    }
-                }
-
-                if (items.length === 0) {
-                    alert("対象の枠がありません");
-                    return;
-                }
-
-                if (!confirm(`${items.length}件の枠を一括更新しますか？`)) return;
-
-                // Batch Upsert
-                const { error } = await client
-                    .from('schedule_slots')
-                    .upsert(items, { onConflict: 'date, time_code' });
-
-                if (error) {
-                    console.error('Bulk Error:', error);
-                    alert('一括更新エラー: ' + (error.message || JSON.stringify(error)) + '\n\nSupabaseのRLS設定を確認してください。');
-                } else {
-                    alert('一括更新完了しました');
-                    fetchSchedule(currentStartDate);
+                        const sName = (s.last_name && s.first_name) ? `${s.last_name} ${s.first_name}` : s.name;
+                        div.textContent = sName;
+                        div.onmouseover = () => div.style.background = '#444';
+                        div.onmouseout = () => div.style.background = 'transparent';
+                        div.onclick = () => {
+                            document.getElementById('selectedStudentId').value = s.id;
+                            document.getElementById('selectedStudentName').textContent = `選択中: ${sName}`;
+                            resultsDiv.style.display = 'none';
+                        };
+                        resultsDiv.appendChild(div);
+                    });
                 }
             }
 
-            function showSaveStatus() {
-                const el = document.getElementById('saveStatus');
-                el.classList.add('show');
-                setTimeout(() => el.classList.remove('show'), 2000);
+            async function saveBooking() {
+                const status = document.getElementById('modalStatus').value;
+                const studentId = document.getElementById('selectedStudentId').value || null;
+                const type = document.getElementById('modalBookingType').value;
+                const memo = document.getElementById('modalMemo').value;
+
+                const { date, time } = bookingModalTarget;
+
+                const updates = {
+                    date: date,
+                    time_code: time,
+                    status: status === 'status-booked' ? 'status-ng' : status, // 'Booked' is visual only, status should be NG (Closed) or something? 
+                    // Wait, if booked, status should probably be 'status-ng' (Closed to public) but we flag it internally?
+                    // NO. 'status' column controls visibility. 
+                    // If booked, we usually set it to 'status-ng' so customers can't see it (shows '-')?
+                    // BUT in Admin we want to see it.
+                    // Let's rely on 'student_id' presence to style it as 'booked' in Admin.
+                    // And set status to 'status-ng' (Closed) so Public sees '-'.
+                    // OR 'status-full'?
+                    // User wanted 'Only - (Closed) showed' for booked slots?
+                    // Actually, if I set 'status-ng', it shows '-'.
+                    // If I select 'status-ok' but assign student, it usually implies 'Opened but taken?' -> Weird.
+                    // Let's assume: If Student Assigned -> Status forced to 'status-ng' (Closed) ??
+                    // Or let user decide.
+
+                    student_id: studentId,
+                    booking_type: type,
+                    memo: memo
+                };
+
+                const { error } = await client.from('schedule_slots').upsert(updates, { onConflict: 'date, time_code' });
+                if (error) { alert("保存失敗: " + error.message); return; }
+
+                closeBookingModal();
+                fetchSchedule(currentStartDate);
+            }
+
+            function clearBooking() {
+                document.getElementById('selectedStudentId').value = '';
+                document.getElementById('modalStatus').value = 'status-ok'; // Reset to Open?
+                // Or just clear assignment?
+                saveBooking();
             }
 
             document.getElementById('prevWeek').addEventListener('click', () => {
