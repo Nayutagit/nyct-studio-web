@@ -1529,8 +1529,12 @@ ul {
         position: absolute;
         /* Absolute positioning for left alignment */
         left: 20px;
-        top: 20px;
-        /* Adjust based on header padding */
+        top: 25px;
+        /* Fixed Top Left as requested */
+        transform: none;
+        font-size: 1.8rem;
+        cursor: pointer;
+        z-index: 1001;
     }
 
     .header-inner {
