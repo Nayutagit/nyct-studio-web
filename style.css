@@ -1534,14 +1534,13 @@ ul {
     .menu-toggle {
         display: block;
         position: absolute;
-        /* Absolute positioning for left alignment */
+        /* Relative to Header */
+        top: 50%;
         left: 20px;
-        top: 25px;
-        /* Fixed Top Left as requested */
-        transform: none;
-        font-size: 1.8rem;
+        transform: translateY(-50%);
+        z-index: 2000;
+        /* Ensure visibility over nav */
         cursor: pointer;
-        z-index: 1001;
     }
 
     .header-inner {
