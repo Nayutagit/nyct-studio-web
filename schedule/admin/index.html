@@ -8,7 +8,7 @@
     <link rel="icon" href="../../img/favicon.png">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="../../style.css?v=60">
+    <link rel="stylesheet" href="../../style.css?v=63">
     <script src="https://kit.fontawesome.com/aa13b8dc63.js" crossorigin="anonymous"></script>
     <style>
         .admin-controls {
@@ -60,7 +60,7 @@
                 <h1 class="section-title">スケジュール管理</h1>
                 <p style="text-align: center; margin-bottom: 20px;">クリックしてステータスを変更（◎ → -）</p>
 
-                <!-- Bulk Update UI (Restored & Simplified) -->
+                <!-- Bulk Update UI -->
                 <div
                     style="background: rgba(255, 255, 255, 0.05); padding: 20px; border-radius: 8px; margin-bottom: 30px; text-align: center;">
                     <h3 style="margin-bottom: 15px; font-size: 1.2rem; color: var(--accent-gold);">範囲一括更新</h3>
@@ -181,7 +181,7 @@
             const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlwdGVnenp1a3ltcW90emNoZ25wIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM4NDU1MTYsImV4cCI6MjA3OTQyMTUxNn0.iKWkVYwlKrSBlJKUxRebbGRcgvprzkcyAOgDaCHKLSY';
             const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-            // --- Bulk Update Logic (Keep existing simple) ---
+            // --- Bulk Update Logic ---
             async function runBulkUpdate() {
                 const startDateStr = document.getElementById('bulkStartDate').value;
                 const endDateStr = document.getElementById('bulkEndDate').value;
@@ -274,7 +274,6 @@
 
             // Global Data Cache
             let scheduleData = {};
-            let studentCache = [];
 
             async function fetchSchedule(startDate) {
                 const dates = [];
@@ -300,50 +299,54 @@
                     headerContainer.appendChild(div);
                 });
 
-                // Fetch Data (Application-Side Join for Robustness)
+                // Fetch Data using App-Side Join to prevent crashes if FK is missing
                 const dateKeys = dates.map(formatDateKey);
                 scheduleData = {};
 
-                // 1. Fetch Slots
-                const { data: slots, error: slotError } = await client
-                    .from('schedule_slots')
-                    .select('*')
-                    .in('date', dateKeys);
+                try {
+                    // 1. Fetch Slots
+                    const { data: slots, error: slotError } = await client
+                        .from('schedule_slots')
+                        .select('*')
+                        .in('date', dateKeys);
 
-                if (slotError) {
-                    console.error("Slot Fetch Error:", slotError);
-                    document.getElementById('schedule-body').innerHTML = '<p style="color:red; text-align:center;">データ取得エラーが発生しました</p>';
-                    return;
-                }
-
-                if (slots) {
-                    // 2. Extract Student IDs
-                    const studentIds = [...new Set(slots.filter(s => s.student_id).map(s => s.student_id))];
-
- et studentMap = {};
-                    if (studentIds.length > 0) {
-                        // 3. Fetch Students
-                        const { data: students, error: studentError } = await client
-                            .from('students')
-                            .select('*')
-                            .in('id', studentIds);
-
-                                            students.forEach(s => studentMap[s.id] = s);
-                        }
+                    if (slotError) {
+                        console.error("Slot Fetch Error:", slotError);
+                        // If slots fail, we just show empty grid
                     }
 
-                    // 4. Merge
-                    slots.forEach(item => {
-                        if (!scheduleData[item.date]) scheduleData[item.date] = {};
-                        if (item.student_id && studentMap[item.student_id]) {
-                            item.students = studentMap[item.student_id]; // Attach manually
-                            // Handle old schema fallback
-                            if (!item.students.last_name && item.students.name) {
-                                item.students.last_name = item.students.name;
+                    if (slots) {
+                        // 2. Extract Student IDs
+                        const studentIds = [...new Set(slots.filter(s => s.student_id).map(s => s.student_id))];
+                        
+                        let studentMap = {};
+       (studentIds.length > 0) {
+                            // 3. Fetch Students
+                            const { data: students, error: studentError } = await client
+                                .from('students')
+                                .select('*')
+                                .in('id', studentIds);
+                            
+               s) {
+                                students.forEach(s => studentMap[s.id] = s);
                             }
                         }
-                        scheduleData[item.date][item.time_code] = item;
-                    });
+
+                        // 4. Merge
+                        slots.forEach(item => {
+                            if (!scheduleData[item.date]) scheduleData[item.date] = {};
+                            if (item.student_id && studentMap[item.student_id]) {
+                                item.students = studentMap[item.student_id]; // Attach manually
+                                // Handle old schema fallback
+                                if (!item.students.last_name && item.students.name) {
+                                    item.students.last_name = item.students.name;
+                                }
+                            }
+                            scheduleData[item.date][item.time_code] = item;
+                        });
+                    }
+                } catch (e) {
+                    console.error("Critical Error", e);
                 }
 
                 // Body
@@ -359,36 +362,34 @@
                     row.appendChild(timeLabel);
 
                     dates.forEach(d => {
-                        const dateKey = formatDateKey(d);
+                        const(d);
                         const record = scheduleData[dateKey] ? scheduleData[dateKey][timeCode] : null;
-
-                        let status = record ?-ng'; // Default Closed
+                        
+                        let status = record ? record.status : 'status-ng'; // Default Closed
                         let displayText = STATUS_TEXT[status];
                         let slotClass = `slot ${status}`;
 
                         // If student assigned
-                        if (record && record.student_id) {
-                            slotClass += ' booked';
+                        if (recod                         slotClass += ' booked';
                             status = 'status-booked';
-
+                            
                             let sName = "Unknown";
-                  ) {
+                            if (record.students) {
                                 if (record.students.last_name || record.students.first_name) {
-                                    sName = `${record.students.last_name || ''} ${record.students.first_name || ''}`;
+                                    sName = `${record.students.last_name || ''} ${ecord.students.first_name || ''}`;
                                 } else {
                                     sName = "No Name";
                                 }
                             }
-                            displaText = `<div style="font-size:0.7em; line-height:1.1; color: var(--primary-neon);">Booked:<br>${sName}</div>`;
+                            displayText = `<div style="font-size:0.7em; line-height:1.1; color: var(--primary-neon);">Booked:<br>${sName}</div>`;
                         }
 
                         const div = document.createElement('div');
-                        div.className = slotClass;
-                        div.innerHTML = displayText;
+                        div.                       div.innerHTML = displayText;
                         div.style.cursor = 'pointer';
-
+                        
                         // Open Modal
-                        div.onclick = () => openBookingModal(d);
+                        div.onclick = () => openBookingModal(dateKey, timeCode, record);
                         row.appendChild(div);
                     });
 
@@ -409,14 +410,13 @@
                 document.getElementById('modalStatus').value = record ? record.status : 'status-ng';
                 document.getElementById('selectedStudentId').value = record ? (record.student_id || '') : '';
 
-                // Show name
-                const nameDiv = document.getElementById('selectedStudentName');
-                if (record && record.students) {
-                    let sName = (record.students.last_name && record.students.first_name)
-                        ? `${recor                     ${record.students.first_name}`
-                        : (record.stuents.name || '');
+                // Show name                    t nameDiv = document.getElementById('selectedStudentName');
+               if (record && record.students) {
+                    let sName = (record.studentslast_name && record.students.first_name)
+                        ? `${record.students.last_name} ${record.students.first_name}`
+                        : (record.students.name || '');
                     nameDiv.textContent = `選択中: ${sName}`;
-               } else {
+                } else {
                     nameDiv.textContent = '';
                 }
 
@@ -476,21 +476,18 @@
                 const status = document.getElementById('modalStatus').value;
                 const studentId = document.getElementById('selectedStudentId').value || null;
                 const type = document.getElementById('modalBookingType').value;
-                const memo = document.getElementById('modalMemo').value;
-
-                const { date, time } = bookingModalTarget;
+                const memo = document.getElementById('modale                            const { date, time } = bookingModalTarget;
 
                 const updates = {
-                    // If I select 'status-ok' but assign student, it usually implies 'Opened but taken?' -> Weird.
-                    // Let's s                    gned -> Status forced to 'status-ng' (Closed) ??
-                    // Or let user decide.
-
+                    date: date,
+                    time_code: time,
+                    status: status, 
                     student_id: studentId,
                     booking_type: type,
                     memo: memo
                 };
 
-                { error } = await client.from('schedule_slots').upsert(updates, { onConflict: 'date, time_code' });
+                const { error } = await client.from('schedule_slots').upsert(updates, { onConflict: 'date, time_code' });
                 if (error) { alert("保存失敗: " + error.message); return; }
 
                 closeBookingModal();
@@ -499,8 +496,7 @@
 
             function clearBooking() {
                 document.getElementById('selectedStudentId').value = '';
-                document.getElementById('modalStatus').value = 'status-ok'; // Reset to Open?
-                // Or just clear assignment?
+                document.getElementById('modalStatus').value = 'status-ok'; // Reset to Open
                 saveBooking();
             }
 
@@ -510,15 +506,15 @@
                 currentStartDate = newDate;
                 fetchSchedule(currentStartDate);
             });
-            document.getElementById('nextWeek').addEventListener('click', () => {
-                const newDate = new D                e(currentStartDate);
+            document.getElementById('nextWeek').addEventList                er('click', () => {
+                const newDate = new Date(currentStartDate);
                 newDate.setDate(newDate.getDate() + 7);
                 currentStartDate = newDate;
                 fetchSchedule(currentStartDate);
             });
 
             // Init
-            fetchSchedule(currentStartDate);
+                    dule(currentStartDate);
         </script>
 </body>
 
