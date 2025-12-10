@@ -8,7 +8,7 @@
     <link rel="icon" href="../../img/favicon.png">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="../../style.css?v=73">
+    <link rel="stylesheet" href="../../style.css?v=74">
     <script src="https://kit.fontawesome.com/aa13b8dc63.js" crossorigin="anonymous"></script>
     <style>
         /* 1. Reset & Base Scroll Settings */
@@ -26,6 +26,7 @@
         .schedule-grid {
             display: block !important;
             position: relative !important;
+            /* Ensure Grid moves with body */
             float: none !important;
             /* Fix Collapse */
             height: auto !important;
@@ -33,17 +34,26 @@
             overflow: visible !important;
         }
 
+        /* 3. Disable Sticky for Diagnosis */
+        .schedule-header,
+        .time-label,
+        .header-corner,
+        header {
+            position: static !important;
+            /* Was sticky/fixed */
+            top: auto !important;
+            left: auto !important;
+        }
+
         body {
-            min-height: 2000px !important;
-            /* DIAGNOSTIC FORCE */
-            /* Keep body at least full screen */
+            min-height: 100vh !important;
             padding-bottom: 20rem;
         }
 
         .schedule-grid {
             min-height: 50vh;
             background: rgba(30, 30, 30, 0.5);
-            /* Border removed for release, layout should be fixed now */
+            margin-bottom: 100px;
         }
 
         /* 3. Branding Fix */
@@ -579,8 +589,7 @@
                 fetchSchedule(currentStartDate);
             } catch (e) {
                 alert("Init Error: " + e.message);
-            }
-        </script>
+              </script>
 </body>
 
 </html>
