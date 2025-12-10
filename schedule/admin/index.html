@@ -8,7 +8,7 @@
     <link rel="icon" href="../../img/favicon.png">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="../../style.css?v=75">
+    <link rel="stylesheet" href="../../style.css?v=76">
     <script src="https://kit.fontawesome.com/aa13b8dc63.js" crossorigin="anonymous"></script>
     <style>
         /* 1. Reset & Base Scroll Settings */
@@ -34,15 +34,12 @@
             overflow: visible !important;
         }
 
-        /* 3. Disable Sticky for Diagnosis */
+        /* Disable Sticky */
         .schedule-header,
         .time-label,
         .header-corner,
         header {
             position: static !important;
-            /* Was sticky/fixed */
-            top: auto !important;
-            left: auto !important;
         }
 
         body {
@@ -53,11 +50,11 @@
         .schedule-grid {
             min-height: 50vh;
             background: white !important;
-            /* HIGH CONTRAST DEBUG */
+            /* HIGH CONTRAST */
             color: black !important;
+            border: 5px solid red !important;
             margin-bottom: 100px;
-            border: 2px solid red;
-            /* VISIBILITY CHECK */
+            z-index: 9999 !important;
         }
 
         /* 3. Branding Fix */
@@ -89,19 +86,19 @@
         .save-status.show {
             opacity: 1;
         }
-
-        .schedule-grid {
-            border: 2px solid var(--primary-neon);
-        }
     </style>
 </head>
 
 <body>
+    <div
+        style="background:red; color:white; font-size:2rem; padding:20px; text-align:center; position:relative; z-index:10000;">
+        DEBUG MODE ACTIVE
+    </div>
     <header class="header">
         <!-- Header -->
         <header <div class="container header-content">
             <a href="../../index.html" class="logo">
-                ニストスタジオ Admin <small style="font-size: 0.8rem; opacity: 0.7;">(v2.1)</small>
+                ニストスタジオ Admin <small style="font-size: 0.8rem; opacity: 0.7;">(v2.2 DEBUG)</small>
             </a>
             <nav class="nav-links">
                 <a href="index.html"
