@@ -8,37 +8,44 @@
     <link rel="icon" href="../../img/favicon.png">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="../../style.css?v=67">
+    <link rel="stylesheet" href="../../style.css?v=68">
     <script src="https://kit.fontawesome.com/aa13b8dc63.js" crossorigin="anonymous"></script>
     <style>
+        /* 1. Reset & Base Scroll Settings */
         html {
-            height: 100%;
-            overflow-y: scroll;
+            height: auto !important;
+            min-height: 100vh !important;
+            overflow-y: scroll !important;
+            /* Always show scrollbar to prevent layout shift */
         }
 
         body {
-            min-height: 100%;
-            overflow-y: visible;
+            height: auto !important;
+            min-height: 100vh !important;
+            overflow-y: visible !important;
             position: relative;
-            display: block;
-            padding-bottom: 200px;
+            padding-bottom: 15rem;
+            /* Ensure space at bottom */
         }
 
+        /* 2. Components */
         .schedule-grid {
-            min-height: 500px;
+            min-height: 300px;
+            /* Prevent collapse if empty */
+            background: rgba(30, 30, 30, 0.5);
+            /* Visibility check */
         }
 
-        /* Force height */
-        /* Force Logo Tightness */
+        /* 3. Branding Fix */
         .logo span {
             margin-left: 0 !important;
         }
 
+        /* 4. Utils */
         .modal-overlay {
             display: none !important;
         }
 
-        /* Default hidden force */
         .modal-overlay.active {
             display: flex !important;
         }
