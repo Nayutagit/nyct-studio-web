@@ -11,6 +11,16 @@
     <link rel="stylesheet" href="../../style.css?v=64">
     <script src="https://kit.fontawesome.com/aa13b8dc63.js" crossorigin="anonymous"></script>
     <style>
+        html {
+            overflow-y: auto !important;
+            height: 100%;
+        }
+
+        /* Force Logo Tightness */
+        .logo span {
+            margin-left: 0 !important;
+        }
+
         .admin-controls {
             margin-bottom: 20px;
             text-align: center;
@@ -43,7 +53,7 @@
                 <div class="logo">
                     <a href="../../index.html"
                         style="font-size: 1.5rem; font-weight: 700; color: white; text-decoration: none;">ニスト<span
-                            style="color: var(--accent-gold);">スタジオ</span> <span
+                            style="color: var(--accent-gold); margin-left: 0 !important;">スタジオ</span> <span
                             style="font-size: 0.8rem; opacity: 0.7; margin-left: 10px;">Admin</span></a>
                 </div>
                 <nav class="nav-links">
@@ -170,209 +180,209 @@
 
         <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
         <script>
-              
+
               nst pass = prompt("Password:");
-               (pass !== "Nayuta24!") {
-                  cument.body.innerHTML = "<h1>Access Denied</h1>";
+            (pass !== "Nayuta24!") {
+                cument.body.innerHTML = "<h1>Access Denied</h1>";
                   row new Error("Access Denied");
-                            
 
-            const SUPABASE_URL = 'https://yptegzzukymqotzchgnp.supabase.co';
-            const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlwdGVnenp1a3ltcW90emNoZ25wIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM4NDU1MTYsImV4cCI6MjA3OTQyMTUxNn0.iKWkVYwlKrSBlJKUxRebbGRcgvprzkcyAOgDaCHKLSY';
-            const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-            // --- Bulk Update Logic ---
-            async function runBulkUpdate() {
-                const startDateStr = document.getElementById('bulkStartDate').value;
-                const endDateStr = document.getElementById('bulkEndDate').value;
-                const startTimeStr = document.getElementById('bulkStartTime').value;
-                const endTimeStr = document.getElementById('bulkEndTime').value;
-                const status = document.getElementById('bulkStatus').value;
+                const SUPABASE_URL = 'https://yptegzzukymqotzchgnp.supabase.co';
+                const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlwdGVnenp1a3ltcW90emNoZ25wIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM4NDU1MTYsImV4cCI6MjA3OTQyMTUxNn0.iKWkVYwlKrSBlJKUxRebbGRcgvprzkcyAOgDaCHKLSY';
+                const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-                if (!startDateStr || !endDateStr) {
-                    alert("期間を選択してください");
-                    return;
-                }
+                // --- Bulk Update Logic ---
+                async function runBulkUpdate() {
+                    const startDateStr = document.getElementById('bulkStartDate').value;
+                    const endDateStr = document.getElementById('bulkEndDate').value;
+                    const startTimeStr = document.getElementById('bulkStartTime').value;
+                    const endTimeStr = document.getElementById('bulkEndTime').value;
+                    const status = document.getElementById('bulkStatus').value;
 
-                const startHour = parseInt(startTimeStr.split(':')[0]);
-                const endHour = parseInt(endTimeStr.split(':')[0]);
-                let updates = [];
-                let curr = new Date(startDateStr);
-                const end = new Date(endDateStr);
-
-                while (curr <= end) {
-                    const dateKey = formatDateKey(curr);
-                    for (let h = startHour; h <= endHour; h++) {
-                        updates.push({
-                            date: dateKey,
-                            time_code: `${h}:00`,
-                            status: status
-                        });
-                    }
-                    curr.setDate(curr.getDate() + 1);
-                }
-
-                if (updates.length === 0) {
-                    alert("対象の枠がありません");
-                    return;
-                }
-
-                if (!confirm(`${updates.length}件の枠を一括更新しますか？`)) return;
-
-                const { error } = await client.from('schedule_slots').upsert(updates, { onConflict: 'date, time_code' });
-                if (error) { alert("エラー: " + error.message); return; }
-                alert("更新完了！");
-                fetchSchedule(currentStartDate);
-            }
-
-            let currentStartDate = new Date();
-            const START_HOUR = 8;
-            const END_HOUR = 22;
-            const HOURS = [];
-            for (let i = START_HOUR; i <= END_HOUR; i++) {
-                HOURS.push(`${i}:00`);
-            }
-
-            // Init Bulk Selects
-            setTimeout(() => {
-                const bulkStartSelect = document.getElementById('bulkStartTime');
-                const bulkEndSelect = document.getElementById('bulkEndTime');
-                if (bulkStartSelect && bulkEndSelect) {
-                    HOURS.forEach(h => {
-                        const opt1 = document.createElement('option');
-                        opt1.value = h; opt1.textContent = h;
-                        bulkStartSelect.appendChild(opt1);
-                        const opt2 = document.createElement('option');
-                        opt2.value = h; opt2.textContent = h;
-                        bulkEndSelect.appendChild(opt2);
-                    });
-                    bulkEndSelect.value = "22:00";
-                    const today = new Date();
-                    const nextMonth = new Date();
-                    nextMonth.setMonth(nextMonth.getMonth() + 1);
-                    document.getElementById('bulkStartDate').value = today.toISOString().split('T')[0];
-                    document.getElementById('bulkEndDate').value = nextMonth.toISOString().split('T')[0];
-                }
-            }, 100);
-
-            const formatDateKey = (date) => {
-                const d = new Date(date);
-                return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
-            };
-
-            const formatDisplayDate = (date) => {
-                const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-                return `${date.getMonth() + 1}/${date.getDate()}<br><span style="font-size:0.85em">(${days[date.getDay()]})</span>`;
-            };
-
-            const STATUS_ORDER = ['status-ok', 'status-online', 'status-ng'];
-            const STATUS_TEXT = {
-                'status-ok': '◎',
-                'status-online': '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"></path><path d="M1.42 9a16 16 0 0 1 21.16 0"></path><path d="M8.53 16.11a6 6 0 0 1 6.95 0"></path><line x1="12" y1="20" x2="12.01" y2="20"></line></svg>',
-                'status-ng': '-'
-            };
-
-            // Global Data Cache
-            let scheduleData = {};
-
-            async function fetchSchedule(startDate) {
-                const dates = [];
-                for (let i = 0; i < 7; i++) {
-                    const d = new Date(startDate);
-                    d.setDate(startDate.getDate() + i);
-                    dates.push(d);
-                }
-
-                // Headers
-                const headerContainer = document.querySelector('.schedule-header');
-                headerContainer.innerHTML = '';
-                const corner = document.createElement('div');
-                corner.className = 'date-col header-corner';
-                headerContainer.appendChild(corner);
-
-                dates.forEach(d => {
-                    const div = document.createElement('div');
-                    div.className = 'date-col';
-                    if (d.getDay() === 6) div.classList.add('sat');
-                    if (d.getDay() === 0) div.classList.add('sun');
-                    div.innerHTML = `<span>${formatDisplayDate(d)}</span>`;
-                    headerContainer.appendChild(div);
-                });
-
-                // Fetch Data using App-Side Join to prevent crashes if FK is missing
-                const dateKeys = dates.map(formatDateKey);
-                scheduleData = {};
-
-                try {
-                    // 1. Fetch Slots
-                    const { data: slots, error: slotError } = await client
-                        .from('schedule_slots')
-                        .select('*')
-                        .in('date', dateKeys);
-
-                    if (slotError) {
-                        console.error("Slot Fetch Error:", slotError);
-                        // If slots fail, we just show empty grid
+                    if (!startDateStr || !endDateStr) {
+                        alert("期間を選択してください");
+                        return;
                     }
 
-                    if (slots) {
-                        // 2. Extract Student IDs
-                        const studentIds = [...new Set(slots.filter(s => s.student_id).map(s => s.student_id))];
-                        
-                        let studentMap = {};
-       (studentIds.length > 0) {
-                            // 3. Fetch Students
-                            const { data: students, error: studentError } = await client
-                                .from('students')
-                                .select('*')
-                                .in('id', studentIds);
-                            
-               s) {
-                                students.forEach(s => studentMap[s.id] = s);
-                            }
+                    const startHour = parseInt(startTimeStr.split(':')[0]);
+                    const endHour = parseInt(endTimeStr.split(':')[0]);
+                    let updates = [];
+                    let curr = new Date(startDateStr);
+                    const end = new Date(endDateStr);
+
+                    while (curr <= end) {
+                        const dateKey = formatDateKey(curr);
+                        for (let h = startHour; h <= endHour; h++) {
+                            updates.push({
+                                date: dateKey,
+                                time_code: `${h}:00`,
+                                status: status
+                            });
                         }
-
-                        // 4. Merge
-                        slots.forEach(item => {
-                            if (!scheduleData[item.date]) scheduleData[item.date] = {};
-                            if (item.student_id && studentMap[item.student_id]) {
-                                item.students = studentMap[item.student_id]; // Attach manually
-                                // Handle old schema fallback
-                                if (!item.students.last_name && item.students.name) {
-                                    item.students.last_name = item.students.name;
-                                }
-                            }
-                            scheduleData[item.date][item.time_code] = item;
-                        });
+                        curr.setDate(curr.getDate() + 1);
                     }
-                } catch (e) {
-                    console.error("Critical Error", e);
+
+                    if (updates.length === 0) {
+                        alert("対象の枠がありません");
+                        return;
+                    }
+
+                    if (!confirm(`${updates.length}件の枠を一括更新しますか？`)) return;
+
+                    const { error } = await client.from('schedule_slots').upsert(updates, { onConflict: 'date, time_code' });
+                    if (error) { alert("エラー: " + error.message); return; }
+                    alert("更新完了！");
+                    fetchSchedule(currentStartDate);
                 }
 
-                // Body
-                const bodyContainer = document.getElementById('schedule-body');
-                bodyContainer.innerHTML = '';
+                let currentStartDate = new Date();
+                const START_HOUR = 8;
+                const END_HOUR = 22;
+                const HOURS = [];
+                for (let i = START_HOUR; i <= END_HOUR; i++) {
+                    HOURS.push(`${i}:00`);
+                }
 
-                HOURS.forEach(timeCode => {
-                    const row = document.createElement('div');
-                    row.className = 'schedule-row';
-                    const timeLabel = document.createElement('div');
-                    timeLabel.className = 'time-label';
-                    timeLabel.textContent = timeCode + '~';
-                    row.appendChild(timeLabel);
+                // Init Bulk Selects
+                setTimeout(() => {
+                    const bulkStartSelect = document.getElementById('bulkStartTime');
+                    const bulkEndSelect = document.getElementById('bulkEndTime');
+                    if (bulkStartSelect && bulkEndSelect) {
+                        HOURS.forEach(h => {
+                            const opt1 = document.createElement('option');
+                            opt1.value = h; opt1.textContent = h;
+                            bulkStartSelect.appendChild(opt1);
+                            const opt2 = document.createElement('option');
+                            opt2.value = h; opt2.textContent = h;
+                            bulkEndSelect.appendChild(opt2);
+                        });
+                        bulkEndSelect.value = "22:00";
+                        const today = new Date();
+                        const nextMonth = new Date();
+                        nextMonth.setMonth(nextMonth.getMonth() + 1);
+                        document.getElementById('bulkStartDate').value = today.toISOString().split('T')[0];
+                        document.getElementById('bulkEndDate').value = nextMonth.toISOString().split('T')[0];
+                    }
+                }, 100);
+
+                const formatDateKey = (date) => {
+                    const d = new Date(date);
+                    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+                };
+
+                const formatDisplayDate = (date) => {
+                    const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+                    return `${date.getMonth() + 1}/${date.getDate()}<br><span style="font-size:0.85em">(${days[date.getDay()]})</span>`;
+                };
+
+                const STATUS_ORDER = ['status-ok', 'status-online', 'status-ng'];
+                const STATUS_TEXT = {
+                    'status-ok': '◎',
+                    'status-online': '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"></path><path d="M1.42 9a16 16 0 0 1 21.16 0"></path><path d="M8.53 16.11a6 6 0 0 1 6.95 0"></path><line x1="12" y1="20" x2="12.01" y2="20"></line></svg>',
+                    'status-ng': '-'
+                };
+
+                // Global Data Cache
+                let scheduleData = {};
+
+                async function fetchSchedule(startDate) {
+                    const dates = [];
+                    for (let i = 0; i < 7; i++) {
+                        const d = new Date(startDate);
+                        d.setDate(startDate.getDate() + i);
+                        dates.push(d);
+                    }
+
+                    // Headers
+                    const headerContainer = document.querySelector('.schedule-header');
+                    headerContainer.innerHTML = '';
+                    const corner = document.createElement('div');
+                    corner.className = 'date-col header-corner';
+                    headerContainer.appendChild(corner);
 
                     dates.forEach(d => {
-                        const(d);
-                        const record = scheduleData[dateKey] ? scheduleData[dateKey][timeCode] : null;
-                        
-                        let status = record ? record.status : 'status-ng'; // Default Closed
-                        let displayText = STATUS_TEXT[status];
-                        let slotClass = `slot ${status}`;
+                        const div = document.createElement('div');
+                        div.className = 'date-col';
+                        if (d.getDay() === 6) div.classList.add('sat');
+                        if (d.getDay() === 0) div.classList.add('sun');
+                        div.innerHTML = `<span>${formatDisplayDate(d)}</span>`;
+                        headerContainer.appendChild(div);
+                    });
 
-                        // If student assigned
-                        if (recod                         slotClass += ' booked';
-                            status = 'status-booked';
+                    // Fetch Data using App-Side Join to prevent crashes if FK is missing
+                    const dateKeys = dates.map(formatDateKey);
+                    scheduleData = {};
+
+                    try {
+                        // 1. Fetch Slots
+                        const { data: slots, error: slotError } = await client
+                            .from('schedule_slots')
+                            .select('*')
+                            .in('date', dateKeys);
+
+                        if (slotError) {
+                            console.error("Slot Fetch Error:", slotError);
+                            // If slots fail, we just show empty grid
+                        }
+
+                        if (slots) {
+                            // 2. Extract Student IDs
+                            const studentIds = [...new Set(slots.filter(s => s.student_id).map(s => s.student_id))];
+
+                            let studentMap = {};
+                            (studentIds.length > 0) {
+                                // 3. Fetch Students
+                                const { data: students, error: studentError } = await client
+                                    .from('students')
+                                    .select('*')
+                                    .in('id', studentIds);
                             
+               s) {
+                                    students.forEach(s => studentMap[s.id] = s);
+                                }
+                            }
+
+                            // 4. Merge
+                            slots.forEach(item => {
+                                if (!scheduleData[item.date]) scheduleData[item.date] = {};
+                                if (item.student_id && studentMap[item.student_id]) {
+                                    item.students = studentMap[item.student_id]; // Attach manually
+                                    // Handle old schema fallback
+                                    if (!item.students.last_name && item.students.name) {
+                                        item.students.last_name = item.students.name;
+                                    }
+                                }
+                                scheduleData[item.date][item.time_code] = item;
+                            });
+                        }
+                    } catch (e) {
+                        console.error("Critical Error", e);
+                    }
+
+                    // Body
+                    const bodyContainer = document.getElementById('schedule-body');
+                    bodyContainer.innerHTML = '';
+
+                    HOURS.forEach(timeCode => {
+                        const row = document.createElement('div');
+                        row.className = 'schedule-row';
+                        const timeLabel = document.createElement('div');
+                        timeLabel.className = 'time-label';
+                        timeLabel.textContent = timeCode + '~';
+                        row.appendChild(timeLabel);
+
+                        dates.forEach(d => {
+                            const(d);
+                            const record = scheduleData[dateKey] ? scheduleData[dateKey][timeCode] : null;
+
+                            let status = record ? record.status : 'status-ng'; // Default Closed
+                            let displayText = STATUS_TEXT[status];
+                            let slotClass = `slot ${status}`;
+
+                            // If student assigned
+                            if (recod                         slotClass += ' booked';
+                            status = 'status-booked';
+
                             let sName = "Unknown";
                             if (record.students) {
                                 if (record.students.last_name || record.students.first_name) {
@@ -385,9 +395,9 @@
                         }
 
                         const div = document.createElement('div');
-                        div.                       div.innerHTML = displayText;
+                        div.div.innerHTML = displayText;
                         div.style.cursor = 'pointer';
-                        
+
                         // Open Modal
                         div.onclick = () => openBookingModal(dateKey, timeCode, record);
                         row.appendChild(div);
@@ -411,7 +421,7 @@
                 document.getElementById('selectedStudentId').value = record ? (record.student_id || '') : '';
 
                 // Show name                    t nameDiv = document.getElementById('selectedStudentName');
-               if (record && record.students) {
+                if (record && record.students) {
                     let sName = (record.studentslast_name && record.students.first_name)
                         ? `${record.students.last_name} ${record.students.first_name}`
                         : (record.students.name || '');
@@ -481,7 +491,7 @@
                 const updates = {
                     date: date,
                     time_code: time,
-                    status: status, 
+                    status: status,
                     student_id: studentId,
                     booking_type: type,
                     memo: memo
@@ -513,9 +523,19 @@
                 fetchSchedule(currentStartDate);
             });
 
+            // ERROR HANDLING
+            window.onerror = function (msg, url, line) {
+                alert("JS Error: " + msg + "\nLine: " + line);
+            };
+
             // Init
-                    dule(currentStartDate);
+            try {
+                fetchSchedule(currentStartDate);
+            } catch (e) {
+                alert("Critical Init Error: " + e.message);
+            }
         </script>
 </body>
 
 </html>
+```
