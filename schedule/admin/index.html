@@ -8,7 +8,7 @@
     <link rel="icon" href="../../img/favicon.png">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="../../style.css?v=76">
+    <link rel="stylesheet" href="../../style.css?v=77">
     <script src="https://kit.fontawesome.com/aa13b8dc63.js" crossorigin="anonymous"></script>
     <style>
         /* 1. Reset & Base Scroll Settings */
@@ -90,15 +90,11 @@
 </head>
 
 <body>
-    <div
-        style="background:red; color:white; font-size:2rem; padding:20px; text-align:center; position:relative; z-index:10000;">
-        DEBUG MODE ACTIVE
-    </div>
     <header class="header">
         <!-- Header -->
-        <header <div class="container header-content">
+        <div class="container header-content">
             <a href="../../index.html" class="logo">
-                ニストスタジオ Admin <small style="font-size: 0.8rem; opacity: 0.7;">(v2.2 DEBUG)</small>
+                ニストスタジオ Admin <small style="font-size: 0.8rem; opacity: 0.7;">(v2.3 UMD)</small>
             </a>
             <nav class="nav-links">
                 <a href="index.html"
@@ -106,491 +102,491 @@
                 <a href="students.html" style="color: #ccc; text-decoration: none;">生徒管理</a>
                 <a href="../../index.html" style="margin-left: 20px; font-size: 0.9rem; color: #666;">Exit</a>
             </nav>
-            </div>
-        </header>
+        </div>
+    </header>
 
-        <section class="section">
-            <div class="container">
-                <h1 class="section-title">スケジュール管理</h1>
-                <p style="text-align: center; margin-bottom: 20px;">クリックしてステータスを変更（◎ → -）</p>
+    <section class="section">
+        <div class="container">
+            <h1 class="section-title">スケジュール管理</h1>
+            <p style="text-align: center; margin-bottom: 20px;">クリックしてステータスを変更（◎ → -）</p>
 
-                <!-- Bulk Update UI -->
+            <!-- Bulk Update UI -->
+            <div
+                style="background: rgba(255, 255, 255, 0.05); padding: 20px; border-radius: 8px; margin-bottom: 30px; text-align: center;">
+                <h3 style="margin-bottom: 15px; font-size: 1.2rem; color: var(--accent-gold);">範囲一括更新</h3>
                 <div
-                    style="background: rgba(255, 255, 255, 0.05); padding: 20px; border-radius: 8px; margin-bottom: 30px; text-align: center;">
-                    <h3 style="margin-bottom: 15px; font-size: 1.2rem; color: var(--accent-gold);">範囲一括更新</h3>
-                    <div
-                        style="display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; align-items: center; color: #ccc;">
-                        <div>
-                            <label>期間:</label>
-                            <input type="date" id="bulkStartDate"
-                                style="padding: 5px; background: #333; color: white; border: 1px solid #555;">
-                            <span>~</span>
-                            <input type="date" id="bulkEndDate"
-                                style="padding: 5px; background: #333; color: white; border: 1px solid #555;">
-                        </div>
-                        <div>
-                            <label>時間:</label>
-                            <select id="bulkStartTime"
-                                style="padding: 5px; background: #333; color: white; border: 1px solid #555;"></select>
-                            <span>~</span>
-                            <select id="bulkEndTime"
-                                style="padding: 5px; background: #333; color: white; border: 1px solid #555;"></select>
-                        </div>
-                        <div>
-                            <label>ステータス:</label>
-                            <select id="bulkStatus"
-                                style="padding: 10px; border-radius: 4px; border: 1px solid #444; background: #333; color: white;">
-                                <option value="status-ok">◎ 余裕あり</option>
-                                <option value="status-online">Online Only</option>
-                                <option value="status-ng">- 受付不可</option>
-                            </select>
-                        </div>
+                    style="display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; align-items: center; color: #ccc;">
+                    <div>
+                        <label>期間:</label>
+                        <input type="date" id="bulkStartDate"
+                            style="padding: 5px; background: #333; color: white; border: 1px solid #555;">
+                        <span>~</span>
+                        <input type="date" id="bulkEndDate"
+                            style="padding: 5px; background: #333; color: white; border: 1px solid #555;">
                     </div>
-                    <button onclick="runBulkUpdate()" class="cal-btn"
-                        style="margin-top: 15px; background: var(--accent-blue); width: 150px;">一括適用</button>
-                </div>
-
-                <div class="calendar-controls">
-                    <button class="cal-btn" id="prevWeek">前の週</button>
-                    <h2 class="current-month"></h2>
-                    <button class="cal-btn" id="nextWeek">次の週</button>
-                    <span id="saveStatus" class="save-status">保存しました</span>
-                </div>
-
-                <!-- Booking Modal -->
-                <div id="bookingModal" class="modal-overlay">
-                    <div class="modal-content">
-                        <button class="modal-close" onclick="closeBookingModal()">×</button>
-                        <h3 style="color: var(--accent-gold); margin-bottom: 20px;">予約枠設定</h3>
-
-                        <div class="booking-info">
-                            <h4 id="modalTitle" style="color:white; margin:0;"></h4>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label">ステータス</label>
-                            <select id="modalStatus" class="form-input">
-                                <option value="status-ok">◎ 予約可能</option>
-                                <option value="status-online">Online Only</option>
-                                <option value="status-ng">- 受付不可</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label">生徒割り当て</label>
-                            <div style="display:flex; gap:10px;">
-                                <input type="text" id="studentSearch" class="form-input" placeholder="名前で検索..."
-                                    oninput="searchStudents()">
-                                <input type="hidden" id="selectedStudentId">
-                            </div>
-                            <div id="studentSearchResults"
-                                style="max-height: 150px; overflow-y: auto; margin-top: 5px; background: #333; border: 1px solid #555; display: none;">
-                            </div>
-                            <div id="selectedStudentName"
-                                style="margin-top: 10px; color: var(--primary-neon); font-weight: bold;"></div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label">Booking Type</label>
-                            <select id="modalBookingType" class="form-input">
-                                <option value="Lesson">Lesson</option>
-                                <option value="Counseling">Counseling</option>
-                                <option value="Other">Other</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label">メモ</label>
-                            <textarea id="modalMemo" class="form-textarea" rows="3"></textarea>
-                        </div>
-
-                        <div style="display: flex; justify-content: space-between; margin-top: 30px;">
-                            <button class="btn btn-secondary" onclick="clearBooking()">割り当て解除 & ステータス変更</button>
-                            <button class="btn btn-primary" onclick="saveBooking()">保存</button>
-                        </div>
+                    <div>
+                        <label>時間:</label>
+                        <select id="bulkStartTime"
+                            style="padding: 5px; background: #333; color: white; border: 1px solid #555;"></select>
+                        <span>~</span>
+                        <select id="bulkEndTime"
+                            style="padding: 5px; background: #333; color: white; border: 1px solid #555;"></select>
+                    </div>
+                    <div>
+                        <label>ステータス:</label>
+                        <select id="bulkStatus"
+                            style="padding: 10px; border-radius: 4px; border: 1px solid #444; background: #333; color: white;">
+                            <option value="status-ok">◎ 余裕あり</option>
+                            <option value="status-online">Online Only</option>
+                            <option value="status-ng">- 受付不可</option>
+                        </select>
                     </div>
                 </div>
+                <button onclick="runBulkUpdate()" class="cal-btn"
+                    style="margin-top: 15px; background: var(--accent-blue); width: 150px;">一括適用</button>
+            </div>
 
-                <div class="schedule-grid">
-                    <div class="schedule-header">
-                        <!-- JS Injected -->
+            <div class="calendar-controls">
+                <button class="cal-btn" id="prevWeek">前の週</button>
+                <h2 class="current-month"></h2>
+                <button class="cal-btn" id="nextWeek">次の週</button>
+                <span id="saveStatus" class="save-status">保存しました</span>
+            </div>
+
+            <!-- Booking Modal -->
+            <div id="bookingModal" class="modal-overlay">
+                <div class="modal-content">
+                    <button class="modal-close" onclick="closeBookingModal()">×</button>
+                    <h3 style="color: var(--accent-gold); margin-bottom: 20px;">予約枠設定</h3>
+
+                    <div class="booking-info">
+                        <h4 id="modalTitle" style="color:white; margin:0;"></h4>
                     </div>
-                    <div id="schedule-body">
-                        <!-- JS Injected -->
+
+                    <div class="form-group">
+                        <label class="form-label">ステータス</label>
+                        <select id="modalStatus" class="form-input">
+                            <option value="status-ok">◎ 予約可能</option>
+                            <option value="status-online">Online Only</option>
+                            <option value="status-ng">- 受付不可</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">生徒割り当て</label>
+                        <div style="display:flex; gap:10px;">
+                            <input type="text" id="studentSearch" class="form-input" placeholder="名前で検索..."
+                                oninput="searchStudents()">
+                            <input type="hidden" id="selectedStudentId">
+                        </div>
+                        <div id="studentSearchResults"
+                            style="max-height: 150px; overflow-y: auto; margin-top: 5px; background: #333; border: 1px solid #555; display: none;">
+                        </div>
+                        <div id="selectedStudentName"
+                            style="margin-top: 10px; color: var(--primary-neon); font-weight: bold;"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Booking Type</label>
+                        <select id="modalBookingType" class="form-input">
+                            <option value="Lesson">Lesson</option>
+                            <option value="Counseling">Counseling</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">メモ</label>
+                        <textarea id="modalMemo" class="form-textarea" rows="3"></textarea>
+                    </div>
+
+                    <div style="display: flex; justify-content: space-between; margin-top: 30px;">
+                        <button class="btn btn-secondary" onclick="clearBooking()">割り当て解除 & ステータス変更</button>
+                        <button class="btn btn-primary" onclick="saveBooking()">保存</button>
                     </div>
                 </div>
             </div>
-        </section>
 
-        <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-        <script>
-            // 1. GLOBAL ERROR HANDLER (MUST BE FIRST)
-            window.onerror = function (msg, url, line) {
-                alert("System Error:\n" + msg + "\nLine: " + line);
-                console.error(msg, url, line);
-                return false;
-            };
+            <div class="schedule-grid">
+                <div class="schedule-header">
+                    <!-- JS Injected -->
+                </div>
+                <div id="schedule-body">
+                    <!-- JS Injected -->
+                </div>
+            </div>
+        </div>
+    </section>
 
-            // 2. CONFIG
-            const SUPABASE_URL = 'https://yptegzzukymqotzchgnp.supabase.co';
-            const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlwdGVnenp1a3ltcW90emNoZ25wIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM4NDU1MTYsImV4cCI6MjA3OTQyMTUxNn0.iKWkVYwlKrSBlJKUxRebbGRcgvprzkcyAOgDaCHKLSY';
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        // 1. GLOBAL ERROR HANDLER (MUST BE FIRST)
+        window.onerror = function (msg, url, line) {
+            alert("System Error:\n" + msg + "\nLine: " + line);
+            console.error(msg, url, line);
+            return false;
+        };
 
-            let client;
-            let scheduleData = {};
+        // 2. CONFIG
+        const SUPABASE_URL = 'https://yptegzzukymqotzchgnp.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlwdGVnenp1a3ltcW90emNoZ25wIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM4NDU1MTYsImV4cCI6MjA3OTQyMTUxNn0.iKWkVYwlKrSBlJKUxRebbGRcgvprzkcyAOgDaCHKLSY';
 
-            // 3. INIT CLIENT SAFELY
-            try {
-                if (typeof supabase === 'undefined') {
-                    throw new Error("Supabase Library failed to load.");
-                }
-                client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-                console.log("Supabase Client Init Success");
-            } catch (e) {
-                alert("Critical Error: " + e.message);
+        let client;
+        let scheduleData = {};
+
+        // 3. INIT CLIENT SAFELY
+        try {
+            if (typeof supabase === 'undefined') {
+                throw new Error("Supabase Library failed to load.");
+            }
+            client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+            console.log("Supabase Client Init Success");
+        } catch (e) {
+            alert("Critical Error: " + e.message);
+        }
+
+        // --- Bulk Update Logic ---
+        async function runBulkUpdate() {
+            const startDateStr = document.getElementById('bulkStartDate').value;
+            const endDateStr = document.getElementById('bulkEndDate').value;
+            const startTimeStr = document.getElementById('bulkStartTime').value;
+            const endTimeStr = document.getElementById('bulkEndTime').value;
+            const status = document.getElementById('bulkStatus').value;
+
+            if (!startDateStr || !endDateStr) {
+                alert("期間を選択してください");
+                return;
             }
 
-            // --- Bulk Update Logic ---
-            async function runBulkUpdate() {
-                const startDateStr = document.getElementById('bulkStartDate').value;
-                const endDateStr = document.getElementById('bulkEndDate').value;
-                const startTimeStr = document.getElementById('bulkStartTime').value;
-                const endTimeStr = document.getElementById('bulkEndTime').value;
-                const status = document.getElementById('bulkStatus').value;
+            const startHour = parseInt(startTimeStr.split(':')[0]);
+            const endHour = parseInt(endTimeStr.split(':')[0]);
+            let updates = [];
+            let curr = new Date(startDateStr);
+            const end = new Date(endDateStr);
 
-                if (!startDateStr || !endDateStr) {
-                    alert("期間を選択してください");
-                    return;
+            while (curr <= end) {
+                const dateKey = formatDateKey(curr);
+                for (let h = startHour; h <= endHour; h++) {
+                    updates.push({
+                        date: dateKey,
+                        time_code: `${h}:00`,
+                        status: status
+                    });
                 }
-
-                const startHour = parseInt(startTimeStr.split(':')[0]);
-                const endHour = parseInt(endTimeStr.split(':')[0]);
-                let updates = [];
-                let curr = new Date(startDateStr);
-                const end = new Date(endDateStr);
-
-                while (curr <= end) {
-                    const dateKey = formatDateKey(curr);
-                    for (let h = startHour; h <= endHour; h++) {
-                        updates.push({
-                            date: dateKey,
-                            time_code: `${h}:00`,
-                            status: status
-                        });
-                    }
-                    curr.setDate(curr.getDate() + 1);
-                }
-
-                if (updates.length === 0) {
-                    alert("対象の枠がありません");
-                    return;
-                }
-
-                if (!confirm(`${updates.length}件の枠を一括更新しますか？`)) return;
-
-                const { error } = await client.from('schedule_slots').upsert(updates, { onConflict: 'date, time_code' });
-                if (error) { alert("エラー: " + error.message); return; }
-                alert("更新完了！");
-                fetchSchedule(currentStartDate);
+                curr.setDate(curr.getDate() + 1);
             }
 
-            let currentStartDate = new Date();
-            const START_HOUR = 8;
-            const END_HOUR = 22;
-            const HOURS = [];
-            for (let i = START_HOUR; i <= END_HOUR; i++) {
-                HOURS.push(`${i}:00`);
+            if (updates.length === 0) {
+                alert("対象の枠がありません");
+                return;
             }
 
-            // Init Bulk Selects
-            setTimeout(() => {
-                const bulkStartSelect = document.getElementById('bulkStartTime');
-                const bulkEndSelect = document.getElementById('bulkEndTime');
-                if (bulkStartSelect && bulkEndSelect) {
-                    HOURS.forEach(h => {
-                        const opt1 = document.createElement('option');
-                        opt1.value = h; opt1.textContent = h;
-                        bulkStartSelect.appendChild(opt1);
-                        const opt2 = document.createElement('option');
-                        opt2.value = h; opt2.textContent = h;
-                        bulkEndSelect.appendChild(opt2);
-                    });
-                    bulkEndSelect.value = "22:00";
-                    const today = new Date();
-                    const nextMonth = new Date();
-                    nextMonth.setMonth(nextMonth.getMonth() + 1);
-                    document.getElementById('bulkStartDate').value = today.toISOString().split('T')[0];
-                    document.getElementById('bulkEndDate').value = nextMonth.toISOString().split('T')[0];
-                }
-            }, 100);
+            if (!confirm(`${updates.length}件の枠を一括更新しますか？`)) return;
 
-            const formatDateKey = (date) => {
-                const d = new Date(date);
-                return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
-            };
+            const { error } = await client.from('schedule_slots').upsert(updates, { onConflict: 'date, time_code' });
+            if (error) { alert("エラー: " + error.message); return; }
+            alert("更新完了！");
+            fetchSchedule(currentStartDate);
+        }
 
-            const formatDisplayDate = (date) => {
-                const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-                return `${date.getMonth() + 1}/${date.getDate()}<br><span style="font-size:0.85em">(${days[date.getDay()]})</span>`;
-            };
+        let currentStartDate = new Date();
+        const START_HOUR = 8;
+        const END_HOUR = 22;
+        const HOURS = [];
+        for (let i = START_HOUR; i <= END_HOUR; i++) {
+            HOURS.push(`${i}:00`);
+        }
 
-            const STATUS_TEXT = {
-                'status-ok': '◎',
-                'status-online': '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"></path><path d="M1.42 9a16 16 0 0 1 21.16 0"></path><path d="M8.53 16.11a6 6 0 0 1 6.95 0"></path><line x1="12" y1="20" x2="12.01" y2="20"></line></svg>',
-                'status-ng': '-'
-            };
+        // Init Bulk Selects
+        setTimeout(() => {
+            const bulkStartSelect = document.getElementById('bulkStartTime');
+            const bulkEndSelect = document.getElementById('bulkEndTime');
+            if (bulkStartSelect && bulkEndSelect) {
+                HOURS.forEach(h => {
+                    const opt1 = document.createElement('option');
+                    opt1.value = h; opt1.textContent = h;
+                    bulkStartSelect.appendChild(opt1);
+                    const opt2 = document.createElement('option');
+                    opt2.value = h; opt2.textContent = h;
+                    bulkEndSelect.appendChild(opt2);
+                });
+                bulkEndSelect.value = "22:00";
+                const today = new Date();
+                const nextMonth = new Date();
+                nextMonth.setMonth(nextMonth.getMonth() + 1);
+                document.getElementById('bulkStartDate').value = today.toISOString().split('T')[0];
+                document.getElementById('bulkEndDate').value = nextMonth.toISOString().split('T')[0];
+            }
+        }, 100);
 
-            async function fetchSchedule(startDate) {
-                console.log("Fetching schedule for:", startDate);
-                const dates = [];
-                for (let i = 0; i < 7; i++) {
-                    const d = new Date(startDate);
-                    d.setDate(startDate.getDate() + i);
-                    dates.push(d);
-                }
-                const dateKeys = dates.map(formatDateKey);
+        const formatDateKey = (date) => {
+            const d = new Date(date);
+            return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+        };
 
-                // --- 1. RENDER SKELETON (Ensure Height) ---
-                const headerContainer = document.querySelector('.schedule-header');
-                if (headerContainer) {
-                    headerContainer.innerHTML = '';
-                    const corner = document.createElement('div');
-                    corner.className = 'date-col header-corner';
-                    headerContainer.appendChild(corner);
+        const formatDisplayDate = (date) => {
+            const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            return `${date.getMonth() + 1}/${date.getDate()}<br><span style="font-size:0.85em">(${days[date.getDay()]})</span>`;
+        };
 
-                    dates.forEach(d => {
-                        const div = document.createElement('div');
-                        div.className = 'date-col';
-                        if (d.getDay() === 6) div.classList.add('sat');
-                        if (d.getDay() === 0) div.classList.add('sun');
-                        div.innerHTML = `<span>${formatDisplayDate(d)}</span>`;
-                        headerContainer.appendChild(div);
-                    });
-                }
+        const STATUS_TEXT = {
+            'status-ok': '◎',
+            'status-online': '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"></path><path d="M1.42 9a16 16 0 0 1 21.16 0"></path><path d="M8.53 16.11a6 6 0 0 1 6.95 0"></path><line x1="12" y1="20" x2="12.01" y2="20"></line></svg>',
+            'status-ng': '-'
+        };
 
-                const bodyContainer = document.getElementById('schedule-body');
-                if (bodyContainer) {
-                    bodyContainer.innerHTML = ''; // Clear prev
-                    HOURS.forEach(timeCode => {
-                        const row = document.createElement('div');
-                        row.className = 'schedule-row';
-                        const timeLabel = document.createElement('div');
-                        timeLabel.className = 'time-label';
-                        timeLabel.textContent = timeCode + '~';
-                        row.appendChild(timeLabel);
+        async function fetchSchedule(startDate) {
+            console.log("Fetching schedule for:", startDate);
+            const dates = [];
+            for (let i = 0; i < 7; i++) {
+                const d = new Date(startDate);
+                d.setDate(startDate.getDate() + i);
+                dates.push(d);
+            }
+            const dateKeys = dates.map(formatDateKey);
 
-                        dates.forEach(d => {
-                            const dateKey = formatDateKey(d);
-                            // Placeholder slot
-                            const div = document.createElement('div');
-                            div.id = `slot-${dateKey}-${timeCode.replace(':', '')}`;
-                            div.className = 'slot status-ng'; // Default styling
-                            div.textContent = '-';
-                            div.style.cursor = 'wait'; // Loading state
-                            row.appendChild(div);
-                        });
-                        bodyContainer.appendChild(row);
-                    });
-                }
-                const monthLabel = document.querySelector('.current-month');
-                if (monthLabel) monthLabel.textContent = `${startDate.getFullYear()}年 ${startDate.getMonth() + 1}月`;
+            // --- 1. RENDER SKELETON (Ensure Height) ---
+            const headerContainer = document.querySelector('.schedule-header');
+            if (headerContainer) {
+                headerContainer.innerHTML = '';
+                const corner = document.createElement('div');
+                corner.className = 'date-col header-corner';
+                headerContainer.appendChild(corner);
 
-                // --- 2. FETCH DATA ---
-                scheduleData = {};
-                try {
-                    if (!client) throw new Error("Client not initialized");
-
-                    const { data: slots, error: slotError } = await client
-                        .from('schedule_slots')
-                        .select('*')
-                        .in('date', dateKeys);
-
-                    if (slotError) console.error("Slot Fetch Error:", slotError);
-
-                    if (slots) {
-                        const studentIds = [...new Set(slots.filter(s => s.student_id).map(s => s.student_id))];
-                        let studentMap = {};
-                        if (studentIds.length > 0) {
-                            const { data: students } = await client.from('students').select('*').in('id', studentIds);
-                            if (students) students.forEach(s => studentMap[s.id] = s);
-                        }
-
-                        // Merge and Update UI
-                        slots.forEach(item => {
-                            if (!scheduleData[item.date]) scheduleData[item.date] = {};
-                            if (item.student_id && studentMap[item.student_id]) {
-                                item.students = studentMap[item.student_id];
-                                if (!item.students.last_name && item.students.name) {
-                                    item.students.last_name = item.students.name;
-                                }
-                            }
-                            scheduleData[item.date][item.time_code] = item;
-
-                            // Update Slot UI
-                            const slotId = `slot-${item.date}-${item.time_code.replace(':', '')}`;
-                            const div = document.getElementById(slotId);
-                            if (div) {
-                                // Render logic ... same as before but targeted
-                                let status = item.status;
-                                let displayText = STATUS_TEXT[status];
-                                let slotClass = `slot ${status}`;
-
-                                if (item.student_id) {
-                                    slotClass += ' booked';
-                                    status = 'status-booked';
-                                    let sName = "Unknown";
-                                    if (item.students) {
-                                        sName = (item.students.last_name || item.students.first_name)
-                                            ? `${item.students.last_name || ''} ${item.students.first_name || ''}`
-                                            : (item.students.name || 'No Name');
-                                    }
-                                    displayText = `<div style="font-size:0.7em; line-height:1.1; color: var(--primary-neon);">Booked:<br>${sName}</div>`;
-                                }
-                                div.className = slotClass;
-                                div.innerHTML = displayText;
-                                div.onclick = () => openBookingModal(item.date, item.time_code, item);
-                                div.style.cursor = 'pointer';
-                            }
-                        });
-                    }
-                } catch (e) {
-                    console.error("Data Load Error", e);
-                }
-
-                // --- 3. FINALIZE UI (Add Click Handlers to Empty Slots) ---
-                HOURS.forEach(timeCode => {
-                    dates.forEach(d => {
-                        const dateKey = formatDateKey(d);
-                        const slotId = `slot-${dateKey}-${timeCode.replace(':', '')}`;
-                        const div = document.getElementById(slotId);
-                        if (div && div.style.cursor === 'wait') {
-                            // Was not updated/booked -> make it clickable as default/empty
-                            div.style.cursor = 'pointer';
-                            div.onclick = () => openBookingModal(dateKey, timeCode, null);
-                        }
-                    });
+                dates.forEach(d => {
+                    const div = document.createElement('div');
+                    div.className = 'date-col';
+                    if (d.getDay() === 6) div.classList.add('sat');
+                    if (d.getDay() === 0) div.classList.add('sun');
+                    div.innerHTML = `<span>${formatDisplayDate(d)}</span>`;
+                    headerContainer.appendChild(div);
                 });
             }
 
-            let bookingModalTarget = null;
+            const bodyContainer = document.getElementById('schedule-body');
+            if (bodyContainer) {
+                bodyContainer.innerHTML = ''; // Clear prev
+                HOURS.forEach(timeCode => {
+                    const row = document.createElement('div');
+                    row.className = 'schedule-row';
+                    const timeLabel = document.createElement('div');
+                    timeLabel.className = 'time-label';
+                    timeLabel.textContent = timeCode + '~';
+                    row.appendChild(timeLabel);
 
-            async function openBookingModal(date, time, record) {
-                bookingModalTarget = { date, time, record };
-                const modal = document.getElementById('bookingModal');
-                document.getElementById('modalTitle').textContent = `${date} ${time}`;
-
-                document.getElementById('modalStatus').value = record ? record.status : 'status-ng';
-                document.getElementById('selectedStudentId').value = record ? (record.student_id || '') : '';
-
-                const nameDiv = document.getElementById('selectedStudentName');
-                if (record && record.students) {
-                    let sName = (record.students.last_name && record.students.first_name)
-                        ? `${record.students.last_name} ${record.students.first_name}`
-                        : (record.students.name || '');
-                    nameDiv.textContent = `選択中: ${sName}`;
-                } else {
-                    nameDiv.textContent = '';
-                }
-
-                document.getElementById('studentSearch').value = '';
-                document.getElementById('studentSearchResults').style.display = 'none';
-                document.getElementById('modalBookingType').value = record ? (record.booking_type || 'Lesson') : 'Lesson';
-                document.getElementById('modalMemo').value = record ? (record.memo || '') : '';
-
-                modal.classList.add('active');
-            }
-
-            function closeBookingModal() {
-                document.getElementById('bookingModal').classList.remove('active');
-            }
-
-            async function searchStudents() {
-                const term = document.getElementById('studentSearch').value;
-                if (term.length < 1) {
-                    document.getElementById('studentSearchResults').style.display = 'none';
-                    return;
-                }
-
-                const { data, error } = await client
-                    .from('students')
-                    .select('*')
-                    .or(`last_name.ilike.%${term}%,first_name.ilike.%${term}%,name.ilike.%${term}%`)
-                    .limit(5);
-
-                const resultsDiv = document.getElementById('studentSearchResults');
-                resultsDiv.innerHTML = '';
-                resultsDiv.style.display = 'block';
-
-                if (data) {
-                    data.forEach(s => {
+                    dates.forEach(d => {
+                        const dateKey = formatDateKey(d);
+                        // Placeholder slot
                         const div = document.createElement('div');
-                        div.style.padding = '8px';
-                        div.style.cursor = 'pointer';
-                        div.style.borderBottom = '1px solid #444';
-                        div.style.color = 'white';
+                        div.id = `slot-${dateKey}-${timeCode.replace(':', '')}`;
+                        div.className = 'slot status-ng'; // Default styling
+                        div.textContent = '-';
+                        div.style.cursor = 'wait'; // Loading state
+                        row.appendChild(div);
+                    });
+                    bodyContainer.appendChild(row);
+                });
+            }
+            const monthLabel = document.querySelector('.current-month');
+            if (monthLabel) monthLabel.textContent = `${startDate.getFullYear()}年 ${startDate.getMonth() + 1}月`;
 
-                        const sName = (s.last_name && s.first_name) ? `${s.last_name} ${s.first_name}` : (s.name || 'Unknown');
-                        div.textContent = sName;
-                        div.onmouseover = () => div.style.background = '#444';
-                        div.onmouseout = () => div.style.background = 'transparent';
-                        div.onclick = () => {
-                            document.getElementById('selectedStudentId').value = s.id;
-                            document.getElementById('selectedStudentName').textContent = `選択中: ${sName}`;
-                            resultsDiv.style.display = 'none';
-                        };
-                        resultsDiv.appendChild(div);
+            // --- 2. FETCH DATA ---
+            scheduleData = {};
+            try {
+                if (!client) throw new Error("Client not initialized");
+
+                const { data: slots, error: slotError } = await client
+                    .from('schedule_slots')
+                    .select('*')
+                    .in('date', dateKeys);
+
+                if (slotError) console.error("Slot Fetch Error:", slotError);
+
+                if (slots) {
+                    const studentIds = [...new Set(slots.filter(s => s.student_id).map(s => s.student_id))];
+                    let studentMap = {};
+                    if (studentIds.length > 0) {
+                        const { data: students } = await client.from('students').select('*').in('id', studentIds);
+                        if (students) students.forEach(s => studentMap[s.id] = s);
+                    }
+
+                    // Merge and Update UI
+                    slots.forEach(item => {
+                        if (!scheduleData[item.date]) scheduleData[item.date] = {};
+                        if (item.student_id && studentMap[item.student_id]) {
+                            item.students = studentMap[item.student_id];
+                            if (!item.students.last_name && item.students.name) {
+                                item.students.last_name = item.students.name;
+                            }
+                        }
+                        scheduleData[item.date][item.time_code] = item;
+
+                        // Update Slot UI
+                        const slotId = `slot-${item.date}-${item.time_code.replace(':', '')}`;
+                        const div = document.getElementById(slotId);
+                        if (div) {
+                            // Render logic ... same as before but targeted
+                            let status = item.status;
+                            let displayText = STATUS_TEXT[status];
+                            let slotClass = `slot ${status}`;
+
+                            if (item.student_id) {
+                                slotClass += ' booked';
+                                status = 'status-booked';
+                                let sName = "Unknown";
+                                if (item.students) {
+                                    sName = (item.students.last_name || item.students.first_name)
+                                        ? `${item.students.last_name || ''} ${item.students.first_name || ''}`
+                                        : (item.students.name || 'No Name');
+                                }
+                                displayText = `<div style="font-size:0.7em; line-height:1.1; color: var(--primary-neon);">Booked:<br>${sName}</div>`;
+                            }
+                            div.className = slotClass;
+                            div.innerHTML = displayText;
+                            div.onclick = () => openBookingModal(item.date, item.time_code, item);
+                            div.style.cursor = 'pointer';
+                        }
                     });
                 }
-            }
-
-            async function saveBooking() {
-                const status = document.getElementById('modalStatus').value;
-                const studentId = document.getElementById('selectedStudentId').value || null;
-                const type = document.getElementById('modalBookingType').value;
-                const memo = document.getElementById('modalMemo').value;
-
-                const { date, time } = bookingModalTarget;
-
-                const updates = {
-                    date: date,
-                    time_code: time,
-                    status: status,
-                    student_id: studentId,
-                    booking_type: type,
-                    memo: memo
-                };
-
-                const { error } = await client.from('schedule_slots').upsert(updates, { onConflict: 'date, time_code' });
-                if (error) { alert("保存失敗: " + error.message); return; }
-
-                closeBookingModal();
-                fetchSchedule(currentStartDate);
-            }
-
-            function clearBooking() {
-                document.getElementById('selectedStudentId').value = '';
-                document.getElementById('modalStatus').value = 'status-ok';
-                saveBooking();
-            }
-
-            document.getElementById('prevWeek').addEventListener('click', () => {
-                const newDate = new Date(currentStartDate);
-                newDate.setDate(newDate.getDate() - 7);
-                currentStartDate = newDate;
-                fetchSchedule(currentStartDate);
-            });
-            document.getElementById('nextWeek').addEventListener('click', () => {
-                const newDate = new Date(currentStartDate);
-                newDate.setDate(newDate.getDate() + 7);
-                currentStartDate = newDate;
-                fetchSchedule(currentStartDate);
-            });
-
-            // 4. INIT START
-            try {
-                fetchSchedule(currentStartDate);
             } catch (e) {
-                alert("Init Error: " + e.message);
-        </script>
+                console.error("Data Load Error", e);
+            }
+
+            // --- 3. FINALIZE UI (Add Click Handlers to Empty Slots) ---
+            HOURS.forEach(timeCode => {
+                dates.forEach(d => {
+                    const dateKey = formatDateKey(d);
+                    const slotId = `slot-${dateKey}-${timeCode.replace(':', '')}`;
+                    const div = document.getElementById(slotId);
+                    if (div && div.style.cursor === 'wait') {
+                        // Was not updated/booked -> make it clickable as default/empty
+                        div.style.cursor = 'pointer';
+                        div.onclick = () => openBookingModal(dateKey, timeCode, null);
+                    }
+                });
+            });
+        }
+
+        let bookingModalTarget = null;
+
+        async function openBookingModal(date, time, record) {
+            bookingModalTarget = { date, time, record };
+            const modal = document.getElementById('bookingModal');
+            document.getElementById('modalTitle').textContent = `${date} ${time}`;
+
+            document.getElementById('modalStatus').value = record ? record.status : 'status-ng';
+            document.getElementById('selectedStudentId').value = record ? (record.student_id || '') : '';
+
+            const nameDiv = document.getElementById('selectedStudentName');
+            if (record && record.students) {
+                let sName = (record.students.last_name && record.students.first_name)
+                    ? `${record.students.last_name} ${record.students.first_name}`
+                    : (record.students.name || '');
+                nameDiv.textContent = `選択中: ${sName}`;
+            } else {
+                nameDiv.textContent = '';
+            }
+
+            document.getElementById('studentSearch').value = '';
+            document.getElementById('studentSearchResults').style.display = 'none';
+            document.getElementById('modalBookingType').value = record ? (record.booking_type || 'Lesson') : 'Lesson';
+            document.getElementById('modalMemo').value = record ? (record.memo || '') : '';
+
+            modal.classList.add('active');
+        }
+
+        function closeBookingModal() {
+            document.getElementById('bookingModal').classList.remove('active');
+        }
+
+        async function searchStudents() {
+            const term = document.getElementById('studentSearch').value;
+            if (term.length < 1) {
+                document.getElementById('studentSearchResults').style.display = 'none';
+                return;
+            }
+
+            const { data, error } = await client
+                .from('students')
+                .select('*')
+                .or(`last_name.ilike.%${term}%,first_name.ilike.%${term}%,name.ilike.%${term}%`)
+                .limit(5);
+
+            const resultsDiv = document.getElementById('studentSearchResults');
+            resultsDiv.innerHTML = '';
+            resultsDiv.style.display = 'block';
+
+            if (data) {
+                data.forEach(s => {
+                    const div = document.createElement('div');
+                    div.style.padding = '8px';
+                    div.style.cursor = 'pointer';
+                    div.style.borderBottom = '1px solid #444';
+                    div.style.color = 'white';
+
+                    const sName = (s.last_name && s.first_name) ? `${s.last_name} ${s.first_name}` : (s.name || 'Unknown');
+                    div.textContent = sName;
+                    div.onmouseover = () => div.style.background = '#444';
+                    div.onmouseout = () => div.style.background = 'transparent';
+                    div.onclick = () => {
+                        document.getElementById('selectedStudentId').value = s.id;
+                        document.getElementById('selectedStudentName').textContent = `選択中: ${sName}`;
+                        resultsDiv.style.display = 'none';
+                    };
+                    resultsDiv.appendChild(div);
+                });
+            }
+        }
+
+        async function saveBooking() {
+            const status = document.getElementById('modalStatus').value;
+            const studentId = document.getElementById('selectedStudentId').value || null;
+            const type = document.getElementById('modalBookingType').value;
+            const memo = document.getElementById('modalMemo').value;
+
+            const { date, time } = bookingModalTarget;
+
+            const updates = {
+                date: date,
+                time_code: time,
+                status: status,
+                student_id: studentId,
+                booking_type: type,
+                memo: memo
+            };
+
+            const { error } = await client.from('schedule_slots').upsert(updates, { onConflict: 'date, time_code' });
+            if (error) { alert("保存失敗: " + error.message); return; }
+
+            closeBookingModal();
+            fetchSchedule(currentStartDate);
+        }
+
+        function clearBooking() {
+            document.getElementById('selectedStudentId').value = '';
+            document.getElementById('modalStatus').value = 'status-ok';
+            saveBooking();
+        }
+
+        document.getElementById('prevWeek').addEventListener('click', () => {
+            const newDate = new Date(currentStartDate);
+            newDate.setDate(newDate.getDate() - 7);
+            currentStartDate = newDate;
+            fetchSchedule(currentStartDate);
+        });
+        document.getElementById('nextWeek').addEventListener('click', () => {
+            const newDate = new Date(currentStartDate);
+            newDate.setDate(newDate.getDate() + 7);
+            currentStartDate = newDate;
+            fetchSchedule(currentStartDate);
+        });
+
+        // 4. INIT START
+        try {
+            fetchSchedule(currentStartDate);
+        } catch (e) {
+            alert("Init Error: " + e.message);
+    </script>
 </body>
 
 </html>
