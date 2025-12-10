@@ -8,7 +8,7 @@
     <link rel="icon" href="../../img/favicon.png">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="../../style.css?v=70">
+    <link rel="stylesheet" href="../../style.css?v=71">
     <script src="https://kit.fontawesome.com/aa13b8dc63.js" crossorigin="anonymous"></script>
     <style>
         /* 1. Reset & Base Scroll Settings */
@@ -29,11 +29,23 @@
         }
 
         /* 2. Components */
+        .section {
+            overflow: visible !important;
+            height: auto !important;
+        }
+
+        /* CRITICAL FIX */
+        .container {
+            height: auto !important;
+            overflow: visible !important;
+        }
+
         .schedule-grid {
-            min-height: 300px;
-            /* Prevent collapse if empty */
+            min-height: 50vh;
+            /* Prevent collapse */
             background: rgba(30, 30, 30, 0.5);
-            /* Visibility check */
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            /* Remove red border in final, but helpful for debug. Keeping subtle. */
         }
 
         /* 3. Branding Fix */

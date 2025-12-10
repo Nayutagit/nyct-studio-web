@@ -808,10 +808,7 @@ ul {
         padding: 15px 0;
     }
 
-    .nav-list {
-        display: none;
-        /* Implement mobile menu later */
-    }
+    /* .nav-list mobile rule moved to bottom of file */
 
     .hero-title {
         font-size: 3rem;
