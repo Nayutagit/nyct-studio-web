@@ -8,7 +8,7 @@
     <link rel="icon" href="../../img/favicon.png">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="../../style.css?v=68">
+    <link rel="stylesheet" href="../../style.css?v=69">
     <script src="https://kit.fontawesome.com/aa13b8dc63.js" crossorigin="anonymous"></script>
     <style>
         /* 1. Reset & Base Scroll Settings */
@@ -332,8 +332,9 @@
                     d.setDate(startDate.getDate() + i);
                     dates.push(d);
                 }
+                const dateKeys = dates.map(formatDateKey);
 
-                // Headers
+                // --- 1. RENDER SKELETON (Ensure Height) ---
                 const headerContainer = document.querySelector('.schedule-header');
                 if (headerContainer) {
                     headerContainer.innerHTML = '';
@@ -351,62 +352,10 @@
                     });
                 }
 
-                const dateKeys = dates.map(formatDateKey);
-                scheduleData = {};
-
-                try {
-                    if (!client) throw new Error("Client not initialized");
-
-                    // 1. Fetch Slots
-                    const { data: slots, error: slotError } = await client
-                        .from('schedule_slots')
-                        .select('*')
-                        .in('date', dateKeys);
-
-                    if (slotError) {
-                        console.error("Slot Fetch Error:", slotError);
-                    }
-
-                    if (slots) {
-                        // 2. Extract Student IDs
-                        const studentIds = [...new Set(slots.filter(s => s.student_id).map(s => s.student_id))];
-
-                        let studentMap = {};
-                        if (studentIds.length > 0) {
-                            const { data: students, error: studentError } = await client
-                                .from('students')
-                                .select('*')
-                                .in('id', studentIds);
-
-                            if (students) {
-                                students.forEach(s => studentMap[s.id] = s);
-                            }
-                        }
-
-                        // 4. Merge
-                        slots.forEach(item => {
-                            if (!scheduleData[item.date]) scheduleData[item.date] = {};
-                            if (item.student_id && studentMap[item.student_id]) {
-                                item.students = studentMap[item.student_id];
-                                if (!item.students.last_name && item.students.name) {
-                                    item.students.last_name = item.students.name;
-                                }
-                            }
-                            scheduleData[item.date][item.time_code] = item;
-                        });
-                    }
-                } catch (e) {
-                    console.error("Data Load Error", e);
-                    // Continue to render empty grid if data fails
-                }
-
-                // Body
                 const bodyContainer = document.getElementById('schedule-body');
                 if (bodyContainer) {
-                    bodyContainer.innerHTML = '';
-
+                    bodyContainer.innerHTML = ''; // Clear prev
                     HOURS.forEach(timeCode => {
-                        console.log("Rendering Row:", timeCode);
                         const row = document.createElement('div');
                         row.className = 'schedule-row';
                         const timeLabel = document.createElement('div');
@@ -416,42 +365,95 @@
 
                         dates.forEach(d => {
                             const dateKey = formatDateKey(d);
-                            const record = scheduleData[dateKey] ? scheduleData[dateKey][timeCode] : null;
-
-                            let status = record ? record.status : 'status-ng';
-                            let displayText = STATUS_TEXT[status];
-                            let slotClass = `slot ${status}`;
-
-                            if (record && record.student_id) {
-                                slotClass += ' booked';
-                                status = 'status-booked';
-
-                                let sName = "Unknown";
-                                if (record.students) {
-                                    if (record.students.last_name || record.students.first_name) {
-                                        sName = `${record.students.last_name || ''} ${record.students.first_name || ''}`;
-                                    } else {
-                                        sName = "No Name";
-                                    }
-                                }
-                                displayText = `<div style="font-size:0.7em; line-height:1.1; color: var(--primary-neon);">Booked:<br>${sName}</div>`;
-                            }
-
+                            // Placeholder slot
                             const div = document.createElement('div');
-                            div.className = slotClass;
-                            div.innerHTML = displayText;
-                            div.style.cursor = 'pointer';
-
-                            div.onclick = () => openBookingModal(dateKey, timeCode, record);
+                            div.id = `slot-${dateKey}-${timeCode.replace(':', '')}`;
+                            div.className = 'slot status-ng'; // Default styling
+                            div.textContent = '-';
+                            div.style.cursor = 'wait'; // Loading state
                             row.appendChild(div);
                         });
-
                         bodyContainer.appendChild(row);
                     });
                 }
-
                 const monthLabel = document.querySelector('.current-month');
                 if (monthLabel) monthLabel.textContent = `${startDate.getFullYear()}年 ${startDate.getMonth() + 1}月`;
+
+                // --- 2. FETCH DATA ---
+                scheduleData = {};
+                try {
+                    if (!client) throw new Error("Client not initialized");
+
+                    const { data: slots, error: slotError } = await client
+                        .from('schedule_slots')
+                        .select('*')
+                        .in('date', dateKeys);
+
+                    if (slotError) console.error("Slot Fetch Error:", slotError);
+
+                    if (slots) {
+                        const studentIds = [...new Set(slots.filter(s => s.student_id).map(s => s.student_id))];
+                        let studentMap = {};
+                        if (studentIds.length > 0) {
+                            const { data: students } = await client.from('students').select('*').in('id', studentIds);
+                            if (students) students.forEach(s => studentMap[s.id] = s);
+                        }
+
+                        // Merge and Update UI
+                        slots.forEach(item => {
+                            if (!scheduleData[item.date]) scheduleData[item.date] = {};
+                            if (item.student_id && studentMap[item.student_id]) {
+                                item.students = studentMap[item.student_id];
+                                if (!item.students.last_name && item.students.name) {
+                                    item.students.last_name = item.students.name;
+                                }
+                            }
+                            scheduleData[item.date][item.time_code] = item;
+
+                            // Update Slot UI
+                            const slotId = `slot-${item.date}-${item.time_code.replace(':', '')}`;
+                            const div = document.getElementById(slotId);
+                            if (div) {
+                                // Render logic ... same as before but targeted
+                                let status = item.status;
+                                let displayText = STATUS_TEXT[status];
+                                let slotClass = `slot ${status}`;
+
+                                if (item.student_id) {
+                                    slotClass += ' booked';
+                                    status = 'status-booked';
+                                    let sName = "Unknown";
+                                    if (item.students) {
+                                        sName = (item.students.last_name || item.students.first_name)
+                                            ? `${item.students.last_name || ''} ${item.students.first_name || ''}`
+                                            : (item.students.name || 'No Name');
+                                    }
+                                    displayText = `<div style="font-size:0.7em; line-height:1.1; color: var(--primary-neon);">Booked:<br>${sName}</div>`;
+                                }
+                                div.className = slotClass;
+                                div.innerHTML = displayText;
+                                div.onclick = () => openBookingModal(item.date, item.time_code, item);
+                                div.style.cursor = 'pointer';
+                            }
+                        });
+                    }
+                } catch (e) {
+                    console.error("Data Load Error", e);
+                }
+
+                // --- 3. FINALIZE UI (Add Click Handlers to Empty Slots) ---
+                HOURS.forEach(timeCode => {
+                    dates.forEach(d => {
+                        const dateKey = formatDateKey(d);
+                        const slotId = `slot-${dateKey}-${timeCode.replace(':', '')}`;
+                        const div = document.getElementById(slotId);
+                        if (div && div.style.cursor === 'wait') {
+                            // Was not updated/booked -> make it clickable as default/empty
+                            div.style.cursor = 'pointer';
+                            div.onclick = () => openBookingModal(dateKey, timeCode, null);
+                        }
+                    });
+                });
             }
 
             let bookingModalTarget = null;
