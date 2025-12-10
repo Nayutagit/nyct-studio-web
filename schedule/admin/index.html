@@ -8,7 +8,7 @@
     <link rel="icon" href="../../img/favicon.png">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="../../style.css?v=71">
+    <link rel="stylesheet" href="../../style.css?v=72">
     <script src="https://kit.fontawesome.com/aa13b8dc63.js" crossorigin="anonymous"></script>
     <style>
         /* 1. Reset & Base Scroll Settings */
@@ -19,33 +19,28 @@
             /* Always show scrollbar to prevent layout shift */
         }
 
+        /* 2. Components - Aggressive Layout Reset */
+        body,
+        .section,
+        .container,
+        .schedule-grid {
+            display: block !important;
+            position: relative !important;
+            height: auto !important;
+            min-height: 0 !important;
+            overflow: visible !important;
+        }
+
         body {
-            height: auto !important;
             min-height: 100vh !important;
-            overflow-y: visible !important;
-            position: relative;
-            padding-bottom: 15rem;
-            /* Ensure space at bottom */
-        }
-
-        /* 2. Components */
-        .section {
-            overflow: visible !important;
-            height: auto !important;
-        }
-
-        /* CRITICAL FIX */
-        .container {
-            height: auto !important;
-            overflow: visible !important;
+            /* Keep body at least full screen */
+            padding-bottom: 20rem;
         }
 
         .schedule-grid {
             min-height: 50vh;
-            /* Prevent collapse */
             background: rgba(30, 30, 30, 0.5);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            /* Remove red border in final, but helpful for debug. Keeping subtle. */
+            /* Border removed for release, layout should be fixed now */
         }
 
         /* 3. Branding Fix */
