@@ -8,7 +8,7 @@
     <link rel="icon" href="../../img/favicon.png">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="../../style.css?v=85">
+    <link rel="stylesheet" href="../../style.css?v=86">
     <script src="https://kit.fontawesome.com/aa13b8dc63.js" crossorigin="anonymous"></script>
     <style>
         /* 1. Reset & Base Scroll Settings */
@@ -91,7 +91,7 @@
         <!-- Header -->
         <div class="container header-content">
             <a href="../../index.html" class="logo">
-                ニストスタジオ Admin <small style="font-size: 0.8rem; opacity: 0.7;">(v3.6 RLS BYPASS)</small>
+                ニストスタジオ Admin <small style="font-size: 0.8rem; opacity: 0.7;">(v3.7 COLUMN FIX)</small>
             </a>
             <nav class="nav-links">
                 <a href="index.html"
@@ -308,7 +308,11 @@
 
                     // 3. Merge
                     slots.forEach(slot => {
-                        const key = `${slot.date}_${slot.time.slice(0, 5)}`;
+                        // FIX: Use 'time_code' instead of 'time'
+                        // Public page uses 'time_code'
+                        const t = slot.time_code || slot.time || '';
+                        const key = `${slot.date}_${t.slice(0, 5)}`;
+
                         if (slot.student_id && studentMap[slot.student_id]) {
                             slot.students = studentMap[slot.student_id];
                         }
@@ -494,18 +498,11 @@
         async function saveBooking() {
             if (!bookingModalTarget) return;
 
+            // FIX: Write to time_code
             const updates = {
                 date: bookingModalTarget.date,
-                time_code: bookingModalTarget.time, // Using column 'time_code' ?? WAIT. Public uses 'time_code'. 
-                // Admin 'schedule_slots' uses 'time'. Check schema. 
-                // Step 1503 View File showed: `item.time_code` in PUBLIC script. (Line 299)
-                // BUT Step 1439 script used `slot.time`.
-                // Schema from Artifacts `supabase_schema`: "time TIME NOT NULL".
-                // BUT user might have renamed/added 'time_code'.
-                // If I use 'time', Supabase casts to Time type.
-                // NOTE: 'schedule_slots' PK is (date, time).
-                // I will use 'time'.
-                time: bookingModalTarget.time,
+                time_code: bookingModalTarget.time,
+                // time: bookingModalTarget.time, // REMOVED to avoid confusion if column is time_code
 
                 status: document.getElementById('modalStatus').value,
                 student_id: document.getElementById('selectedStudentId').value || null,
@@ -515,9 +512,10 @@
             };
 
             // UPSERT
+            // FIX: onConflict matches the PK. If PK is (date, time_code), use that.
             const { error } = await client
                 .from('schedule_slots')
-                .upsert(updates, { onConflict: 'date, time' });
+                .upsert(updates, { onConflict: 'date, time_code' });
 
             if (error) {
                 alert("保存エラー: " + error.message);
