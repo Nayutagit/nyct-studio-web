@@ -19,7 +19,7 @@
     --text-gray: #cccccc;
 
     /* Fonts */
-    --font-main: "Tsukushi B Round Gothic", "Tsukushi B Gothic", "筑紫B丸ゴシック", "Zen Maru Gothic", "Zen Kaku Gothic New", sans-serif;
+    --font-main: "Zen Kaku Gothic New", "Noto Sans JP", sans-serif;
     --font-serif: "Zen Old Mincho", "Times New Roman", serif;
 
     /* Spacing */
@@ -1758,8 +1758,42 @@ ul {
     /* Red */
     .slot.status-ng {
         color: #ccc;
+        /* Grey */
+    }
+}
+
+/* Utility */
+.sp-only {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .sp-only {
+        display: inline;
     }
 
-    /* Grey */
+    .logo {
+        /* Ensure no offset remains and clean alignment */
+        top: 0;
+        line-height: 1;
+        /* Tighten for centering */
+    }
 
+    .hero-title {
+        font-size: 3rem;
+        /* Adjust for mobile constraints if needed */
+        line-height: 1.3;
+        margin-bottom: 20px;
+    }
+
+    .hero-desc {
+        font-size: 1rem;
+        line-height: 2;
+        /* More breathing room */
+        text-align: left;
+        /* Maybe center is better? Keep center for now as per design */
+        display: inline-block;
+        /* Helps with width */
+        width: 100%;
+    }
 }
