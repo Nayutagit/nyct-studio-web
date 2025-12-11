@@ -1775,7 +1775,11 @@ ul {
     }
 
     .section-title {
-        font-size: 1.6rem;
+        font-size: 1.3rem;
+    }
+
+    .section-title-area {
+        padding: 10px 30px;
     }
 
     /* Mobile Modal Fixes: Full Screen */
