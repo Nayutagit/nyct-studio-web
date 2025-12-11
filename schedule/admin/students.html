@@ -278,7 +278,9 @@
             const { error } = await client
                 .from('students')
                 .insert([{
+                    name: `${last_name} ${first_name}`, // Schema requires 'name'
                     last_name, first_name,
+                    furigana: `${last_furigana} ${first_furigana}`, // Schema might require 'furigana'
                     last_furigana, first_furigana,
                     email, phone, memo
                 }]);
