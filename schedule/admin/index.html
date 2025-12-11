@@ -6,407 +6,612 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Schedule | ニストスタジオ</title>
     <link rel="icon" href="../../img/favicon.png">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap"
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&family=Zen+Kaku+Gothic+New:wght@300;400;500;700;900&family=Zen+Old+Mincho:wght@400;500;600&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="../../style.css?v=66">
-    <script src="https://kit.fontawesome.com/aa13b8dc63.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../../style.css?v=6">
     <style>
-        html {
-            overflow-y: scroll !important;
-            height: auto !important;
-            min-height: 100%;
+        /* Admin Specific Styles */
+        .admin-badge {
+            font-size: 0.8rem;
+            background: var(--primary-neon);
+            color: #000;
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin-left: 10px;
+            vertical-align: middle;
         }
 
-        body {
-            overflow-y: visible !important;
-            height: auto !important;
-            position: relative;
+        .bulk-update-section {
+            background: rgba(30, 30, 30, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
         }
 
-        /* Force Logo Tightness */
-        .logo span {
-            margin-left: 0 !important;
+        .bulk-controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            align-items: flex-end;
         }
 
-        .admin-controls {
-            margin-bottom: 20px;
-            text-align: center;
+        .bulk-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            text-align: left;
         }
 
-        .save-status {
-            margin-left: 20px;
-            color: var(--accent-teal);
-            opacity: 0;
-            transition: opacity 0.5s;
+        .bulk-group label {
+            font-size: 0.8rem;
+            color: var(--text-gray);
         }
 
-        .save-status.show {
-            opacity: 1;
+        .bulk-input {
+            padding: 8px 12px;
+            background: #222;
+            border: 1px solid #444;
+            color: white;
+            border-radius: 4px;
         }
 
+        /* Forced Grid Styles to prevent layout breakage */
         .schedule-grid {
-            border: 2px solid var(--primary-neon);
+            /* Ensure it's visible */
+            display: block !important;
+            overflow-x: auto;
+            background: #1e1e1e;
+        }
+
+        .schedule-header {
+            display: flex !important;
+            width: max-content;
+            border-bottom: 2px solid #555;
+            z-index: 20;
+        }
+
+        .schedule-row {
+            display: flex !important;
+            width: max-content;
+            border-bottom: 1px solid #333;
+            /* Force visibility */
+            opacity: 1 !important;
+        }
+
+        .date-col {
+            width: 100px !important;
+            flex-shrink: 0 !important;
+            text-align: center;
+            padding: 10px;
+            border-right: 1px solid #333;
+            background: #252525;
+            color: white;
+        }
+
+        .header-corner {
+            width: 70px !important;
+            background: #222;
+            position: sticky;
+            left: 0;
+            z-index: 30;
+        }
+
+        .time-label {
+            width: 70px !important;
+            flex-shrink: 0 !important;
+            background: #222;
+            color: var(--primary-neon);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            border-right: 2px solid #555;
+            position: sticky;
+            left: 0;
+            z-index: 10;
+        }
+
+        .slot {
+            width: 100px !important;
+            flex-shrink: 0 !important;
+            height: 60px !important;
+            display: flex !important;
+            align-items: center;
+            justify-content: center;
+            background: #1a1a1a;
+            border-right: 1px solid #333;
+            cursor: pointer;
+            color: white;
+            /* Ensure text matches */
+        }
+
+        .slot:hover {
+            background: #2a2a2a;
+        }
+
+        .slot.booked {
+            background: rgba(0, 164, 216, 0.15);
+            border-color: var(--accent-teal);
+        }
+
+        /* Modal Override */
+        .modal-overlay.active {
+            display: flex;
         }
     </style>
 </head>
 
 <body>
+
+    <!-- Header -->
     <header class="header">
-        <!-- Header -->
-        <header
-            style="position: sticky; top: 0; z-index: 100; background: rgba(18, 18, 18, 0.95); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.1);">
-            <div class="container"
-                style="display: flex; align-items: center; justify-content: space-between; height: 70px;">
-                <div class="logo">
-                    <a href="../../index.html"
-                        style="font-size: 1.5rem; font-weight: 700; color: white; text-decoration: none;">ニスト<span
-                            style="color: var(--accent-gold); margin-left: 0 !important;">スタジオ</span> <span
-                            style="font-size: 0.8rem; opacity: 0.7; margin-left: 10px;">Admin</span></a>
-                </div>
-                <nav class="nav-links">
-                    <a href="index.html"
-                        style="color: var(--accent-gold); text-decoration: none; margin-right: 20px; font-weight: bold;">スケジュール</a>
-                    <a href="students.html" style="color: #ccc; text-decoration: none;">生徒管理</a>
-                    <a href="../../index.html" style="margin-left: 20px; font-size: 0.9rem; color: #666;">Exit</a>
-                </nav>
-            </div>
-        </header>
+        <div class="container header-inner">
+            <a href="../../index.html" class="logo">
+                <img src="../../img/logo_white.png" alt="Nyct Studio Logo">
+                ニストスタジオ <span class="admin-badge">ADMIN</span>
+            </a>
+            <nav>
+                <ul class="nav-list">
+                    <li><a href="index.html" class="nav-link active">Schedule</a></li>
+                    <li><a href="students.html" class="nav-link">Students</a></li>
+                    <li><a href="../../index.html" class="nav-link" style="color:#666;">Exit</a></li>
+                </ul>
+                <div class="menu-toggle"><i class="fas fa-bars"></i></div>
+            </nav>
+        </div>
+    </header>
 
-        <section class="section">
-            <div class="container">
-                <h1 class="section-title">スケジュール管理</h1>
-                <p style="text-align: center; margin-bottom: 20px;">クリックしてステータスを変更（◎ → -）</p>
+    <!-- Page Hero -->
+    <section class="page-hero" style="padding-bottom: 60px;">
+        <div class="container page-hero-content">
+            <span class="section-subtitle">ADMINISTRATION</span>
+            <h1 class="page-title">LESSON MANAGER</h1>
+        </div>
+    </section>
 
-                <!-- Bulk Update UI -->
-                <div
-                    style="background: rgba(255, 255, 255, 0.05); padding: 20px; border-radius: 8px; margin-bottom: 30px; text-align: center;">
-                    <h3 style="margin-bottom: 15px; font-size: 1.2rem; color: var(--accent-gold);">範囲一括更新</h3>
-                    <div
-                        style="display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; align-items: center; color: #ccc;">
-                        <div>
-                            <label>期間:</label>
-                            <input type="date" id="bulkStartDate"
-                                style="padding: 5px; background: #333; color: white; border: 1px solid #555;">
+    <!-- Calendar Section -->
+    <section class="section bg-dark-concrete" style="padding-top: 40px;">
+        <div class="container">
+
+            <!-- Bulk Update UI -->
+            <div class="bulk-update-section fade-in-up">
+                <h3 style="color:white; margin-bottom:20px; text-align:center; font-size:1.2rem;">
+                    <i class="fas fa-layer-group" style="color:var(--primary-neon);"></i> 一括更新 / Bulk Update
+                </h3>
+                <div class="bulk-controls">
+                    <div class="bulk-group">
+                        <label>期間 (Start ~ End)</label>
+                        <div style="display:flex; gap:5px; align-items:center;">
+                            <input type="date" id="bulkStartDate" class="bulk-input">
                             <span>~</span>
-                            <input type="date" id="bulkEndDate"
-                                style="padding: 5px; background: #333; color: white; border: 1px solid #555;">
+                            <input type="date" id="bulkEndDate" class="bulk-input">
                         </div>
-                        <div>
-                            <label>時間:</label>
-                            <select id="bulkStartTime"
-                                style="padding: 5px; background: #333; color: white; border: 1px solid #555;"></select>
+                    </div>
+                    <div class="bulk-group">
+                        <label>時間帯 (Time)</label>
+                        <div style="display:flex; gap:5px; align-items:center;">
+                            <select id="bulkStartTime" class="bulk-input"></select>
                             <span>~</span>
-                            <select id="bulkEndTime"
-                                style="padding: 5px; background: #333; color: white; border: 1px solid #555;"></select>
-                        </div>
-                        <div>
-                            <label>ステータス:</label>
-                            <select id="bulkStatus"
-                                style="padding: 10px; border-radius: 4px; border: 1px solid #444; background: #333; color: white;">
-                                <option value="status-ok">◎ 余裕あり</option>
-                                <option value="status-online">Online Only</option>
-                                <option value="status-ng">- 受付不可</option>
-                            </select>
+                            <select id="bulkEndTime" class="bulk-input"></select>
                         </div>
                     </div>
-                    <button onclick="runBulkUpdate()" class="cal-btn"
-                        style="margin-top: 15px; background: var(--accent-blue); width: 150px;">一括適用</button>
-                </div>
-
-                <div class="calendar-controls">
-                    <button class="cal-btn" id="prevWeek">前の週</button>
-                    <h2 class="current-month"></h2>
-                    <button class="cal-btn" id="nextWeek">次の週</button>
-                    <span id="saveStatus" class="save-status">保存しました</span>
-                </div>
-
-                <!-- Booking Modal -->
-                <div id="bookingModal" class="modal-overlay">
-                    <div class="modal-content">
-                        <button class="modal-close" onclick="closeBookingModal()">×</button>
-                        <h3 style="color: var(--accent-gold); margin-bottom: 20px;">予約枠設定</h3>
-
-                        <div class="booking-info">
-                            <h4 id="modalTitle" style="color:white; margin:0;"></h4>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label">ステータス</label>
-                            <select id="modalStatus" class="form-input">
-                                <option value="status-ok">◎ 予約可能</option>
-                                <option value="status-online">Online Only</option>
-                                <option value="status-ng">- 受付不可</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label">生徒割り当て</label>
-                            <div style="display:flex; gap:10px;">
-                                <input type="text" id="studentSearch" class="form-input" placeholder="名前で検索..."
-                                    oninput="searchStudents()">
-                                <input type="hidden" id="selectedStudentId">
-                            </div>
-                            <div id="studentSearchResults"
-                                style="max-height: 150px; overflow-y: auto; margin-top: 5px; background: #333; border: 1px solid #555; display: none;">
-                            </div>
-                            <div id="selectedStudentName"
-                                style="margin-top: 10px; color: var(--primary-neon); font-weight: bold;"></div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label">Booking Type</label>
-                            <select id="modalBookingType" class="form-input">
-                                <option value="Lesson">Lesson</option>
-                                <option value="Counseling">Counseling</option>
-                                <option value="Other">Other</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label">メモ</label>
-                            <textarea id="modalMemo" class="form-textarea" rows="3"></textarea>
-                        </div>
-
-                        <div style="display: flex; justify-content: space-between; margin-top: 30px;">
-                            <button class="btn btn-secondary" onclick="clearBooking()">割り当て解除 & ステータス変更</button>
-                            <button class="btn btn-primary" onclick="saveBooking()">保存</button>
-                        </div>
+                    <div class="bulk-group">
+                        <label>ステータス</label>
+                        <select id="bulkStatus" class="bulk-input" style="min-width:120px;">
+                            <option value="status-ok">◎ 予約可能</option>
+                            <option value="status-online">Online Only</option>
+                            <option value="status-ng">- 受付不可</option>
+                        </select>
                     </div>
-                </div>
-
-                <div class="schedule-grid">
-                    <div class="schedule-header">
-                        <!-- JS Injected -->
-                    </div>
-                    <div id="schedule-body">
-                        <!-- JS Injected -->
-                    </div>
+                    <button onclick="runBulkUpdate()" class="btn btn-primary"
+                        style="padding: 8px 25px; font-size:0.9rem;">適用</button>
                 </div>
             </div>
-        </section>
 
-        <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-        <script>
-            // 1. GLOBAL ERROR HANDLER (MUST BE FIRST)
-            window.onerror = function (msg, url, line) {
-                alert("System Error:\n" + msg + "\nLine: " + line);
-                console.error(msg, url, line);
-                return false;
+            <div class="calendar-controls">
+                <button class="cal-btn" id="prevWeek"><i class="fas fa-chevron-left"></i> 前の週</button>
+                <h2 class="current-month">--</h2>
+                <button class="cal-btn" id="nextWeek">次の週 <i class="fas fa-chevron-right"></i></button>
+            </div>
+
+            <div class="calendar-legend">
+                <div class="legend" style="margin-top: 20px;">
+                    <span class="status-ok">◎</span> 予約可能
+                    <span class="status-online" style="margin-left: 10px;"><i class="fa-solid fa-wifi"></i></span>
+                    Online
+                    <span class="status-few" style="margin-left: 10px;">△</span> 残りわずか
+                    <span style="margin-left: 10px; color:#666;">-</span> 不可
+                    <span style="margin-left: 10px; color:var(--accent-teal);">■</span> Booked
+                </div>
+            </div>
+
+            <div class="schedule-grid">
+                <div class="schedule-header">
+                    <!-- JS Injected -->
+                </div>
+                <!-- Hourly Grid Body -->
+                <div id="schedule-body">
+                    <!-- JS Injected -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="copyright">
+                &copy; 2025 Nyct Studio Admin Console.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Admin Booking Modal -->
+    <div class="modal-overlay" id="bookingModal">
+        <div class="modal-content" style="max-width: 600px;">
+            <button class="modal-close" onclick="closeBookingModal()"><i class="fas fa-times"></i></button>
+            <h3
+                style="color: var(--primary-neon); margin-bottom: 20px; font-family: var(--font-serif); text-align:center;">
+                スロット編集
+            </h3>
+
+            <div class="booking-info">
+                <h4 id="modalTitle" style="color: white;"></h4>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">ステータス (Status)</label>
+                <select id="modalStatus" class="form-input">
+                    <option value="status-ok">◎ 予約可能</option>
+                    <option value="status-online">Online Only</option>
+                    <option value="status-ng">- 受付不可</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">生徒割り当て (Student)</label>
+                <div style="display:flex; gap:10px;">
+                    <input type="text" id="studentSearch" class="form-input" placeholder="名前で検索..."
+                        oninput="searchStudents()">
+                    <input type="hidden" id="selectedStudentId">
+                </div>
+                <div id="studentSearchResults"
+                    style="max-height: 150px; overflow-y: auto; margin-top: 5px; background: #333; border: 1px solid #555; display: none;">
+                </div>
+                <div id="selectedStudentName" class="booking-info"
+                    style="margin-top: 10px; color: var(--accent-teal); font-weight: bold; background:rgba(0,0,0,0.3);">
+                    未選択
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Booking Type</label>
+                <select id="modalBookingType" class="form-input">
+                    <option value="Lesson">Lesson</option>
+                    <option value="Counseling">Counseling</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">メモ (Memo)</label>
+                <textarea id="modalMemo" class="form-textarea" rows="3"></textarea>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; margin-top: 30px; gap: 20px;">
+                <button class="btn btn-secondary" style="flex:1;" onclick="clearBooking()">割り当て解除</button>
+                <button class="btn btn-primary" style="flex:1;" onclick="saveBooking()">保存</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        // --- 1. CONFIG & INIT ---
+        const SUPABASE_URL = 'https://yptegzzukymqotzchgnp.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlwdGVnenp1a3ltcW90emNoZ25wIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM4NDU1MTYsImV4cCI6MjA3OTQyMTUxNn0.iKWkVYwlKrSBlJKUxRebbGRcgvprzkcyAOgDaCHKLSY';
+        const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        let currentStartDate = new Date();
+        let scheduleData = {};
+        let bookingModalTarget = null;
+
+        const STATUS_TEXT = {
+            'status-ok': '◎',
+            'status-online': '<i class="fa-solid fa-wifi"></i>',
+            'status-few': '△',
+            'status-full': '×',
+            'status-ng': '-',
+            'status-booked': 'Booked'
+        };
+
+        const START_HOUR = 8;
+        const END_HOUR = 22;
+        const HOURS = [];
+        for (let i = START_HOUR; i <= END_HOUR; i++) {
+            HOURS.push(`${i}:00`);
+        }
+
+        // --- 2. HELPERS ---
+        const formatDateKey = (date) => {
+            const d = new Date(date);
+            return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+        };
+
+        const formatDisplayDate = (date) => {
+            const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            return `${date.getMonth() + 1}/${date.getDate()}<br><span style="font-size:0.85em">(${days[date.getDay()]})</span>`;
+        };
+
+        // --- 3. FETCH & RENDER ---
+        async function fetchSchedule(startDate) {
+            const dates = [];
+            for (let i = 0; i < 7; i++) {
+                const d = new Date(startDate);
+                d.setDate(startDate.getDate() + i);
+                dates.push(d);
+            }
+
+            // Headers
+            const headerContainer = document.querySelector('.schedule-header');
+            headerContainer.innerHTML = '';
+            const corner = document.createElement('div');
+            corner.className = 'date-col header-corner';
+            headerContainer.appendChild(corner);
+
+            dates.forEach(d => {
+                const div = document.createElement('div');
+                div.className = 'date-col';
+                if (d.getDay() === 6) div.classList.add('sat');
+                if (d.getDay() === 0) div.classList.add('sun');
+                div.innerHTML = `<span>${formatDisplayDate(d)}</span>`;
+                headerContainer.appendChild(div);
+            });
+
+            // Data Fetch
+            const dateKeys = dates.map(formatDateKey);
+            scheduleData = {};
+
+            try {
+                const { data: slots } = await client
+                    .from('schedule_slots')
+                    .select('*')
+                    .in('date', dateKeys);
+
+                if (slots) {
+                    const studentIds = [...new Set(slots.filter(s => s.student_id).map(s => s.student_id))];
+                    let studentMap = {};
+
+                    if (studentIds.length > 0) {
+                        const { data: students } = await client
+                            .from('students')
+                            .select('*')
+                            .in('id', studentIds);
+                        if (students) students.forEach(s => studentMap[s.id] = s);
+                    }
+
+                    slots.forEach(item => {
+                        if (!scheduleData[item.date]) scheduleData[item.date] = {};
+                        if (item.student_id && studentMap[item.student_id]) {
+                            item.students = studentMap[item.student_id];
+                            if (!item.students.last_name && item.students.name) {
+                                item.students.last_name = item.students.name;
+                            }
+                        }
+                        scheduleData[item.date][item.time_code] = item;
+                    });
+                }
+            } catch (e) {
+                console.error("Fetch Error:", e);
+            }
+
+            // Render Grid
+            const bodyContainer = document.getElementById('schedule-body');
+            bodyContainer.innerHTML = '';
+
+            HOURS.forEach(timeCode => {
+                const row = document.createElement('div');
+                row.className = 'schedule-row';
+
+                const timeLabel = document.createElement('div');
+                timeLabel.className = 'time-label';
+                timeLabel.textContent = timeCode + '~';
+                row.appendChild(timeLabel);
+
+                dates.forEach(d => {
+                    const dateKey = formatDateKey(d);
+                    const record = scheduleData[dateKey] ? scheduleData[dateKey][timeCode] : null;
+
+                    let status = record ? record.status : 'status-ng';
+                    let slotClass = `slot ${status}`;
+                    let displayText = STATUS_TEXT[status];
+
+                    if (record && record.student_id) {
+                        slotClass += ' booked';
+                        let sName = "Unknown";
+                        if (record.students) {
+                            sName = (record.students.last_name && record.students.first_name)
+                                ? `${record.students.last_name} ${record.students.first_name}`
+                                : (record.students.name || "No Name");
+                        }
+                        displayText = `<div style="font-size:0.75rem; line-height:1.2; color:var(--primary-neon);">
+                            <i class="fas fa-user-circle"></i><br>${sName}
+                        </div>`;
+                    }
+
+                    const div = document.createElement('div');
+                    div.className = slotClass;
+                    div.innerHTML = displayText;
+                    div.style.cursor = 'pointer';
+                    div.onclick = () => openBookingModal(dateKey, timeCode, record);
+
+                    row.appendChild(div);
+                });
+
+                bodyContainer.appendChild(row);
+            });
+
+            const title = document.querySelector('.current-month');
+            title.textContent = `${startDate.getFullYear()}年 ${startDate.getMonth() + 1}月`;
+        }
+
+        // --- 4. MODAL LOGIC (ADMIN) ---
+        function openBookingModal(date, time, record) {
+            bookingModalTarget = { date, time, record };
+            const modal = document.getElementById('bookingModal');
+            document.getElementById('modalTitle').textContent = `${date} ${time}`;
+
+            document.getElementById('modalStatus').value = record ? record.status : 'status-ng';
+            document.getElementById('selectedStudentId').value = record ? (record.student_id || '') : '';
+            document.getElementById('modalBookingType').value = record ? (record.booking_type || 'Lesson') : 'Lesson';
+            document.getElementById('modalMemo').value = record ? (record.memo || '') : '';
+
+            const nameDiv = document.getElementById('selectedStudentName');
+            if (record && record.students) {
+                let sName = (record.students.last_name && record.students.first_name)
+                    ? `${record.students.last_name} ${record.students.first_name}`
+                    : (record.students.name || 'Unknown');
+                nameDiv.textContent = `選択中: ${sName}`;
+            } else {
+                nameDiv.textContent = '未選択';
+            }
+
+            document.getElementById('studentSearch').value = '';
+            document.getElementById('studentSearchResults').style.display = 'none';
+
+            modal.classList.add('active');
+        }
+
+        function closeBookingModal() {
+            document.getElementById('bookingModal').classList.remove('active');
+        }
+
+        async function searchStudents() {
+            const term = document.getElementById('studentSearch').value;
+            if (term.length < 1) {
+                document.getElementById('studentSearchResults').style.display = 'none';
+                return;
+            }
+
+            const { data, error } = await client
+                .from('students')
+                .select('*')
+                .or(`last_name.ilike.%${term}%,first_name.ilike.%${term}%,name.ilike.%${term}%`)
+                .limit(5);
+
+            const resultsDiv = document.getElementById('studentSearchResults');
+            resultsDiv.innerHTML = '';
+            resultsDiv.style.display = 'block';
+
+            if (data) {
+                data.forEach(s => {
+                    const div = document.createElement('div');
+                    div.style.padding = '10px';
+                    div.style.cursor = 'pointer';
+                    div.style.borderBottom = '1px solid #444';
+                    div.style.color = 'white';
+                    div.style.fontSize = '0.9rem';
+
+                    const sName = (s.last_name && s.first_name) ? `${s.last_name} ${s.first_name}` : (s.name || 'Unknown');
+                    div.textContent = sName;
+
+                    div.onmouseover = () => div.style.background = '#444';
+                    div.onmouseout = () => div.style.background = 'transparent';
+
+                    div.onclick = () => {
+                        document.getElementById('selectedStudentId').value = s.id;
+                        document.getElementById('selectedStudentName').textContent = `選択中: ${sName}`;
+                        resultsDiv.style.display = 'none';
+                    };
+                    resultsDiv.appendChild(div);
+                });
+            }
+        }
+
+        async function saveBooking() {
+            const status = document.getElementById('modalStatus').value;
+            const studentId = document.getElementById('selectedStudentId').value || null;
+            const type = document.getElementById('modalBookingType').value;
+            const memo = document.getElementById('modalMemo').value;
+            const { date, time } = bookingModalTarget;
+
+            const updates = {
+                date: date,
+                time_code: time,
+                status: status,
+                student_id: studentId,
+                booking_type: type,
+                memo: memo
             };
 
-            // 2. CONFIG
-            const SUPABASE_URL = 'https://yptegzzukymqotzchgnp.supabase.co';
-            const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlwdGVnenp1a3ltcW90emNoZ25wIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM4NDU1MTYsImV4cCI6MjA3OTQyMTUxNn0.iKWkVYwlKrSBlJKUxRebbGRcgvprzkcyAOgDaCHKLSY';
+            const { error } = await client.from('schedule_slots').upsert(updates, { onConflict: 'date, time_code' });
+            if (error) { alert("Error: " + error.message); return; }
 
-            let client;
-            let scheduleData = {};
+            closeBookingModal();
+            fetchSchedule(currentStartDate);
+        }
 
-            // 3. INIT CLIENT SAFELY
-            try {
-                if (typeof supabase === 'undefined') {
-                    throw new Error("Supabase Library failed to load.");
-                }
-                client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-                console.log("Supabase Client Init Success");
-            } catch (e) {
-                alert("Critical Error: " + e.message);
+        function clearBooking() {
+            document.getElementById('selectedStudentId').value = '';
+            document.getElementById('selectedStudentName').textContent = '未選択';
+            document.getElementById('modalStatus').value = 'status-ok';
+        }
+
+        async function runBulkUpdate() {
+            const startDateStr = document.getElementById('bulkStartDate').value;
+            const endDateStr = document.getElementById('bulkEndDate').value;
+            const startTimeStr = document.getElementById('bulkStartTime').value;
+            const endTimeStr = document.getElementById('bulkEndTime').value;
+            const status = document.getElementById('bulkStatus').value;
+
+            if (!startDateStr || !endDateStr) {
+                alert("期間を選択してください");
+                return;
             }
 
-            // --- Bulk Update Logic ---
-            async function runBulkUpdate() {
-                const startDateStr = document.getElementById('bulkStartDate').value;
-                const endDateStr = document.getElementById('bulkEndDate').value;
-                const startTimeStr = document.getElementById('bulkStartTime').value;
-                const endTimeStr = document.getElementById('bulkEndTime').value;
-                const status = document.getElementById('bulkStatus').value;
+            if (!confirm("一括更新を行いますか？")) return;
 
-                if (!startDateStr || !endDateStr) {
-                    alert("期間を選択してください");
-                    return;
-                }
+            const startHour = parseInt(startTimeStr.split(':')[0]);
+            const endHour = parseInt(endTimeStr.split(':')[0]);
+            let updates = [];
+            let curr = new Date(startDateStr);
+            const end = new Date(endDateStr);
 
-                const startHour = parseInt(startTimeStr.split(':')[0]);
-                const endHour = parseInt(endTimeStr.split(':')[0]);
-                let updates = [];
-                let curr = new Date(startDateStr);
-                const end = new Date(endDateStr);
-
-                while (curr <= end) {
-                    const dateKey = formatDateKey(curr);
-                    for (let h = startHour; h <= endHour; h++) {
-                        updates.push({
-                            date: dateKey,
-                            time_code: `${h}:00`,
-                            status: status
-                        });
-                    }
-                    curr.setDate(curr.getDate() + 1);
-                }
-
-                if (updates.length === 0) {
-                    alert("対象の枠がありません");
-                    return;
-                }
-
-                if (!confirm(`${updates.length}件の枠を一括更新しますか？`)) return;
-
-                const { error } = await client.from('schedule_slots').upsert(updates, { onConflict: 'date, time_code' });
-                if (error) { alert("エラー: " + error.message); return; }
-                alert("更新完了！");
-                fetchSchedule(currentStartDate);
-            }
-
-            let currentStartDate = new Date();
-            const START_HOUR = 8;
-            const END_HOUR = 22;
-            const HOURS = [];
-            for (let i = START_HOUR; i <= END_HOUR; i++) {
-                HOURS.push(`${i}:00`);
-            }
-
-            // Init Bulk Selects
-            setTimeout(() => {
-                const bulkStartSelect = document.getElementById('bulkStartTime');
-                const bulkEndSelect = document.getElementById('bulkEndTime');
-                if (bulkStartSelect && bulkEndSelect) {
-                    HOURS.forEach(h => {
-                        const opt1 = document.createElement('option');
-                        opt1.value = h; opt1.textContent = h;
-                        bulkStartSelect.appendChild(opt1);
-                        const opt2 = document.createElement('option');
-                        opt2.value = h; opt2.textContent = h;
-                        bulkEndSelect.appendChild(opt2);
+            while (curr <= end) {
+                const dateKey = formatDateKey(curr);
+                for (let h = startHour; h <= endHour; h++) {
+                    updates.push({
+                        date: dateKey,
+                        time_code: `${h}:00`,
+                        status: status
                     });
-                    log("Bulk update: no slots found for update.");
-                    return;
                 }
-
-                if (!confirm(`${updates.length}件の枠を一括更新しますか？`)) {
-                    log("Bulk update cancelled by user.");
-                    return;
-                }
-
-                try {
-                    const { error } = await client.from('schedule_slots').upsert(updates, { onConflict: 'date, time_code' });
-                    if (error) {
-                        alert("エラー: " + error.message);
-                        err("Bulk update Supabase error: " + error.message);
-                        return;
-                    }
-                    alert("更新完了！");
-                    log("Bulk update completed successfully.");
-                    fetchSchedule(currentStartDate);
-                } catch (e) {
-                    err("Bulk update exception: " + e.message);
-                }
+                curr.setDate(curr.getDate() + 1);
             }
 
-            async function openBookingModal(date, time, record) {
-                    log(`Opening booking modal for ${date} ${time}`);
-                    bookingModalTarget = { date, time, record };
-                    const modal = document.getElementById('bookingModal');
-                    document.getElementById('modalTitle').textContent = `${date} ${time}`;
+            const { error } = await client.from('schedule_slots').upsert(updates, { onConflict: 'date, time_code' });
+            if (error) { alert("Error: " + error.message); return; }
 
-                    document.getElementById('modalStatus').value = record ? record.status : 'status-ng';
-                    document.getElementById('selectedStudentId').value = record ? (record.student_id || '') : '';
+            alert("更新完了しました");
+            fetchSchedule(currentStartDate);
+        }
 
-                    const nameDiv = document.getElementById('selectedStudentName');
-                    if (record && record.students) {
-                        let sName = (record.students.last_name && record.students.first_name)
-                            ? `${record.students.last_name} ${record.students.first_name}`
-                            : (record.students.name || '');
-                        nameDiv.textContent = `選択中: ${sName}`;
-                    } else {
-                        nameDiv.textContent = '';
-                    }
-
-                    document.getElementById('studentSearch').value = '';
-                    document.getElementById('studentSearchResults').style.display = 'none';
-                    document.getElementById('modalBookingType').value = record ? (record.booking_type || 'Lesson') : 'Lesson';
-                    document.getElementById('modalMemo').value = record ? (record.memo || '') : '';
-
-                    modal.classList.add('active');
-                }
-
-            function closeBookingModal() {
-                    document.getElementById('bookingModal').classList.remove('active');
-                }
-
-            async function searchStudents() {
-                    const term = document.getElementById('studentSearch').value;
-                    if (term.length < 1) {
-                        document.getElementById('studentSearchResults').style.display = 'none';
-                        return;
-                    }
-
-                    const { data, error } = await client
-                        .from('students')
-                        .select('*')
-                        .or(`last_name.ilike.%${term}%,first_name.ilike.%${term}%,name.ilike.%${term}%`)
-                        .limit(5);
-
-                    const resultsDiv = document.getElementById('studentSearchResults');
-                    resultsDiv.innerHTML = '';
-                    resultsDiv.style.display = 'block';
-
-                    if (data) {
-                        data.forEach(s => {
-                            const div = document.createElement('div');
-                            div.style.padding = '8px';
-                            div.style.cursor = 'pointer';
-                            div.style.borderBottom = '1px solid #444';
-                            div.style.color = 'white';
-
-                            const sName = (s.last_name && s.first_name) ? `${s.last_name} ${s.first_name}` : (s.name || 'Unknown');
-                            div.textContent = sName;
-                            div.onmouseover = () => div.style.background = '#444';
-                            div.onmouseout = () => div.style.background = 'transparent';
-                            div.onclick = () => {
-                                document.getElementById('selectedStudentId').value = s.id;
-                                document.getElementById('selectedStudentName').textContent = `選択中: ${sName}`;
-                                resultsDiv.style.display = 'none';
-                            };
-                            resultsDiv.appendChild(div);
-                        });
-                    }
-                }
-
-            async function saveBooking() {
-                    const status = document.getElementById('modalStatus').value;
-                    const studentId = document.getElementById('selectedStudentId').value || null;
-                    const type = document.getElementById('modalBookingType').value;
-                    const memo = document.getElementById('modalMemo').value;
-
-                    const { date, time } = bookingModalTarget;
-
-                    const updates = {
-                        date: date,
-                        time_code: time,
-                        status: status,
-                        student_id: studentId,
-                        booking_type: type,
-                        memo: memo
-                    };
-
-                    const { error } = await client.from('schedule_slots').upsert(updates, { onConflict: 'date, time_code' });
-                    if (error) { alert("保存失敗: " + error.message); return; }
-
-                    closeBookingModal();
-                    fetchSchedule(currentStartDate);
-                }
-
-            function clearBooking() {
-                    document.getElementById('selectedStudentId').value = '';
-                    document.getElementById('modalStatus').value = 'status-ok';
-                    saveBooking();
-                }
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchSchedule(currentStartDate);
 
             document.getElementById('prevWeek').addEventListener('click', () => {
-                    const newDate = new Date(currentStartDate);
-                    newDate.setDate(newDate.getDate() - 7);
-                    currentStartDate = newDate;
-                    fetchSchedule(currentStartDate);
-                });
+                const newDate = new Date(currentStartDate);
+                newDate.setDate(newDate.getDate() - 7);
+                currentStartDate = newDate;
+                fetchSchedule(currentStartDate);
+            });
             document.getElementById('nextWeek').addEventListener('click', () => {
                 const newDate = new Date(currentStartDate);
                 newDate.setDate(newDate.getDate() + 7);
@@ -414,13 +619,29 @@
                 fetchSchedule(currentStartDate);
             });
 
-            // 4. INIT START
-            try {
-                fetchSchedule(currentStartDate);
-            } catch (e) {
-                alert("Init Error: " + e.message);
+            const bulkStartSelect = document.getElementById('bulkStartTime');
+            const bulkEndSelect = document.getElementById('bulkEndTime');
+            HOURS.forEach(h => {
+                bulkStartSelect.add(new Option(h, h));
+                bulkEndSelect.add(new Option(h, h));
+            });
+            bulkEndSelect.value = "22:00";
+
+            const today = new Date();
+            const nextMonth = new Date();
+            nextMonth.setMonth(nextMonth.getMonth() + 1);
+            document.getElementById('bulkStartDate').value = today.toISOString().split('T')[0];
+            document.getElementById('bulkEndDate').value = nextMonth.toISOString().split('T')[0];
+
+            const menuToggle = document.querySelector('.menu-toggle');
+            const navList = document.querySelector('.nav-list');
+            if (menuToggle && navList) {
+                menuToggle.addEventListener('click', () => {
+                    navList.classList.toggle('active');
+                });
             }
-        </script>
+        });
+    </script>
 </body>
 
 </html>
