@@ -8,7 +8,7 @@
     <link rel="icon" href="../../img/favicon.png">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="../../style.css?v=84">
+    <link rel="stylesheet" href="../../style.css?v=85">
     <script src="https://kit.fontawesome.com/aa13b8dc63.js" crossorigin="anonymous"></script>
     <style>
         /* 1. Reset & Base Scroll Settings */
@@ -91,7 +91,7 @@
         <!-- Header -->
         <div class="container header-content">
             <a href="../../index.html" class="logo">
-                ニストスタジオ Admin <small style="font-size: 0.8rem; opacity: 0.7;">(v3.4 DEBUGGER)</small>
+                ニストスタジオ Admin <small style="font-size: 0.8rem; opacity: 0.7;">(v3.6 RLS BYPASS)</small>
             </a>
             <nav class="nav-links">
                 <a href="index.html"
@@ -205,9 +205,6 @@
             </div>
 
             <!-- Grid with Inline Fixes but Dark Theme -->
-            <div id="debug-console"
-                style="display:none; background: #330000; color: #ffcccc; padding: 20px; margin: 20px; border: 2px solid red; white-space: pre-wrap; font-family: monospace;">
-            </div>
             <div class="schedule-grid" id="schedule-grid"
                 style="min-height: 50vh !important; display: block !important; position: relative !important; background: rgba(30,30,30,0.5); border: 1px solid rgba(255,255,255,0.1); margin-bottom: 100px;">
                 <div class="schedule-header">
@@ -271,28 +268,30 @@
             return new Date(d.setDate(diff));
         }
 
-        // --- DATA FETCHING (MANUAL JOIN FIX) ---
+        // --- DATA FETCHING (PUBLIC PAGE LOGIC MATCH) ---
         async function fetchSchedule() {
             try {
+                // Generate 7 Date Keys exactly like Public Page
                 const start = getStartOfWeek(currentMonthStart);
-                const end = new Date(start);
-                end.setDate(end.getDate() + 6);
+                const dates = [];
+                for (let i = 0; i < 7; i++) {
+                    const d = new Date(start);
+                    d.setDate(start.getDate() + i);
+                    dates.push(d);
+                }
+                const dateKeys = dates.map(formatDateKey);
 
-                const startStr = start.toISOString().split('T')[0];
-                const endStr = end.toISOString().split('T')[0];
-
-                // 1. Fetch Slots (Without Join first)
+                // 1. Fetch Slots using .in() (Robust)
                 const { data: slots, error } = await client
                     .from('schedule_slots')
                     .select('*')
-                    .gte('date', startStr)
-                    .lte('date', endStr);
+                    .in('date', dateKeys);
 
                 if (error) throw error;
 
                 scheduleData = {};
                 if (slots && slots.length > 0) {
-                    // 2. Extract Student IDs
+                    // 2. Extract Student IDs (Manual Join)
                     const studentIds = [...new Set(slots.map(s => s.student_id).filter(id => id))];
 
                     let studentMap = {};
@@ -320,15 +319,6 @@
                 updateHeaderDate(start);
             } catch (err) {
                 console.error("Fetch Error:", err);
-                const debugDiv = document.getElementById('debug-console');
-                if (debugDiv) {
-                    debugDiv.style.display = 'block';
-                    debugDiv.innerHTML = `
-                        <strong>Error:</strong> ${err.message}<br>
-                        <strong>Details:</strong> ${JSON.stringify(err)}<br>
-                        <strong>Params:</strong> Start=${startStr || 'n/a'}, End=${endStr || 'n/a'}
-                    `;
-                }
                 alert("データの取得に失敗しました: " + err.message);
             }
         }
