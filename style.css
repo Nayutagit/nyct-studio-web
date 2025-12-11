@@ -1579,62 +1579,67 @@ ul {
     transform: translateY(0);
 }
 
-/* Diagonal Hero Design */
+/* Rising Hero (Udatsu Agaru) */
 .hero {
+    /* Slight diagonal for edge, but rising animation */
     clip-path: polygon(0 0, 100% 0, 100% 88%, 0 100%);
     margin-bottom: -50px;
-    /* Pull up next section */
     z-index: 10;
-    /* Dynamic Animation */
-    animation: heroReveal 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
     background-color: #000;
+    /* Rise Up Animation */
+    animation: heroRise 1.4s cubic-bezier(0.2, 1, 0.3, 1) forwards;
 }
 
-@keyframes heroReveal {
+@keyframes heroRise {
     0% {
-        clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+        /* Start from bottom */
+        clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0 100%);
     }
 
     100% {
+        /* Reveal upwards */
         clip-path: polygon(0 0, 100% 0, 100% 88%, 0 100%);
     }
 }
 
-/* Neon Line Section Separators */
+/* Sharp Lightning Neon Titles */
 .section-title-area {
     position: relative;
     display: inline-block;
     padding: 15px 50px;
-    background: rgba(0, 0, 0, 0.6);
-    /* Semi-transparent dark */
+    background: rgba(0, 0, 0, 0.3);
+    /* Subtle dark backing */
     color: #fff;
-    border: 2px solid var(--primary-neon);
-    /* Neon Frame */
+
+    /* Lightning Neon: White Core + Neon Glow */
+    border: 1px solid #fff;
     box-shadow:
+        0 0 4px #fff,
         0 0 10px var(--primary-neon),
-        inset 0 0 10px var(--primary-neon);
-    /* Inner & Outer Glow */
-    backdrop-filter: blur(5px);
-    border-radius: 4px;
-    /* Slight rounded for tube feel */
+        0 0 25px var(--primary-neon),
+        inset 0 0 10px rgba(252, 200, 0, 0.2);
+
+    backdrop-filter: blur(2px);
+    border-radius: 0;
+    /* Sharp, Inorganic */
+    transform: none;
+    /* No distortion */
 }
 
-
-
-/* Reset text colors for the neon box */
+/* Reset colors for neon context */
 .section-title {
     color: #fff;
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
 }
 
 .section-title::after {
     display: none;
-    /* Remove underline, use box instead */
 }
 
 .section-subtitle {
-    color: var(--primary-neon);
-    text-shadow: 0 0 10px rgba(252, 200, 0, 0.5);
+    color: #fff;
+    /* White for sharp contrast */
+    text-shadow: 0 0 10px var(--primary-neon);
     display: block;
     margin-bottom: 5px;
     font-size: 0.9rem;
