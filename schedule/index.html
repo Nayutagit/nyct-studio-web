@@ -315,8 +315,10 @@
 
                 dates.forEach(d => {
                     const dateKey = formatDateKey(d);
-                    let status = 'status-ok';
-                    if (status.includes('ng')) status = 'status-ng'; // Default client side NG
+
+                    // Default to NG (Unavailable) if no data exists
+                    let status = 'status-ng';
+
                     if (dataMap[dateKey] && dataMap[dateKey][timeCode]) {
                         status = dataMap[dateKey][timeCode];
                     }

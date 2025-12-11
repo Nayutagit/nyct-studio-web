@@ -145,6 +145,232 @@
         .modal-overlay.active {
             display: flex;
         }
+
+        /* --- New Light Theme Overrides & One-Touch --- */
+        body {
+            background-image: none !important;
+            background-color: #f4f4f9 !important;
+            /* Bright gray */
+            color: #333 !important;
+        }
+
+        /* Override dark sections */
+        .bg-dark-concrete {
+            background: transparent !important;
+        }
+
+        .header {
+            background: #222 !important;
+            /* Keep header dark for contrast or make light? Stick to dark menu is often safer for branding, but user said 'bright gray background' for the screen. Let's keep header dark for admin distinction or make it white. Let's try dark header, light body. */
+        }
+
+        .page-hero {
+            background: #fff;
+            border-bottom: 1px solid #ddd;
+            color: #333;
+        }
+
+        .page-title {
+            color: #333;
+            text-shadow: none !important;
+        }
+
+        .page-title::after {
+            box-shadow: none !important;
+        }
+
+        .section-subtitle {
+            text-shadow: none !important;
+        }
+
+        /* Light Grid Styles */
+        .schedule-grid {
+            background: #fff !important;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            border: 1px solid #ddd;
+        }
+
+        .schedule-header {
+            border-bottom: 2px solid #ccc !important;
+            background: #f8f8f8;
+        }
+
+        .schedule-row {
+            border-bottom: 1px solid #eee !important;
+        }
+
+        .date-col {
+            background: #f0f0f0 !important;
+            color: #333 !important;
+            border-right: 1px solid #ddd !important;
+            font-weight: bold;
+        }
+
+        .date-col.sat {
+            color: #00A4D8 !important;
+            background: #eef9fd !important;
+        }
+
+        .date-col.sun {
+            color: #ff4444 !important;
+            background: #ffeeee !important;
+        }
+
+        .header-corner {
+            background: #e0e0e0 !important;
+        }
+
+        .time-label {
+            background: #fafafa !important;
+            color: #666 !important;
+            border-right: 2px solid #ddd !important;
+        }
+
+        .slot {
+            background: #fff !important;
+            color: #333 !important;
+            border-right: 1px solid #f0f0f0 !important;
+        }
+
+        .slot:hover {
+            background: #f0f0f0 !important;
+        }
+
+        /* Status colors in light mode */
+        .slot.booked {
+            background: rgba(0, 164, 216, 0.1) !important;
+            border-left: 3px solid var(--accent-teal);
+        }
+
+        /* Bulk & Inputs Light Mode */
+        .bulk-update-section {
+            background: #fff !important;
+            border: 1px solid #ddd !important;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03) !important;
+        }
+
+        .bulk-update-section h3 {
+            color: #333 !important;
+        }
+
+        .bulk-group label {
+            color: #555 !important;
+        }
+
+        .bulk-input,
+        .form-input,
+        .form-textarea {
+            background: #fff !important;
+            color: #333 !important;
+            border: 1px solid #ccc !important;
+        }
+
+        .bulk-input:focus,
+        .form-input:focus,
+        .form-textarea:focus {
+            border-color: var(--primary-neon) !important;
+            outline: none;
+        }
+
+        /* One Touch Toggle Switch */
+        .switch-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #fff;
+            padding: 10px 20px;
+            border-radius: 30px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            border: 1px solid #ddd;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 26px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            -webkit-transition: .4s;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            -webkit-transition: .4s;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked+.slider {
+            background-color: var(--primary-neon);
+        }
+
+        input:focus+.slider {
+            box-shadow: 0 0 1px var(--primary-neon);
+        }
+
+        input:checked+.slider:before {
+            -webkit-transform: translateX(24px);
+            -ms-transform: translateX(24px);
+            transform: translateX(24px);
+        }
+
+        .toggle-label {
+            font-weight: bold;
+            color: #333;
+            font-size: 0.9rem;
+        }
+
+        /* Modal Light */
+        .modal-content {
+            background: #fff !important;
+            border: 1px solid #eee !important;
+            color: #333 !important;
+        }
+
+        #modalTitle {
+            color: #333 !important;
+        }
+
+        .form-label {
+            color: #555 !important;
+        }
+
+        .modal-close {
+            color: #999 !important;
+            top: -40px;
+        }
+
+        .modal-close:hover {
+            color: #333 !important;
+        }
+
+        /* Legend text */
+        .calendar-legend {
+            color: #333;
+        }
     </style>
 </head>
 
@@ -217,8 +443,17 @@
 
             <div class="calendar-controls">
                 <button class="cal-btn" id="prevWeek"><i class="fas fa-chevron-left"></i> 前の週</button>
-                <h2 class="current-month">--</h2>
+                <h2 class="current-month" style="color:#333;">--</h2>
                 <button class="cal-btn" id="nextWeek">次の週 <i class="fas fa-chevron-right"></i></button>
+
+                <!-- One Touch Toggle -->
+                <div class="switch-container" style="margin-left: 20px;">
+                    <label class="switch">
+                        <input type="checkbox" id="oneTouchMode">
+                        <span class="slider"></span>
+                    </label>
+                    <span class="toggle-label">ワンタッチ編集 (◎ &rarr; Online &rarr; -)</span>
+                </div>
             </div>
 
             <div class="calendar-legend">
@@ -324,11 +559,11 @@
         let bookingModalTarget = null;
 
         const STATUS_TEXT = {
-            'status-ok': '◎',
-            'status-online': '<i class="fa-solid fa-wifi"></i>',
+            'status-ok': '<span style="color:#000; font-weight:bold; font-size:1.2rem;">◎</span>',
+            'status-online': '<span style="color:var(--accent-teal); font-weight:bold; font-size:0.9rem;">Online only</span>',
             'status-few': '△',
             'status-full': '×',
-            'status-ng': '-',
+            'status-ng': '<span style="color:#ccc;">-</span>',
             'status-booked': 'Booked'
         };
 
@@ -450,7 +685,7 @@
                     div.className = slotClass;
                     div.innerHTML = displayText;
                     div.style.cursor = 'pointer';
-                    div.onclick = () => openBookingModal(dateKey, timeCode, record);
+                    div.onclick = () => handleSlotClick(dateKey, timeCode, record, status);
 
                     row.appendChild(div);
                 });
@@ -562,6 +797,71 @@
             document.getElementById('selectedStudentId').value = '';
             document.getElementById('selectedStudentName').textContent = '未選択';
             document.getElementById('modalStatus').value = 'status-ok';
+        }
+
+        // --- NEW: HANDLE CLICK (ONE TOUCH vs MODAL) ---
+        async function handleSlotClick(date, time, record, currentStatus) {
+            const isOneTouch = document.getElementById('oneTouchMode').checked;
+
+            if (isOneTouch) {
+                // Determine next status
+                // Cycle: OK -> Online -> NG -> OK
+                let nextStatus = 'status-ok';
+                if (currentStatus === 'status-ok') nextStatus = 'status-online';
+                else if (currentStatus === 'status-online') nextStatus = 'status-ng';
+                else if (currentStatus === 'status-ng') nextStatus = 'status-ok';
+                else nextStatus = 'status-ok'; // Default fallback
+
+                // If currently booked, maybe confirm or warn? 
+                // Creating a special case: if it has a student, maybe don't toggle easily?
+                // For now, if "Booked", currentStatus comes from STATUS_TEXT mapping logic which is 'status-booked' (implicitly handled in render loop), 
+                // but 'record.status' is the underlying DB status.
+                // Re-calculating status from record for safety:
+                let dbStatus = record ? record.status : 'status-ng';
+                if (record && record.student_id) {
+                    if (!confirm("予約が入っていますが変更しますか？\n(予約は解除されます)")) return;
+                    // Proceed to overwrite
+                }
+
+                // If we determined next status based on DB status:
+                // If dbStatus == 'status-ok' -> 'status-online'
+                // If dbStatus == 'status-online' -> 'status-ng'
+                // Else -> 'status-ok'
+
+                if (dbStatus === 'status-ok') nextStatus = 'status-online';
+                else if (dbStatus === 'status-online') nextStatus = 'status-ng';
+                else nextStatus = 'status-ok';
+
+                // Optimistic UI Update (optional, but fetch is safer)
+                // UPSERT
+                const updates = {
+                    date: date,
+                    time_code: time,
+                    status: nextStatus,
+                    student_id: null, // Clear student if any, as this is "status" toggle
+                    booking_type: null,
+                    memo: null
+                };
+
+                try {
+                    const { error } = await client.from('schedule_slots').upsert(updates, { onConflict: 'date, time_code' });
+                    if (error) {
+                        alert("Update failed: " + error.message);
+                        console.error(error);
+                    } else {
+                        // Success - refresh
+                        // To promote "edit mode" feeling, maybe we don't reload whole grid but just cell? 
+                        // For simplicity/reliability, fetchSchedule.
+                        fetchSchedule(currentStartDate);
+                    }
+                } catch (e) {
+                    console.error("Connection error:", e);
+                    alert("Network error occurred.");
+                }
+
+            } else {
+                openBookingModal(date, time, record);
+            }
         }
 
         async function runBulkUpdate() {
