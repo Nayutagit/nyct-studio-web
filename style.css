@@ -1565,6 +1565,20 @@ ul {
     z-index: 2000;
 }
 
+/* ==========================================================================
+   Animations
+   ========================================================================== */
+.fade-in-up {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.fade-in-up.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
 /* Diagonal Hero Design */
 .hero {
     clip-path: polygon(0 0, 100% 0, 100% 88%, 0 100%);
@@ -1572,41 +1586,45 @@ ul {
     /* Pull up next section */
     z-index: 10;
     /* Dynamic Animation */
-    animation: heroReveal 1.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    animation: heroReveal 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    background-color: #000;
 }
 
 @keyframes heroReveal {
     0% {
         clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
-        height: 0;
     }
 
     100% {
         clip-path: polygon(0 0, 100% 0, 100% 88%, 0 100%);
-        height: 100vh;
     }
 }
 
-/* Diagonal Section Separators */
+/* Neon Line Section Separators */
 .section-title-area {
     position: relative;
     display: inline-block;
-    padding: 10px 30px;
-    background: var(--primary-neon);
-    color: #000;
-    transform: skewX(-15deg);
-    /* Edgy slant */
+    padding: 15px 50px;
+    background: rgba(0, 0, 0, 0.6);
+    /* Semi-transparent dark */
+    color: #fff;
+    border: 2px solid var(--primary-neon);
+    /* Neon Frame */
+    box-shadow:
+        0 0 10px var(--primary-neon),
+        inset 0 0 10px var(--primary-neon);
+    /* Inner & Outer Glow */
+    backdrop-filter: blur(5px);
+    border-radius: 4px;
+    /* Slight rounded for tube feel */
 }
 
-.section-title-area * {
-    transform: skewX(15deg);
-    /* Counter skew text */
-}
 
-/* Reset text colors for the diagonal box */
+
+/* Reset text colors for the neon box */
 .section-title {
-    color: #000;
-    text-shadow: none;
+    color: #fff;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
 }
 
 .section-title::after {
@@ -1615,8 +1633,12 @@ ul {
 }
 
 .section-subtitle {
-    color: #333;
-    text-shadow: none;
+    color: var(--primary-neon);
+    text-shadow: 0 0 10px rgba(252, 200, 0, 0.5);
+    display: block;
+    margin-bottom: 5px;
+    font-size: 0.9rem;
+    letter-spacing: 0.2em;
 }
 
 @media (max-width: 768px) {
