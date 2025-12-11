@@ -1530,51 +1530,104 @@ ul {
     z-index: 2000;
 }
 
+/* Diagonal Hero Design */
+.hero {
+    clip-path: polygon(0 0, 100% 0, 100% 88%, 0 100%);
+    margin-bottom: -50px;
+    /* Pull up next section */
+    z-index: 10;
+    /* Dynamic Animation */
+    animation: heroReveal 1.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes heroReveal {
+    0% {
+        clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+        height: 0;
+    }
+
+    100% {
+        clip-path: polygon(0 0, 100% 0, 100% 88%, 0 100%);
+        height: 100vh;
+    }
+}
+
+/* Diagonal Section Separators */
+.section-title-area {
+    position: relative;
+    display: inline-block;
+    padding: 10px 30px;
+    background: var(--primary-neon);
+    color: #000;
+    transform: skewX(-15deg);
+    /* Edgy slant */
+}
+
+.section-title-area * {
+    transform: skewX(15deg);
+    /* Counter skew text */
+}
+
+/* Reset text colors for the diagonal box */
+.section-title {
+    color: #000;
+    text-shadow: none;
+}
+
+.section-title::after {
+    display: none;
+    /* Remove underline, use box instead */
+}
+
+.section-subtitle {
+    color: #333;
+    text-shadow: none;
+}
+
 @media (max-width: 768px) {
     .menu-toggle {
         display: block;
         position: absolute;
-        /* Relative to Header */
         top: 50%;
         left: 20px;
         transform: translateY(-50%);
-        z-index: 2000;
-        /* Ensure visibility over nav */
-        cursor: pointer;
+        /* No z-index conflict, logo is centered */
     }
 
+    /* Mobile Header Centering - Robust Fix */
     .header-inner {
         justify-content: center;
-        /* Center the logo */
         position: relative;
-        /* Context for toggle */
+        height: 100%;
+        /* Ensure full height for centering */
     }
 
     .logo {
-        margin: 0 auto;
-        /* Ensure logo is centered */
-        position: relative;
-        top: 2px;
-        /* Optical centering fix */
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        margin: 0;
+        width: 100%;
+        justify-content: center;
+        padding-top: 4px;
+        /* Optical adjustment: Push down slightly */
     }
 
+    /* Nav List Mobile Transition */
     .nav-list {
-        display: none;
-        position: absolute;
-        top: 70px;
-        /* Below header */
-        left: 0;
-        width: 100%;
-        background: #000;
-        flex-direction: column;
-        padding: 20px;
-        z-index: 1000;
-        border-bottom: 1px solid #333;
-        text-align: center;
+        top: 60px;
+        /* Adjust for thinner header */
+        clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+        /* Closed state diagonal style? or just hide */
+        transition: clip-path 0.4s ease;
+        display: flex;
+        /* Always flex, just hidden by clip */
+        background: rgba(0, 0, 0, 0.95);
     }
 
     .nav-list.active {
-        display: flex;
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
     }
 
     body {
@@ -1772,16 +1825,8 @@ ul {
         display: inline;
     }
 
-    .logo {
-        /* Ensure no offset remains and clean alignment */
-        top: 0;
-        line-height: 1;
-        /* Tighten for centering */
-    }
-
     .hero-title {
-        font-size: 3rem;
-        /* Adjust for mobile constraints if needed */
+        font-size: 2.8rem;
         line-height: 1.3;
         margin-bottom: 20px;
     }
@@ -1789,11 +1834,8 @@ ul {
     .hero-desc {
         font-size: 1rem;
         line-height: 2;
-        /* More breathing room */
         text-align: left;
-        /* Maybe center is better? Keep center for now as per design */
         display: inline-block;
-        /* Helps with width */
         width: 100%;
     }
 }
