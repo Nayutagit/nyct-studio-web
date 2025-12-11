@@ -26,41 +26,7 @@
     --section-padding: 60px;
     --container-width: 1200px;
 
-    /* Diagonal Hero Design */
-    .hero {
-        clip-path: polygon(0 0, 100% 0, 100% 88%, 0 100%);
-        margin-bottom: -50px;
-        /* Pull up next section */
-        z-index: 10;
-        /* Dynamic Animation */
-        animation: heroReveal 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-        background-color: #000;
-        /* Ensure bg is present for clip */
-    }
 
-    @keyframes heroReveal {
-        0% {
-            clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
-        }
-
-        100% {
-            clip-path: polygon(0 0, 100% 0, 100% 88%, 0 100%);
-        }
-    }
-
-    /* Diagonal Section Separators with Neon */
-    .section-title-area {
-        position: relative;
-        display: inline-block;
-        padding: 10px 40px;
-        background: var(--primary-neon);
-        color: #000;
-        transform: skewX(-15deg);
-        /* Edgy slant */
-        box-shadow: 0 0 15px var(--primary-neon), 0 0 30px rgba(252, 200, 0, 0.5);
-        /* Neon Glow */
-        border: 1px solid #fff;
-    }
 
     --transition-fast: 0.3s ease;
 }
