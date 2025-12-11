@@ -104,12 +104,14 @@ ul {
 }
 
 .section-title {
-    font-size: 2.5rem;
+    font-size: 1.8rem;
+    /* Reduced from 2.5rem for PC */
     font-weight: 700;
     margin-bottom: 0;
     position: relative;
     display: inline-block;
     color: var(--text-white);
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
 }
 
 .section-title::after {
@@ -1661,7 +1663,10 @@ ul {
 /* Sharp Lightning Neon Titles */
 .section-title-area {
     position: relative;
-    display: inline-block;
+    display: table;
+    /* Shrink to fit content */
+    margin: 0 auto 60px;
+    /* Center horizontally + bottom gap */
     padding: 15px 50px;
     background: rgba(0, 0, 0, 0.3);
     /* Subtle dark backing */
