@@ -1553,6 +1553,9 @@ ul {
     .logo {
         margin: 0 auto;
         /* Ensure logo is centered */
+        position: relative;
+        top: 2px;
+        /* Optical centering fix */
     }
 
     .nav-list {
