@@ -8,7 +8,7 @@
     <link rel="icon" href="../../img/favicon.png">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="../../style.css?v=82">
+    <link rel="stylesheet" href="../../style.css?v=83">
     <script src="https://kit.fontawesome.com/aa13b8dc63.js" crossorigin="anonymous"></script>
     <style>
         /* 1. Reset & Base Scroll Settings */
@@ -91,7 +91,7 @@
         <!-- Header -->
         <div class="container header-content">
             <a href="../../index.html" class="logo">
-                ニストスタジオ Admin <small style="font-size: 0.8rem; opacity: 0.7;">(v3.2 LOGIC RESTORED)</small>
+                ニストスタジオ Admin <small style="font-size: 0.8rem; opacity: 0.7;">(v3.3 FETCH FIX)</small>
             </a>
             <nav class="nav-links">
                 <a href="index.html"
@@ -268,7 +268,7 @@
             return new Date(d.setDate(diff));
         }
 
-        // --- DATA FETCHING (WITH JOIN) ---
+        // --- DATA FETCHING (MANUAL JOIN FIX) ---
         async function fetchSchedule() {
             try {
                 const start = getStartOfWeek(currentMonthStart);
@@ -278,19 +278,38 @@
                 const startStr = start.toISOString().split('T')[0];
                 const endStr = end.toISOString().split('T')[0];
 
-                // JOIN 'students' table to get names
+                // 1. Fetch Slots (Without Join first)
                 const { data: slots, error } = await client
                     .from('schedule_slots')
-                    .select('*, students(name, first_name, last_name, alias)')
+                    .select('*')
                     .gte('date', startStr)
                     .lte('date', endStr);
 
                 if (error) throw error;
 
                 scheduleData = {};
-                if (slots) {
+                if (slots && slots.length > 0) {
+                    // 2. Extract Student IDs
+                    const studentIds = [...new Set(slots.map(s => s.student_id).filter(id => id))];
+
+                    let studentMap = {};
+                    if (studentIds.length > 0) {
+                        const { data: students, error: sErr } = await client
+                            .from('students')
+                            .select('id, name, first_name, last_name, alias')
+                            .in('id', studentIds);
+
+                        if (!sErr && students) {
+                            students.forEach(s => studentMap[s.id] = s);
+                        }
+                    }
+
+                    // 3. Merge
                     slots.forEach(slot => {
-                        const key = `${slot.date}_${slot.time.slice(0, 5)}`; // Handle time format HH:MM:SS
+                        const key = `${slot.date}_${slot.time.slice(0, 5)}`;
+                        if (slot.student_id && studentMap[slot.student_id]) {
+                            slot.students = studentMap[slot.student_id];
+                        }
                         scheduleData[key] = slot;
                     });
                 }
@@ -298,7 +317,7 @@
                 updateHeaderDate(start);
             } catch (err) {
                 console.error("Fetch Error:", err);
-                alert("データの取得に失敗しました");
+                alert("データの取得に失敗しました: " + err.message);
             }
         }
 
