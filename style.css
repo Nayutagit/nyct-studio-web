@@ -1566,21 +1566,89 @@ ul {
 }
 
 /* ==========================================================================
-   Animations
+   Animations & FX
    ========================================================================== */
 .fade-in-up {
     opacity: 0;
     transform: translateY(30px);
-    transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    /* Transition handled by animation when visible */
 }
 
 .fade-in-up.visible {
     opacity: 1;
     transform: translateY(0);
+    animation: flashIn 0.8s cubic-bezier(0.1, 1, 0.2, 1) forwards;
+}
+
+@keyframes flashIn {
+    0% {
+        opacity: 0;
+        transform: translateY(40px);
+        filter: brightness(8) blur(4px);
+    }
+
+    10% {
+        opacity: 1;
+        filter: brightness(4) blur(0px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+        filter: brightness(1);
+    }
+}
+
+/* Background Sparks */
+.bg-fx {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    /* Behind content but check section bg */
+    overflow: hidden;
+}
+
+.spark {
+    position: absolute;
+    border-radius: 50%;
+    background: #fff;
+    opacity: 0.5;
+    will-change: transform;
+}
+
+.spark-1 {
+    top: 20%;
+    left: 10%;
+    width: 5px;
+    height: 5px;
+    box-shadow: 0 0 15px var(--primary-neon), 0 0 30px var(--primary-neon);
+}
+
+.spark-2 {
+    top: 55%;
+    right: 15%;
+    width: 4px;
+    height: 4px;
+    box-shadow: 0 0 15px var(--accent-teal), 0 0 30px var(--accent-teal);
+    background: #e0f7fa;
+}
+
+.spark-3 {
+    top: 85%;
+    left: 25%;
+    width: 3px;
+    height: 3px;
+    box-shadow: 0 0 10px #ff4444, 0 0 20px #ff4444;
+    /* Red accent for heat */
 }
 
 /* Rising Hero (Udatsu Agaru) */
 .hero {
+
     /* Slight diagonal for edge, but rising animation */
     clip-path: polygon(0 0, 100% 0, 100% 88%, 0 100%);
     margin-bottom: -50px;
@@ -1599,6 +1667,31 @@ ul {
     100% {
         /* Reveal upwards */
         clip-path: polygon(0 0, 100% 0, 100% 88%, 0 100%);
+    }
+}
+
+@keyframes neonPulse {
+
+    0%,
+    100% {
+        box-shadow: 0 0 4px #fff, 0 0 10px var(--primary-neon), 0 0 25px var(--primary-neon), inset 0 0 10px rgba(252, 200, 0, 0.2);
+    }
+
+    50% {
+        box-shadow: 0 0 6px #fff, 0 0 20px var(--primary-neon), 0 0 45px var(--primary-neon), inset 0 0 20px rgba(252, 200, 0, 0.4);
+    }
+
+    92% {
+        border-color: #fff;
+    }
+
+    93% {
+        border-color: rgba(255, 255, 255, 0.5);
+    }
+
+    /* Flicker */
+    94% {
+        border-color: #fff;
     }
 }
 
@@ -1624,6 +1717,9 @@ ul {
     /* Sharp, Inorganic */
     transform: none;
     /* No distortion */
+
+    /* Breathing Animation */
+    animation: neonPulse 4s infinite cubic-bezier(0.45, 0.05, 0.55, 0.95);
 }
 
 /* Reset colors for neon context */

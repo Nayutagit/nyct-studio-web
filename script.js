@@ -88,4 +88,13 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     }
+    // 6. Background Parallax (Sparks)
+    const sparks = document.querySelectorAll('.spark');
+    window.addEventListener('scroll', () => {
+        const scrolled = window.scrollY;
+        sparks.forEach((spark, index) => {
+            const speed = (index + 1) * 0.2; // Different speeds
+            spark.style.transform = `translateY(${scrolled * speed}px)`;
+        });
+    });
 });
