@@ -1584,12 +1584,7 @@ ul {
     0% {
         opacity: 0;
         transform: translateY(40px);
-        filter: brightness(8) blur(4px);
-    }
-
-    10% {
-        opacity: 1;
-        filter: brightness(4) blur(0px);
+        filter: brightness(2);
     }
 
     100% {
@@ -1653,7 +1648,8 @@ ul {
     clip-path: polygon(0 0, 100% 0, 100% 88%, 0 100%);
     margin-bottom: -50px;
     z-index: 10;
-    background-color: #000;
+    /* Subtle Gradient for depth */
+    background: radial-gradient(circle at 50% 50%, #1a1a1a 0%, #000 100%);
     /* Rise Up Animation */
     animation: heroRise 1.4s cubic-bezier(0.2, 1, 0.3, 1) forwards;
 }
@@ -1674,11 +1670,12 @@ ul {
 
     0%,
     100% {
-        box-shadow: 0 0 4px #fff, 0 0 10px var(--primary-neon), 0 0 25px var(--primary-neon), inset 0 0 10px rgba(252, 200, 0, 0.2);
+        box-shadow: 0 0 4px #fff, 0 0 10px var(--primary-neon), 0 0 20px var(--primary-neon);
+        /* No Inset */
     }
 
     50% {
-        box-shadow: 0 0 6px #fff, 0 0 20px var(--primary-neon), 0 0 45px var(--primary-neon), inset 0 0 20px rgba(252, 200, 0, 0.4);
+        box-shadow: 0 0 6px #fff, 0 0 20px var(--primary-neon), 0 0 35px var(--primary-neon);
     }
 
     92% {
@@ -1704,13 +1701,12 @@ ul {
     /* Subtle dark backing */
     color: #fff;
 
-    /* Lightning Neon: White Core + Neon Glow */
+    /* Lightning Neon: White Core + Neon Glow (Hollow) */
     border: 1px solid #fff;
     box-shadow:
         0 0 4px #fff,
         0 0 10px var(--primary-neon),
-        0 0 25px var(--primary-neon),
-        inset 0 0 10px rgba(252, 200, 0, 0.2);
+        0 0 20px var(--primary-neon);
 
     backdrop-filter: blur(2px);
     border-radius: 0;
