@@ -67,7 +67,7 @@
                     2. New Formを作成し、発行されたURL（例: https://formspree.io/f/xxyyzz）を
                        以下の action="..." の中に貼り付けてください。
                 -->
-                <form action="https://formspree.io/f/xanzkprd" method="POST">
+                <form id="contact-form" action="https://formspree.io/f/xanzkprd" method="POST">
                     <input type="hidden" name="_subject" value="Nyct Studio Webサイトからのお問い合わせ">
                     <input type="hidden" name="_next" value="https://nyctstudio.com/thanks.html">
                     <div style="margin-bottom: 20px;">
@@ -103,6 +103,7 @@
                             送信する
                         </button>
                     </div>
+                    <div id="form-status" style="margin-top: 20px; text-align: center; font-weight: bold;"></div>
                 </form>
             </div>
         </div>

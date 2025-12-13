@@ -97,4 +97,42 @@ document.addEventListener('DOMContentLoaded', () => {
             spark.style.transform = `translateY(${scrolled * speed}px)`;
         });
     });
+    // 7. Contact Form AJAX Submission
+    const contactForm = document.getElementById('contact-form');
+    if (contactForm) {
+        contactForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+            const status = document.getElementById('form-status');
+            const data = new FormData(e.target);
+
+            status.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 送信中...';
+            status.style.color = '#ccc';
+
+            fetch(e.target.action, {
+                method: contactForm.method,
+                body: data,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            }).then(response => {
+                if (response.ok) {
+                    status.innerHTML = '<i class="fas fa-check-circle"></i> 送信完了しました！<br>お問い合わせありがとうございます。';
+                    status.style.color = 'var(--primary-neon)';
+                    contactForm.reset();
+                } else {
+                    response.json().then(data => {
+                        if (Object.hasOwn(data, 'errors')) {
+                            status.innerHTML = data["errors"].map(error => error["message"]).join(", ");
+                        } else {
+                            status.innerHTML = '<i class="fas fa-exclamation-triangle"></i> 送信に失敗しました。<br>時間をおいて再度お試しいただくか、<a href="https://instagram.com/udatsuageteko" target="_blank" style="color: inherit; text-decoration: underline;">Udatsu公式Instagram</a>のDMからご連絡ください。';
+                        }
+                        status.style.color = '#ff4d4d';
+                    })
+                }
+            }).catch(error => {
+                status.innerHTML = '<i class="fas fa-exclamation-triangle"></i> エラーが発生しました。<br>送信サーバーに接続できませんでした。';
+                status.style.color = '#ff4d4d';
+            });
+        });
+    }
 });
