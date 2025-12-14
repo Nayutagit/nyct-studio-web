@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Udatsu Chatbot | ニストスタジオ</title>
+    <link rel="icon" href="../img/favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&family=Zen+Kaku+Gothic+New:wght@300;400;500;700;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="chat-container">
+        <div class="chat-header">
+            <div class="bot-avatar">
+                <img src="../img/logo_white.png" alt="Nyct Studio Logo">
+            </div>
+            <div class="bot-info">
+                <span class="bot-name">Udatsu Bot</span>
+                <span class="bot-status">Online</span>
+            </div>
+        </div>
+
+        <div class="chat-messages" id="chat-messages">
+            <!-- Messages will appear here -->
+        </div>
+
+        <div class="chat-controls" id="chat-controls">
+            <!-- Option buttons will appear here -->
+        </div>
+    </div>
+
+    <!-- Background Elements -->
+    <div class="bg-overlay"></div>
+    <div class="bg-texture"></div>
+    <div class="zoom-cta-overlay" id="zoom-overlay">
+        <div class="zoom-card">
+            <i class="fas fa-video zoom-icon"></i>
+            <h2>無料相談へ進む</h2>
+            <p>Udatsuがあなたにどのような効果をもたらすか、<br>30分のZoom相談で具体的にお話ししませんか？</p>
+            <a href="../contact.html" class="zoom-btn">
+                <i class="far fa-calendar-check"></i> 予約フォームへ
+            </a>
+            <button class="close-zoom" id="close-zoom">閉じる</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
