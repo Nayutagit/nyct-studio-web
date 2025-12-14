@@ -13,6 +13,16 @@
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="../style.css?v=88?v=3">
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17794227403"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'AW-17794227403');
+    </script>
 </head>
 
 <body>
@@ -165,7 +175,8 @@
                 <div id="modalTime" style="font-size: 1.5rem; font-weight: bold; color:white;">10:00</div>
             </div>
 
-            <form action="https://formspree.io/f/xanzkprd" method="POST">
+            <div id="booking-status" style="margin-bottom: 20px;"></div>
+            <form action="https://formspree.io/f/xanzkprd" method="POST" id="booking-form">
                 <input type="hidden" name="date" id="formDate">
                 <input type="hidden" name="time" id="formTime">
                 <input type="hidden" name="subject" value="レッスン仮予約申し込み">
@@ -370,11 +381,57 @@
             // Hamburger Menu
             const menuToggle = document.querySelector('.menu-toggle');
             const navList = document.querySelector('.nav-list');
-            if (menuToggle && navList) {
-                menuToggle.addEventListener('click', () => {
-                    navList.classList.toggle('active');
+            menuToggle.addEventListener('click', () => {
+                navList.classList.toggle('active');
+            });
+        }
+
+            // AJAX Form Submission for Booking
+            const bookingForm = document.getElementById('booking-form');
+        const bookingStatus = document.getElementById('booking-status');
+
+        if (bookingForm) {
+            bookingForm.addEventListener('submit', function (e) {
+                e.preventDefault();
+                const formData = new FormData(bookingForm);
+
+                bookingStatus.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 送信中...';
+                bookingStatus.style.color = '#fff';
+
+                fetch(bookingForm.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                }).then(response => {
+                    if (response.ok) {
+                        bookingStatus.innerHTML = '<i class="fas fa-check-circle"></i> 仮予約の送信が完了しました！<br>講師からの返信をお待ちください。';
+                        bookingStatus.style.color = 'var(--primary-neon)';
+                        bookingForm.reset();
+                        // Hide the button to prevent double submit
+                        bookingForm.querySelector('button[type="submit"]').style.display = 'none';
+
+                        // Google Ads Conversion Event
+                        if (typeof gtag === 'function') {
+                            gtag('event', 'conversion', { 'send_to': 'AW-17794227403/NLHHCMaejtEbEMu5-aRC' });
+                        }
+                    } else {
+                        response.json().then(data => {
+                            if (Object.hasOwn(data, 'errors')) {
+                                bookingStatus.innerHTML = data["errors"].map(error => error["message"]).join(", ");
+                            } else {
+                                bookingStatus.innerHTML = '送信に失敗しました。<br>時間をおいて再度お試しください。';
+                            }
+                            bookingStatus.style.color = '#ff4d4d';
+                        });
+                    }
+                }).catch(error => {
+                    bookingStatus.innerHTML = 'エラーが発生しました。<br>お手数ですが、InstagramのDM等でご連絡ください。';
+                    bookingStatus.style.color = '#ff4d4d';
                 });
-            }
+            });
+        }
         });
     </script>
 </body>
