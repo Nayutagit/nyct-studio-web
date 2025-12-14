@@ -384,54 +384,53 @@
             menuToggle.addEventListener('click', () => {
                 navList.classList.toggle('active');
             });
-        }
 
             // AJAX Form Submission for Booking
             const bookingForm = document.getElementById('booking-form');
-        const bookingStatus = document.getElementById('booking-status');
+            const bookingStatus = document.getElementById('booking-status');
 
-        if (bookingForm) {
-            bookingForm.addEventListener('submit', function (e) {
-                e.preventDefault();
-                const formData = new FormData(bookingForm);
+            if (bookingForm) {
+                bookingForm.addEventListener('submit', function (e) {
+                    e.preventDefault();
+                    const formData = new FormData(bookingForm);
 
-                bookingStatus.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 送信中...';
-                bookingStatus.style.color = '#fff';
+                    bookingStatus.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 送信中...';
+                    bookingStatus.style.color = '#fff';
 
-                fetch(bookingForm.action, {
-                    method: 'POST',
-                    body: formData,
-                    headers: {
-                        'Accept': 'application/json'
-                    }
-                }).then(response => {
-                    if (response.ok) {
-                        bookingStatus.innerHTML = '<i class="fas fa-check-circle"></i> 仮予約の送信が完了しました！<br>講師からの返信をお待ちください。';
-                        bookingStatus.style.color = 'var(--primary-neon)';
-                        bookingForm.reset();
-                        // Hide the button to prevent double submit
-                        bookingForm.querySelector('button[type="submit"]').style.display = 'none';
-
-                        // Google Ads Conversion Event
-                        if (typeof gtag === 'function') {
-                            gtag('event', 'conversion', { 'send_to': 'AW-17794227403/NLHHCMaejtEbEMu5-aRC' });
+                    fetch(bookingForm.action, {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            'Accept': 'application/json'
                         }
-                    } else {
-                        response.json().then(data => {
-                            if (Object.hasOwn(data, 'errors')) {
-                                bookingStatus.innerHTML = data["errors"].map(error => error["message"]).join(", ");
-                            } else {
-                                bookingStatus.innerHTML = '送信に失敗しました。<br>時間をおいて再度お試しください。';
+                    }).then(response => {
+                        if (response.ok) {
+                            bookingStatus.innerHTML = '<i class="fas fa-check-circle"></i> 仮予約の送信が完了しました！<br>講師からの返信をお待ちください。';
+                            bookingStatus.style.color = 'var(--primary-neon)';
+                            bookingForm.reset();
+                            // Hide the button to prevent double submit
+                            bookingForm.querySelector('button[type="submit"]').style.display = 'none';
+
+                            // Google Ads Conversion Event
+                            if (typeof gtag === 'function') {
+                                gtag('event', 'conversion', { 'send_to': 'AW-17794227403/NLHHCMaejtEbEMu5-aRC' });
                             }
-                            bookingStatus.style.color = '#ff4d4d';
-                        });
-                    }
-                }).catch(error => {
-                    bookingStatus.innerHTML = 'エラーが発生しました。<br>お手数ですが、InstagramのDM等でご連絡ください。';
-                    bookingStatus.style.color = '#ff4d4d';
+                        } else {
+                            response.json().then(data => {
+                                if (Object.hasOwn(data, 'errors')) {
+                                    bookingStatus.innerHTML = data["errors"].map(error => error["message"]).join(", ");
+                                } else {
+                                    bookingStatus.innerHTML = '送信に失敗しました。<br>時間をおいて再度お試しください。';
+                                }
+                                bookingStatus.style.color = '#ff4d4d';
+                            });
+                        }
+                    }).catch(error => {
+                        bookingStatus.innerHTML = 'エラーが発生しました。<br>お手数ですが、InstagramのDM等でご連絡ください。';
+                        bookingStatus.style.color = '#ff4d4d';
+                    });
                 });
-            });
-        }
+            }
         });
     </script>
 </body>
