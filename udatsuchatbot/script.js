@@ -7,70 +7,177 @@ const closeZoomBtn = document.getElementById('close-zoom');
 const scenarios = {
     start: {
         messages: [
-            "こんにちは。思考資産構築サービス『Udatsu』について、私がご案内します。",
-            "何か気になることはありますか？"
+            "こんにちは。思考資産構築サービス『Udatsu』へようこそ。",
+            "あなたが今、主に取り組まれているお仕事や立場について教えていただけますか？"
         ],
         options: [
-            { label: "Udatsuとは？", next: "what_is" },
-            { label: "料金について", next: "pricing" },
-            { label: "導入事例を見たい", next: "cases" },
-            { label: "無料相談したい", next: "consultation" }
+            { label: "経営者・役員", next: "owner" },
+            { label: "フリーランス・個人事業主", next: "freelance" },
+            { label: "会社員", next: "employee" },
+            { label: "その他（主婦・学生など）", next: "other" }
         ]
     },
-    what_is: {
+
+    // Persona: Owner
+    owner: {
         messages: [
-            "『Udatsu』は、あなたの「喋り」を「資産」に変えるサービスです。",
-            "Voice Journalingという手法を使い、あなたがスマホに向かって話した音声を送るだけで、AIとプロの編集者がブログ記事やSNS投稿を作成します。",
-            "書く時間がなくても、あなたの思考や価値観を毎日発信できるようになります。"
+            "経営者の方ですね。日々の意思決定や、理念の共有など、言葉にするべきことが山ほどあるかと思います。",
+            "しかし、忙しくてアウトプットの時間が取れない、あるいは、口頭では伝えても形に残っていない…ということはありませんか？"
         ],
         options: [
-            { label: "詳しく聞きたい", next: "details" },
-            { label: "料金は？", next: "pricing" },
-            { label: "TOPに戻る", next: "start" }
+            { label: "確かに、時間がない", next: "pain_time" },
+            { label: "社内に浸透しない悩みがある", next: "pain_share" },
+            { label: "発信は特に考えていない", next: "no_publish_intent" }
         ]
     },
-    details: {
+
+    // Persona: Freelance
+    freelance: {
         messages: [
-            "具体的には、専用のLINEやフォームに音声を吹き込むだけです。",
-            "そこからNote記事（SEO対策済み）を作成し、毎日更新を代行します。",
-            "上位プランではPodcast配信も同時に行い、テキストと音声の両面からファンを増やします。"
+            "フリーランスの方ですね。個人の信頼がそのまま仕事に直結する働き方かと思います。",
+            "自分のスキルや想いを発信したいけれど、日々の業務に追われて後回しになってしまっていませんか？"
         ],
         options: [
-            { label: "料金を見る", next: "pricing" },
-            { label: "導入事例は？", next: "cases" },
-            { label: "無料相談へ", next: "consultation" }
+            { label: "まさにその通り", next: "pain_time" },
+            { label: "書くのが苦手", next: "pain_writing" },
+            { label: "今はまだ発信するほどじゃ…", next: "no_publish_intent" }
         ]
     },
-    pricing: {
+
+    // Persona: Employee
+    employee: {
         messages: [
-            "基本となる『スタンダードプラン』は月額12,000円（+税）です。",
-            "※2025年12月限定で、通常24,000円から50%OFFとなっています。",
-            "これには月最大31本の記事作成・投稿代行が含まれます。",
-            "Podcast配信も含めた『Proプラン』は月額50,000円（+税）です。"
+            "会社にお勤めですね。日々の業務で得た気づきや、将来のためのスキルアップ、副業の準備など、",
+            "頭の中にあるアイデアを整理したい、記録しておきたいと思うことはありませんか？"
         ],
         options: [
-            { label: "安い！申し込む", next: "consultation" },
-            { label: "どんな人が使ってる？", next: "cases" },
-            { label: "TOPに戻る", next: "start" }
+            { label: "整理したいと思ってる", next: "pain_writing" },
+            { label: "副業に興味がある", next: "side_hustle" },
+            { label: "公開するのはちょっと…", next: "no_publish_intent" }
         ]
     },
-    cases: {
+
+    // Persona: Other
+    other: {
         messages: [
-            "例えば、株式会社逆光様では『逆張りマーケラジオ』というコンテンツを運用しています。",
-            "代表・勇様の音声を元に、PodcastとNoteを連動させて毎日更新しており、検索順位でも上位を獲得しています。",
-            "「本人は喋るだけ」でコンテンツが資産として積み上がっていく好例です。"
+            "ありがとうございます。日々の生活の中で感じたことや、忘れたくない大切な思い出、",
+            "あるいは、これから始めたい挑戦について、言葉にして残しておきたいと思ったことはありませんか？"
         ],
         options: [
-            { label: "すごい。やってみたい", next: "consultation" },
-            { label: "もっと詳しく", next: "what_is" },
-            { label: "TOPに戻る", next: "start" }
+            { label: "日記のような感じで？", next: "life_log" },
+            { label: "誰かに見せるのは恥ずかしい", next: "no_publish_intent" }
         ]
     },
-    consultation: {
+
+    // Branch: Pain Points / Interests
+    pain_time: {
         messages: [
-            "興味を持っていただきありがとうございます！",
-            "Udatsuがあなたにどのようなメリットをもたらすか、一度30分の無料Zoom相談でお話ししませんか？",
-            "無理な勧誘は一切ありませんので、ご安心ください。"
+            "時間は誰にとっても貴重ですよね。",
+            "Udatsuなら、スマホに向かって「喋るだけ」です。移動中や隙間時間の5分で終わります。",
+            "あなたの声をAIとプロが編集し、読みやすいテキストや記事に仕上げます。"
+        ],
+        options: [
+            { label: "それなら続けられそう", next: "asset_value" },
+            { label: "本当に喋るだけでいいの？", next: "easy_process" }
+        ]
+    },
+    pain_share: {
+        messages: [
+            "一度話したことが、何度も読み返せる「資産」として残るのがUdatsuの強みです。",
+            "あなたの言葉が、社内報になり、ブランドストーリーになり、採用広報になります。",
+            "同じことを何度も言う必要がなくなります。"
+        ],
+        options: [
+            { label: "それは助かる", next: "asset_value" },
+            { label: "詳しく聞きたい", next: "consultation" }
+        ]
+    },
+    pain_writing: {
+        messages: [
+            "書こうとすると、うまくまとまらなかったり、時間がかかってしまいますよね。",
+            "でも、親しい友人に話すように喋ることはできるはずです。",
+            "Udatsuを使えば、あなたは「喋る」という最も自然なアウトプットに集中するだけです。"
+        ],
+        options: [
+            { label: "喋るなら得意", next: "easy_process" },
+            { label: "どんな文章になるの？", next: "consultation" }
+        ]
+    },
+    side_hustle: {
+        messages: [
+            "今の時代、個人の発信力は大きな武器になります。",
+            "ですが、いきなり顔出しや完璧なブログを目指す必要はありません。",
+            "まずは自分の思考を積み上げていくこと。それが、将来のあなたを助ける強力な「思考資産」になります。"
+        ],
+        options: [
+            { label: "思考資産って？", next: "asset_value" },
+            { label: "公開しなくてもいい？", next: "no_publish_intent" }
+        ]
+    },
+    life_log: {
+        messages: [
+            "そうです。10年後の自分への手紙のように。",
+            "あるいは、お子様へのメッセージとして。",
+            "声で残すことで、その時の感情や温度感まで、そのまま「資産」として保存できます。"
+        ],
+        options: [
+            { label: "素敵ですね", next: "asset_value" },
+            { label: "やってみたい", next: "consultation" }
+        ]
+    },
+
+    // Core Value: "No Publish Intent" is OK => Thought Asset
+    no_publish_intent: {
+        messages: [
+            "実は、そこが一番お伝えしたいポイントなんです。",
+            "「Udatsu」は、必ずしも世の中に公開（発信）するために使う必要はありません。",
+            "むしろ、誰にも見せない「自分だけの思考整理」として使っている方も多いんです。"
+        ],
+        options: [
+            { label: "どういうこと？", next: "asset_internal" }
+        ]
+    },
+    asset_internal: {
+        messages: [
+            "自分の頭の中にあるモヤモヤを外に出して、客観的に見る。",
+            "それだけで脳がスッキリして、次の行動が見えてきます。",
+            "公開する・しないは後で決めればいいのです。まずは「残す」ことが重要です。",
+            "私たちはそれを「思考資産」と呼んでいます。"
+        ],
+        options: [
+            { label: "なるほど、それなら使いたい", next: "consultation_bridge" },
+            { label: "思考資産、面白い", next: "consultation_bridge" }
+        ]
+    },
+
+    asset_value: {
+        messages: [
+            "積み上がったあなたの言葉は、決して減ることのない「思考資産」となります。",
+            "それは時にあなたを助け、時に誰かを救い、ビジネスや人生を加速させる土台になります。",
+            "発信する気がなくても、まずは「溜める」ことから始めてみませんか？"
+        ],
+        options: [
+            { label: "始めてみたい", next: "consultation_bridge" }
+        ]
+    },
+    easy_process: {
+        messages: [
+            "はい、本当に喋るだけです。",
+            "あとは私たちが受け取り、整理し、最適な形（Note、日報、備忘録など）に変換してお返しします。",
+            "あなたの脳の負担を極限まで減らす仕組みを作りました。"
+        ],
+        options: [
+            { label: "試してみたい", next: "consultation_bridge" }
+        ]
+    },
+
+    // Final Bridge to CTA
+    consultation_bridge: {
+        messages: [
+            "Udatsuがあなたにとって、どのような「資産」になり得るか。",
+            "よろしければ、30分の無料Zoom相談で具体的にお話しさせていただけませんか？",
+            "あなたの現状をヒアリングさせていただき、最適な活用法をご提案します。",
+            "もちろん、無理な売り込みは一切いたしません。"
         ],
         action: "showZoomOverlay"
     }
@@ -133,7 +240,7 @@ async function playScenario(scenarioKey) {
     if (scenario.action === "showZoomOverlay") {
         setTimeout(() => {
             zoomOverlay.classList.add('active');
-        }, 1000);
+        }, 1200);
         // Provide a "Back" option just in case they close the overlay
         showOptions([{ label: "最初に戻る", next: "start" }]);
     } else if (scenario.options) {
