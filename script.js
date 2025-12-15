@@ -144,4 +144,51 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     }
+    // 8. Opening Animation
+    function initOpeningAnimation() {
+        const container = document.getElementById('opening-animation');
+        if (!container) return;
+
+        const curtain = container.querySelector('.black-curtain');
+        const arrowCount = 50; // Number of arrows
+        const width = window.innerWidth;
+
+        // Spawn Arrows
+        for (let i = 0; i < arrowCount; i++) {
+            const arrow = document.createElement('i');
+            arrow.classList.add('fas', 'fa-arrow-up', 'opening-arrow');
+
+            // Random Position & Timing
+            const leftPos = Math.random() * width;
+            const delay = Math.random() * 0.5; // Random start delay
+            const duration = 1 + Math.random() * 0.5; // Random speed
+            const size = 1 + Math.random() * 1.5; // Random size from 1rem to 2.5rem
+
+            arrow.style.left = `${leftPos}px`;
+            arrow.style.fontSize = `${size}rem`;
+            arrow.style.animation = `flyUp ${duration}s ease-in forwards ${delay}s`;
+
+            container.appendChild(arrow);
+        }
+
+        // Timing Sequence
+        // 1. Start Curtain Rise (following arrows)
+        setTimeout(() => {
+            curtain.style.height = '100%';
+        }, 500); // Start rising shortly after arrows start
+
+        // 2. Reveal Site (Slide Up)
+        setTimeout(() => {
+            container.classList.add('slide-up-reveal');
+        }, 2200); // 1.5s (curtain) + buffer
+
+        // 3. Cleanup
+        setTimeout(() => {
+            container.remove();
+        }, 3200); // After slide up animation finishes
+    }
+
+    // Call Animation
+    initOpeningAnimation();
+
 });
