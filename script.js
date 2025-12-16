@@ -153,32 +153,32 @@ document.addEventListener('DOMContentLoaded', () => {
         const arrowCount = 80; // More arrows for density
         const width = window.innerWidth;
 
-        // Spawn Arrows
+        // Spawn Arrows (Thick CSS Triangles)
         for (let i = 0; i < arrowCount; i++) {
-            const arrow = document.createElement('i');
-            arrow.classList.add('fas', 'fa-arrow-up', 'opening-arrow');
+            const arrow = document.createElement('div');
+            arrow.classList.add('opening-arrow');
 
             // Random Position & Timing
             const leftPos = Math.random() * width;
-            const delay = Math.random() * 0.3; // Faster start
-            const duration = 0.8 + Math.random() * 0.4; // Faster flight
-            // Much larger arrows: 5rem to 20rem
-            const size = 5 + Math.random() * 15;
+            const delay = Math.random() * 0.3;
+            const duration = 0.8 + Math.random() * 0.4;
+            // Scale factor for triangle size
+            const scale = 1.5 + Math.random() * 3; // 1.5x to 4.5x base size
 
             arrow.style.left = `${leftPos}px`;
-            arrow.style.fontSize = `${size}rem`;
-            // Add negative bottom to compensate for huge size
-            arrow.style.bottom = `-${size}rem`;
+            arrow.style.transform = `scale(${scale})`;
+            arrow.style.transformOrigin = 'bottom center';
+            arrow.style.bottom = `-${150 * scale}px`; // Offset based on height
             arrow.style.animation = `flyUp ${duration}s ease-in forwards ${delay}s`;
 
             container.appendChild(arrow);
         }
 
         // Timing Sequence
-        // 1. Start Curtain Rise (Quickly follow arrows)
+        // 1. Start Curtain Rise (Let arrows be visible first)
         setTimeout(() => {
             curtain.style.height = '100%';
-        }, 200);
+        }, 400); // Delayed to let arrows show
 
         // 2. Reveal Site (Slide Up immediately after screen goes black)
         setTimeout(() => {
