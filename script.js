@@ -144,13 +144,13 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     }
-    // 8. Opening Animation
+    // 8. Opening Animation (Refined)
     function initOpeningAnimation() {
         const container = document.getElementById('opening-animation');
         if (!container) return;
 
         const curtain = container.querySelector('.black-curtain');
-        const arrowCount = 50; // Number of arrows
+        const arrowCount = 80; // More arrows for density
         const width = window.innerWidth;
 
         // Spawn Arrows
@@ -160,32 +160,35 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Random Position & Timing
             const leftPos = Math.random() * width;
-            const delay = Math.random() * 0.5; // Random start delay
-            const duration = 1 + Math.random() * 0.5; // Random speed
-            const size = 1 + Math.random() * 1.5; // Random size from 1rem to 2.5rem
+            const delay = Math.random() * 0.3; // Faster start
+            const duration = 0.8 + Math.random() * 0.4; // Faster flight
+            // Much larger arrows: 5rem to 20rem
+            const size = 5 + Math.random() * 15;
 
             arrow.style.left = `${leftPos}px`;
             arrow.style.fontSize = `${size}rem`;
+            // Add negative bottom to compensate for huge size
+            arrow.style.bottom = `-${size}rem`;
             arrow.style.animation = `flyUp ${duration}s ease-in forwards ${delay}s`;
 
             container.appendChild(arrow);
         }
 
         // Timing Sequence
-        // 1. Start Curtain Rise (following arrows)
+        // 1. Start Curtain Rise (Quickly follow arrows)
         setTimeout(() => {
             curtain.style.height = '100%';
-        }, 500); // Start rising shortly after arrows start
+        }, 200);
 
-        // 2. Reveal Site (Slide Up)
+        // 2. Reveal Site (Slide Up immediately after screen goes black)
         setTimeout(() => {
             container.classList.add('slide-up-reveal');
-        }, 2200); // 1.5s (curtain) + buffer
+        }, 1200); // Much faster reveal
 
         // 3. Cleanup
         setTimeout(() => {
             container.remove();
-        }, 3200); // After slide up animation finishes
+        }, 2200);
     }
 
     // Call Animation
