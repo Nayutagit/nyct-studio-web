@@ -161,8 +161,14 @@ document.addEventListener('DOMContentLoaded', () => {
             const leftPos = Math.random() * width;
             const delay = Math.random() * 0.3;
             const duration = 0.8 + Math.random() * 0.4;
+
+            // Adjust size based on screen width
+            const isMobile = width < 768;
+            const baseScale = isMobile ? 0.5 : 1.5; // Smaller on mobile
+            const randomScale = isMobile ? 1.5 : 3;
+
             // Scale factor for triangle size
-            const scale = 1.5 + Math.random() * 3; // 1.5x to 4.5x base size
+            const scale = baseScale + Math.random() * randomScale;
 
             arrow.style.left = `${leftPos}px`;
             arrow.style.transform = `scale(${scale})`;
