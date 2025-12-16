@@ -174,15 +174,15 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // Timing Sequence
-        // 1. Reveal Site (Slide Up immediately after arrows fill screen)
+        // 1. Reveal Site (Neon Flash immediately after arrows)
         setTimeout(() => {
-            container.classList.add('slide-up-reveal');
-        }, 1200); // Wait for arrows to cover screen
+            container.classList.add('flash-reveal');
+        }, 1200);
 
         // 2. Cleanup
         setTimeout(() => {
             container.remove();
-        }, 2200);
+        }, 1800); // Shorter cleanup due to faster flash
     }
 
     // Call Animation
