@@ -149,7 +149,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const container = document.getElementById('opening-animation');
         if (!container) return;
 
-        const curtain = container.querySelector('.black-curtain');
         const arrowCount = 80; // More arrows for density
         const width = window.innerWidth;
 
@@ -175,17 +174,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // Timing Sequence
-        // 1. Start Curtain Rise (Let arrows be visible first)
-        setTimeout(() => {
-            curtain.style.height = '100%';
-        }, 400); // Delayed to let arrows show
-
-        // 2. Reveal Site (Slide Up immediately after screen goes black)
+        // 1. Reveal Site (Slide Up immediately after arrows fill screen)
         setTimeout(() => {
             container.classList.add('slide-up-reveal');
-        }, 1200); // Much faster reveal
+        }, 1200); // Wait for arrows to cover screen
 
-        // 3. Cleanup
+        // 2. Cleanup
         setTimeout(() => {
             container.remove();
         }, 2200);
