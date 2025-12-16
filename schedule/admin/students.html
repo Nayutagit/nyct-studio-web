@@ -13,9 +13,47 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         .students-container {
-            max-width: 1000px;
+            max-width: 1200px;
             margin: 40px auto;
             padding: 0 20px;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 0;
+            border-bottom: 2px solid #333;
+            margin-bottom: 30px;
+        }
+
+        .tab {
+            padding: 12px 30px;
+            background: transparent;
+            border: none;
+            color: #999;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            border-bottom: 3px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .tab:hover {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .tab.active {
+            color: var(--accent-gold);
+            border-bottom-color: var(--accent-gold);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
         }
 
         .action-bar {
@@ -132,26 +170,59 @@
     <div class="students-container">
         <h1 class="section-title">生徒管理</h1>
 
-        <div class="action-bar">
-            <div class="search-box">
-                <input type="text" id="searchInput" placeholder="名前やメールで検索..." onkeyup="filterStudents()">
-            </div>
-            <button class="cal-btn" onclick="openAddModal()" style="background: var(--accent-blue);">+ 生徒登録</button>
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('students')">生徒一覧</button>
+            <button class="tab" onclick="switchTab('reservations')">予約一覧</button>
         </div>
 
-        <table class="student-list">
-            <thead>
-                <tr>
-                    <th>氏名</th>
-                    <th>ふりがな</th>
-                    <th>メールアドレス</th>
-                    <th>電話番号</th>
-                </tr>
-            </thead>
-            <tbody id="studentTableBody">
-                <!-- JS Generated -->
-            </tbody>
-        </table>
+        <!-- Students Tab -->
+        <div id="students-tab" class="tab-content active">
+            <div class="action-bar">
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="名前やメールで検索..." onkeyup="filterStudents()">
+                </div>
+                <button class="cal-btn" onclick="openAddModal()" style="background: var(--accent-blue);">+ 生徒登録</button>
+            </div>
+
+            <table class="student-list">
+                <thead>
+                    <tr>
+                        <th>氏名</th>
+                        <th>ふりがな</th>
+                        <th>メールアドレス</th>
+                        <th>電話番号</th>
+                    </tr>
+                </thead>
+                <tbody id="studentTableBody">
+                    <!-- JS Generated -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Reservations Tab -->
+        <div id="reservations-tab" class="tab-content">
+            <div class="action-bar">
+                <div class="search-box">
+                    <input type="text" id="searchReservations" placeholder="生徒名や日付で検索..."
+                        onkeyup="filterReservations()">
+                </div>
+            </div>
+
+            <table class="student-list">
+                <thead>
+                    <tr>
+                        <th>日時</th>
+                        <th>生徒名</th>
+                        <th>種別</th>
+                        <th>メモ</th>
+                    </tr>
+                </thead>
+                <tbody id="reservationTableBody">
+                    <!-- JS Generated -->
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <!-- Add Student Modal -->
@@ -302,6 +373,79 @@
             document.getElementById('new_memo').value = '';
 
             fetchStudents();
+        }
+
+        // Tab Switching
+        function switchTab(tabName) {
+            // Update tab buttons
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // Update content
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.getElementById(tabName + '-tab').classList.add('active');
+
+            // Load data if needed
+            if (tabName === 'reservations') {
+                fetchReservations();
+            }
+        }
+
+        // Reservations
+        let allReservations = [];
+
+        async function fetchReservations() {
+            const { data: slots, error } = await client
+                .from('schedule_slots')
+                .select('*, students(*)')
+                .not('student_id', 'is', null)
+                .order('date', { ascending: false })
+                .order('time_code', { ascending: false });
+
+            if (error) {
+                console.error('Error fetching reservations:', error);
+                return;
+            }
+
+            allReservations = slots;
+            renderReservations(allReservations);
+        }
+
+        function renderReservations(list) {
+            const tbody = document.getElementById('reservationTableBody');
+            tbody.innerHTML = '';
+
+            if (list.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; color:#666; padding:40px;">予約データがありません</td></tr>';
+                return;
+            }
+
+            list.forEach(slot => {
+                const studentName = slot.students
+                    ? `${slot.students.last_name || ''} ${slot.students.first_name || ''}`.trim() || slot.students.name || '不明'
+                    : '不明';
+
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td style="font-weight: bold; color: white;">${slot.date} ${slot.time_code}</td>
+                    <td style="color: #ccc;">${studentName}</td>
+                    <td>${slot.booking_type || '-'}</td>
+                    <td>${slot.memo || '-'}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function filterReservations() {
+            const term = document.getElementById('searchReservations').value.toLowerCase();
+            const filtered = allReservations.filter(r => {
+                const studentName = r.students
+                    ? `${r.students.last_name || ''} ${r.students.first_name || ''}`.trim() || r.students.name || ''
+                    : '';
+                const dateTime = `${r.date} ${r.time_code}`.toLowerCase();
+                return studentName.toLowerCase().includes(term) || dateTime.includes(term);
+            });
+            renderReservations(filtered);
         }
 
         // Init
