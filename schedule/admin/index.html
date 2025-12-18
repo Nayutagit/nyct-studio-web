@@ -523,6 +523,8 @@
                     <option value="status-ok">◎ 予約可能</option>
                     <option value="status-online">Online Only</option>
                     <option value="status-ng">- 受付不可</option>
+                    <option value="status-booked" style="color:var(--accent-teal); font-weight:bold;">Booked (予約済み)
+                    </option>
                 </select>
             </div>
 
@@ -779,6 +781,7 @@
                     div.onclick = () => {
                         document.getElementById('selectedStudentId').value = s.id;
                         document.getElementById('selectedStudentName').textContent = `選択中: ${sName}`;
+                        document.getElementById('modalStatus').value = 'status-booked'; // Auto-set status
                         resultsDiv.style.display = 'none';
                     };
                     resultsDiv.appendChild(div);
@@ -787,11 +790,16 @@
         }
 
         async function saveBooking() {
-            const status = document.getElementById('modalStatus').value;
+            let status = document.getElementById('modalStatus').value;
             const studentId = document.getElementById('selectedStudentId').value || null;
             const type = document.getElementById('modalBookingType').value;
             const memo = document.getElementById('modalMemo').value;
             const { date, time } = bookingModalTarget;
+
+            // Enforce booked status if student is assigned
+            if (studentId) {
+                status = 'status-booked';
+            }
 
             const updates = {
                 date: date,
