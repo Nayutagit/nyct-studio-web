@@ -103,9 +103,14 @@
                     <h3>初めての方へ</h3>
                     <p>
                         初回体験レッスンは無料です。<br>
-                        まずはカウンセリングから、お気軽にご相談ください。
+                        まずはカウンセリングから、お気軽にご相談ください。<br>
+                        <span style="font-size: 0.9em; color: #666;">LINEでも相談可能です！</span>
                     </p>
-                    <a href="../contact.html" class="btn btn-primary">お問い合わせ・予約</a>
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                        <a href="../contact.html" class="btn btn-primary" style="flex: 1;">予約フォーム</a>
+                        <a href="https://lin.ee/QPJ3dva" target="_blank" class="btn"
+                            style="flex: 1; background-color: #06C755; color: white;">LINEで相談</a>
+                    </div>
                 </div>
                 <div class="cta-card">
                     <h3>会員の方へ</h3>
@@ -194,6 +199,11 @@
                 <div class="form-group">
                     <label class="form-label">メッセージ・ご要望</label>
                     <textarea name="message" class="form-textarea" rows="3" placeholder="過去にレッスン経験あり、など"></textarea>
+                </div>
+
+                <div style="margin-bottom: 15px; text-align: center;">
+                    <a href="https://lin.ee/QPJ3dva" target="_blank"
+                        style="color: #06C755; text-decoration: underline; font-size: 0.9rem;">LINEでのお問い合わせはこちら</a>
                 </div>
 
                 <p style="font-size: 0.8rem; color: #888; margin-bottom: 20px;">
@@ -391,6 +401,12 @@
 
             if (bookingForm) {
                 bookingForm.addEventListener('submit', function (e) {
+
+                    // Google Ads Conversion Event (Trigger on Attempt)
+                    if (typeof gtag === 'function') {
+                        gtag('event', 'conversion', { 'send_to': 'AW-17794227403/NLHHCMaejtEbEMu5-aRC' });
+                    }
+
                     e.preventDefault();
                     const formData = new FormData(bookingForm);
 
@@ -405,16 +421,8 @@
                         }
                     }).then(response => {
                         if (response.ok) {
-                            bookingStatus.innerHTML = '<i class="fas fa-check-circle"></i> 仮予約の送信が完了しました！<br>講師からの返信をお待ちください。';
-                            bookingStatus.style.color = 'var(--primary-neon)';
-                            bookingForm.reset();
-                            // Hide the button to prevent double submit
-                            bookingForm.querySelector('button[type="submit"]').style.display = 'none';
-
-                            // Google Ads Conversion Event
-                            if (typeof gtag === 'function') {
-                                gtag('event', 'conversion', { 'send_to': 'AW-17794227403/NLHHCMaejtEbEMu5-aRC' });
-                            }
+                            // Redirect to Thank You Page
+                            window.location.href = '../thanks.html';
                         } else {
                             response.json().then(data => {
                                 if (Object.hasOwn(data, 'errors')) {

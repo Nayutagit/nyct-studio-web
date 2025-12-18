@@ -61,6 +61,16 @@
     <section class="section">
         <div class="container">
             <div class="content-box-light" style="max-width: 600px; margin: 0 auto; text-align: left;">
+
+                <!-- LINE Button Added -->
+                <div
+                    style="text-align: center; margin-bottom: 40px; border-bottom: 2px dashed #eee; padding-bottom: 30px;">
+                    <p style="margin-bottom: 15px; font-weight: bold; color: #333;">LINEからのお問い合わせも可能です</p>
+                    <a href="https://lin.ee/QPJ3dva" target="_blank" class="btn"
+                        style="background-color: #06C755; color: white; display: inline-block; min-width: 200px;">
+                        <i class="fab fa-line" style="margin-right: 8px;"></i>LINEで問い合わせ
+                    </a>
+                </div>
                 <!-- 
                     【重要】フォームの送信先設定
                     1. https://formspree.io/ にアクセスしてアカウントを作成（無料）
@@ -70,7 +80,7 @@
                 <form id="contact-form" action="https://formspree.io/f/xanzkprd" method="POST">
                     <input type="hidden" name="_subject" value="Nyct Studio Webサイトからのお問い合わせ">
                     <input type="hidden" name="_next" value="https://nyctstudio.com/thanks.html">
-                    <input type="text" name="_gotcha" style="display:none">
+                    <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
                     <div style="margin-bottom: 20px;">
                         <label for="name" style="display: block; margin-bottom: 8px; font-weight: 700;">お名前</label>
                         <input type="text" id="name" name="name" required

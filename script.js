@@ -116,18 +116,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }).then(response => {
                 if (response.ok) {
-                    status.innerHTML = '<i class="fas fa-check-circle"></i> 送信完了しました！<br>お問い合わせありがとうございます。';
-                    status.style.color = 'var(--primary-neon)';
-                    contactForm.reset();
-
-                    // Google Ads Conversion Event
-                    if (typeof gtag === 'function') {
-                        gtag('event', 'conversion', {
-                            'send_to': 'AW-17795566845/iAwCCKWK_tAbEP2Zy6VC',
-                            'value': 1.0,
-                            'currency': 'JPY'
-                        });
-                    }
+                    // Google Ads Conversion Event (Trigger on Attempt - already triggered)
+                    // Redirect to Thank You Page
+                    window.location.href = 'thanks.html';
                 } else {
                     response.json().then(data => {
                         if (Object.hasOwn(data, 'errors')) {
