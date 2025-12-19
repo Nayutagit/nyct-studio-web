@@ -650,6 +650,36 @@
                         if (students) students.forEach(s => studentMap[s.id] = s);
                     }
 
+                    // Self-Healing: Fix inconsistent data
+                    const inconsistentSlots = slots.filter(s => s.student_id && s.status !== 'status-booked');
+
+                    if (inconsistentSlots.length > 0) {
+                        console.log(`🔧 Self-Healing: Found ${inconsistentSlots.length} inconsistent slot(s). Fixing...`);
+
+                        // Auto-fix these slots
+                        const fixes = inconsistentSlots.map(s => ({
+                            date: s.date,
+                            time_code: s.time_code,
+                            status: 'status-booked',
+                            student_id: s.student_id,
+                            booking_type: s.booking_type,
+                            memo: s.memo
+                        }));
+
+                        // Apply fixes
+                        const { error: fixError } = await client
+                            .from('schedule_slots')
+                            .upsert(fixes, { onConflict: 'date, time_code' });
+
+                        if (fixError) {
+                            console.error("Self-Healing failed:", fixError);
+                        } else {
+                            console.log("✅ Self-Healing complete. Slots fixed:", inconsistentSlots.length);
+                            // Update local data with fixed status
+                            inconsistentSlots.forEach(s => s.status = 'status-booked');
+                        }
+                    }
+
                     slots.forEach(item => {
                         if (!scheduleData[item.date]) scheduleData[item.date] = {};
                         if (item.student_id && studentMap[item.student_id]) {
