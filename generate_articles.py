@@ -47,8 +47,19 @@ template = """<!DOCTYPE html>
     <link href="https://fonts.googleapis.com/css2?family=Tsukushi+B+Round+Gothic&family=Zen+Old+Mincho:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="icon" type="image/png" href="../favicon.png">
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){{w[l]=w[l]||[];w[l].push({{'gtm.start':
+    new Date().getTime(),event:'gtm.js'}});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    }})(window,document,'script','dataLayer','GTM-MJN5SPNF');</script>
+    <!-- End Google Tag Manager -->
 </head>
 <body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MJN5SPNF"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
     <header class="header">
         <div class="container header-container">
             <a href="../index.html" class="logo">Nyct Studio</a>
@@ -140,7 +151,7 @@ template = """<!DOCTYPE html>
 </html>
 """
 
-base_path = "/Users/nayuta/.gemini/Nayuta_Brain/01_Projects/nist-studio-web/blog"
+base_path = "/Users/nayuta/.gemini/Nayuta_Brain/01_Projects/nyctstudio-web/blog"
 
 for article in articles:
     file_name = f"article{article['id']}.html"
