@@ -1253,14 +1253,7 @@ ul {
     border: 1px solid #ddd;
 }
 
-color: var(--primary-neon);
-}
 
-.btn-secondary:hover {
-    background: var(--primary-neon);
-    color: #000;
-    text-shadow: none;
-}
 
 /* ==========================================================================
    Schedule Page Styles (Hourly & Modal)
