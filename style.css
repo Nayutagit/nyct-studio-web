@@ -1217,6 +1217,51 @@ ul {
     text-shadow: none;
 }
 
+/* Course Buttons */
+.btn-course {
+    padding: 15px 30px;
+    min-width: 200px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    margin: 5px;
+    /* Added margin for safety */
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.btn-course:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.btn-course-vocal {
+    background: var(--accent-teal);
+    color: #fff;
+    border: none;
+}
+
+.btn-course-speech {
+    background: var(--primary-neon);
+    color: #333;
+    border: none;
+    font-weight: 700;
+}
+
+.btn-course-piano {
+    background: #fff;
+    color: #333;
+    border: 1px solid #ddd;
+}
+
+color: var(--primary-neon);
+}
+
+.btn-secondary:hover {
+    background: var(--primary-neon);
+    color: #000;
+    text-shadow: none;
+}
+
 /* ==========================================================================
    Schedule Page Styles (Hourly & Modal)
    ========================================================================== */
