@@ -259,6 +259,16 @@ a {
     box-shadow: 0 15px 30px rgba(255, 198, 0, 0.4);
 }
 
+.cta-area {
+    margin-top: 60px;
+    /* Increased margin */
+    text-align: center;
+}
+
+.section-access {
+    background: #FAFAFA;
+}
+
 .check-mark {
     font-size: 1rem;
     margin-bottom: 2px;
@@ -812,6 +822,18 @@ textarea {
     border-radius: var(--radius-l);
     margin-bottom: 40px;
     border: 1px solid rgba(255, 255, 255, 0.3);
+    text-align: center;
+    /* Ensure text is centered */
+}
+
+.contact-sub {
+    text-align: center;
+    margin-top: 50px;
+}
+
+.contact-sub h3 {
+    margin-bottom: 20px;
+    color: white;
 }
 
 /* Footer Styling */
