@@ -757,6 +757,29 @@ textarea {
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
 }
 
+.contact-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: #06C755;
+    /* LINE Green */
+    color: white;
+    padding: 12px 25px;
+    border-radius: 50px;
+    font-weight: 700;
+    margin: 0 10px;
+}
+
+.contact-btn-web {
+    background: white;
+    color: #333;
+    border: 2px solid #333;
+}
+
+.contact-btn-web:hover {
+    background: #f0f0f0;
+}
+
 /* ==========================================================================
    12. Mobile Responsive
    ========================================================================== */
