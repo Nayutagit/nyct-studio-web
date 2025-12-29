@@ -1,248 +1,341 @@
 @charset "UTF-8";
 
 /* ==========================================================================
-   Vocal Course Theme (POP & Bright)
+   Vocal Course Theme (Timee Style - POP & Solid)
    Overrides for .theme-pop class
+   Reference: https://timee.co.jp/
    ========================================================================== */
 
 body.theme-pop {
-    /* Color Overrides */
-    --bg-dark: #ffffff;
-    --text-white: #333333;
+    /* Color Palette */
+    --bg-dark: #FFFFFF;
+    --text-white: #212121;
+    /* Main Black Text */
     --text-gray: #666666;
 
-    /* New Variables for Pop Theme */
-    --bg-pop-light: #fffdf5;
-    /* Warm Cream */
-    --bg-pop-accent: #e0f7fa;
-    /* Light Teal */
-    --shadow-pop: 0 10px 25px rgba(0, 164, 216, 0.15);
+    /* Timee-like Brand Colors */
+    --pop-yellow: #FCC800;
+    /* Use Nyct Yellow */
+    --pop-blue: #007AFF;
+    /* Secondary Accent */
+    --pop-black: #212121;
+    /* Solid Black for Text/Shadows */
+    --pop-bg-gray: #F7F7F7;
+    /* Light Gray for Sections */
 
-    /* Font Override - Rounder for POP feel */
-    font-family: "Zen Maru Gothic", var(--font-main);
+    /* Design Tokens */
+    --shadow-solid: 4px 4px 0 0 var(--pop-black);
+    --shadow-solid-hover: 2px 2px 0 0 var(--pop-black);
+    --radius-pill: 9999px;
+    --radius-card: 16px;
 
+    font-family: "Noto Sans JP", "Zen Kaku Gothic New", sans-serif;
+    color: var(--text-white);
+    background-color: var(--bg-dark);
     background-image: none;
-    background-color: var(--bg-pop-light);
 }
 
 /* Header Override */
 .theme-pop .header {
-    background: rgba(255, 255, 255, 0.8);
-    backdrop-filter: blur(10px);
-    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+    background: rgba(255, 255, 255, 0.95);
+    border-bottom: 2px solid var(--pop-black);
+    box-shadow: none;
 }
 
 .theme-pop .logo {
-    color: #333;
+    color: var(--pop-black);
     text-shadow: none;
+    font-weight: 900;
 }
 
 .theme-pop .logo img {
     filter: none;
-    /* Show original logo colors if applicable, or keep existing */
 }
 
 .theme-pop .nav-link {
-    color: #555;
+    color: var(--pop-black);
+    font-weight: 700;
 }
 
 .theme-pop .nav-link:hover {
-    color: var(--accent-teal);
+    color: var(--pop-blue);
     text-shadow: none;
+}
+
+.theme-pop .nav-link::after {
+    background-color: var(--pop-blue);
+    box-shadow: none;
+    height: 4px;
+    border-radius: 2px;
 }
 
 /* Hero Section Override */
 .theme-pop .hero {
-    background: linear-gradient(135deg, #fff 0%, #fffdf5 100%);
+    background: var(--pop-yellow);
     position: relative;
     overflow: hidden;
-}
-
-/* Add some playful background elements for Hero */
-.theme-pop .hero::before {
-    content: '';
-    position: absolute;
-    top: -10%;
-    right: -10%;
-    width: 600px;
-    height: 600px;
-    background: radial-gradient(circle, rgba(252, 200, 0, 0.1) 0%, rgba(255, 255, 255, 0) 70%);
-    border-radius: 50%;
-    z-index: 0;
-}
-
-.theme-pop .hero::after {
-    content: '';
-    position: absolute;
-    bottom: -5%;
-    left: -5%;
-    width: 400px;
-    height: 400px;
-    background: radial-gradient(circle, rgba(0, 164, 216, 0.1) 0%, rgba(255, 255, 255, 0) 70%);
-    border-radius: 50%;
-    z-index: 0;
+    color: var(--pop-black);
+    padding-top: 120px;
+    /* Account for fixed header */
+    padding-bottom: 60px;
+    min-height: auto;
+    height: auto;
 }
 
 .theme-pop .hero-bg {
-    opacity: 0.15;
-    /* Lighter background image */
-    filter: none;
-    /* Remove grayscale/contrast filter */
-    mix-blend-mode: multiply;
+    display: none;
+    /* Timee often uses solid colors or illustrations, let's remove the dark photo overlay */
 }
 
 .theme-pop .hero-content {
-    color: #333;
+    color: var(--pop-black);
     text-shadow: none;
-    /* Remove heavy text shadows */
-}
-
-.theme-pop .hero-subtitle {
-    color: var(--accent-teal);
-    text-shadow: none;
-    background: rgba(0, 164, 216, 0.1);
-    display: inline-block;
-    padding: 5px 20px;
-    border-radius: 50px;
-    font-weight: 700;
-}
-
-.theme-pop .hero-title {
-    color: #333;
-    text-shadow: 3px 3px 0px rgba(252, 200, 0, 0.3);
-    /* Pop shadow */
-    font-family: "Zen Maru Gothic", sans-serif;
-    letter-spacing: 0.05em;
-}
-
-.theme-pop .hero-desc {
-    color: #555;
-    text-shadow: none;
-    font-weight: 600;
+    position: relative;
+    z-index: 2;
 }
 
 .theme-pop .hero-badges span {
-    color: #555 !important;
-    /* Force override inline styles if possible, or use !important */
+    color: var(--pop-black) !important;
     text-shadow: none !important;
-    background: #fff;
-    padding: 8px 15px;
-    border-radius: 20px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-    border: 1px solid #eee;
+    background: #FFF;
+    padding: 6px 16px;
+    border-radius: var(--radius-pill);
+    border: 2px solid var(--pop-black);
+    box-shadow: var(--shadow-solid);
+    font-weight: 800 !important;
+    margin: 5px;
 }
 
-/* Section Overrides */
-.theme-pop .section {
-    background: transparent;
-    backdrop-filter: none;
+.theme-pop .hero-badges span i {
+    color: var(--pop-blue) !important;
 }
 
-.theme-pop .section-title {
-    color: #333;
+.theme-pop .hero-subtitle {
+    color: var(--pop-black);
     text-shadow: none;
-}
-
-.theme-pop .section-title::after {
-    background: var(--accent-teal);
-    box-shadow: none;
-    /* Remove neon glow */
-    height: 6px;
-    border-radius: 10px;
-}
-
-.theme-pop .section-subtitle {
-    text-shadow: none;
-    color: var(--primary-neon);
-    /* Yellow subtitle */
-    background: #333;
-    /* Dark background stroke effect replacement */
-    color: #fff;
+    background: #FFF;
     display: inline-block;
-    padding: 2px 12px;
-    border-radius: 4px;
-    transform: rotate(-2deg);
-    /* Playful tilt */
+    padding: 8px 24px;
+    border-radius: var(--radius-pill);
+    font-weight: 900;
+    border: 2px solid var(--pop-black);
+    box-shadow: var(--shadow-solid);
+    margin-bottom: 24px;
+    opacity: 1;
+    animation: none;
+    font-size: 1rem;
+    letter-spacing: 0.1em;
 }
 
-/* Content & Layout */
-.theme-pop .bg-light {
-    background-color: #f7f9fc;
-    /* Light cool gray */
+.theme-pop .hero-title {
+    color: var(--pop-black);
+    text-shadow: none;
+    font-size: 3.5rem;
+    /* Big & Bold */
+    line-height: 1.1;
+    font-weight: 900;
+    opacity: 1;
+    animation: none;
+    margin-bottom: 20px;
 }
 
-.theme-pop .bg-concrete {
-    background-color: #fff;
-    background-image: radial-gradient(#ddd 1px, transparent 1px);
-    background-size: 20px 20px;
-    /* Polka dot pattern */
-}
-
-.theme-pop .bg-dark-concrete {
-    background-color: var(--accent-teal-dark);
-    /* Use teal brand color instead of dark grey */
-    color: #fff;
-}
-
-/* Cards & Boxes */
-.theme-pop .content-box-light {
-    background: #fff;
-    border-radius: 20px;
-    box-shadow: var(--shadow-pop);
-    border: 2px solid #f0f0f0;
-    color: #333;
-}
-
-.theme-pop .content-box-light h3 {
-    color: var(--accent-teal-dark);
-}
-
-.theme-pop .business-card,
-.theme-pop .profile-box img,
-.theme-pop .content_vocal_img {
-    border-radius: 24px;
-    /* Rounder corners */
-    box-shadow: var(--shadow-pop);
-    border: none;
-}
-
-/* Buttons */
-.theme-pop .btn-primary {
-    background: var(--accent-teal);
-    color: #fff;
-    border-radius: 50px;
-    box-shadow: 0 5px 15px rgba(0, 164, 216, 0.4);
-    border: none;
+.theme-pop .hero-desc {
+    color: var(--pop-black);
+    text-shadow: none;
     font-weight: 700;
+    opacity: 1;
+    animation: none;
+    background: rgba(255, 255, 255, 0.4);
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 12px;
+}
+
+/* Common Buttons (Pill + Solid Shadow) */
+.theme-pop .btn {
+    border-radius: var(--radius-pill);
+    border: 2px solid var(--pop-black);
+    box-shadow: var(--shadow-solid);
+    font-weight: 900;
+    transition: all 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+    text-shadow: none;
+}
+
+.theme-pop .btn:hover {
+    transform: translate(2px, 2px);
+    box-shadow: var(--shadow-solid-hover);
+}
+
+.theme-pop .btn-primary {
+    background: #FFF;
+    /* Inverted for yellow background? Or Red? Let's stick to White/Black/Blue Cta */
+    color: var(--pop-black);
+    /* For Primary CTA on yellow background, maybe Blue or Red? Or White? */
+    /* Let's make main CTA on hero Red or Black for contrast per Timee examples? */
+    /* Timee uses Red/Blue buttons. Let's use red for "Book" on yellow bg? */
+    background: #eb2f5b;
+    /* Timee-ish Red accent? Or just keep Black? */
+    /* Let's stick to Black for highest contrast on Yellow */
+    background: var(--pop-black);
+    color: var(--pop-yellow);
+    border-color: var(--pop-black);
 }
 
 .theme-pop .btn-primary:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 20px rgba(0, 164, 216, 0.5);
-    background: var(--accent-teal-dark);
+    background: #333;
+    color: #FFF;
 }
 
-/* Text overrides in specific sections */
-.theme-pop h2 {
-    color: #333 !important;
-    /* Override inline styles */
+/* Section Styling */
+.theme-pop .section {
+    background: var(--bg-dark);
+    /* White */
+    backdrop-filter: none;
+    padding: 80px 0;
+}
+
+.theme-pop .bg-light {
+    background-color: var(--pop-bg-gray);
+    /* Light Gray */
+}
+
+/* Titles */
+.theme-pop .section-title-area {
+    margin-bottom: 60px;
+}
+
+.theme-pop .section-subtitle {
+    color: var(--pop-blue);
+    text-shadow: none;
+    font-weight: 900;
+    background: #eef7ff;
+    padding: 4px 12px;
+    border-radius: 4px;
+    letter-spacing: 0.1em;
+}
+
+.theme-pop .section-title {
+    color: var(--pop-black);
+    text-shadow: none;
+    font-size: 2.2rem;
+    font-weight: 900;
+    margin-top: 10px;
+}
+
+.theme-pop .section-title::after {
+    background: var(--pop-yellow);
+    box-shadow: none;
+    height: 8px;
+    border-radius: 4px;
+    margin-top: 20px;
+    width: 80px;
+}
+
+/* Cards (Solid Shadow) */
+.theme-pop .content-box-light,
+.theme-pop .profile-box img,
+.theme-pop .business-card,
+.theme-pop .price-card,
+/* pricing */
+.theme-pop .campaign-section
+
+/* from school.html but if used here */
+    {
+    background: #FFF;
+    border: 2px solid var(--pop-black);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-solid);
+    color: var(--pop-black);
+}
+
+.theme-pop .business-card {
+    height: auto;
+    /* Remove fixed height */
+    min-height: 400px;
+}
+
+.theme-pop .business-overlay {
+    background: linear-gradient(to top, rgba(255, 255, 255, 1) 30%, rgba(255, 255, 255, 0) 100%);
+    opacity: 1;
+    color: var(--pop-black);
+    padding: 20px;
+}
+
+.theme-pop .business-bg {
+    opacity: 1;
+    filter: none;
+}
+
+.theme-pop .business-label {
+    background: var(--pop-yellow);
+    border-top: 2px solid var(--pop-black);
+    color: var(--pop-black);
+    font-weight: 900;
+    backdrop-filter: none;
+}
+
+/* Content Text */
+.theme-pop h2,
+.theme-pop h3 {
+    color: var(--pop-black) !important;
 }
 
 .theme-pop p {
-    color: #555;
+    color: var(--text-gray);
+    font-weight: 500;
 }
 
-/* Pricing Section */
-.theme-pop .price-card {
-    background: #fff;
-    border-radius: 20px;
-    border: 2px solid #eee;
-    color: #333;
-    box-shadow: var(--shadow-pop);
+/* Pricing Section Specifics */
+.theme-pop .pricing-block {
+    /* Assuming standard divs in school.html structure */
 }
 
-/* Footer Override */
+.theme-pop .section .container div[style*="border: 1px solid"] {
+    background: #FFF !important;
+    border: 2px solid var(--pop-black) !important;
+    border-radius: var(--radius-card) !important;
+    box-shadow: var(--shadow-solid) !important;
+}
+
+.theme-pop .section .container div[style*="border: 2px solid var(--primary-neon)"] {
+    background: #FFF !important;
+    border: 4px solid var(--pop-yellow) !important;
+    /* Recommended one */
+    box-shadow: 6px 6px 0 0 var(--pop-yellow) !important;
+}
+
+/* Footer */
 .theme-pop .footer {
-    background: #333;
-    /* Keep footer dark for contrast */
+    background: var(--pop-black);
+    color: #FFF;
+    border-top: none;
+}
+
+/* Video Embed in Hero (if moved) */
+.theme-pop .hero-content iframe {
+    border: 2px solid var(--pop-black);
+    border-radius: 12px;
+    box-shadow: var(--shadow-solid);
+}
+
+/* Mobile Sticky Footer */
+.theme-pop .sticky-footer {
+    background: rgba(255, 255, 255, 0.95);
+    border-top: 2px solid var(--pop-black);
+}
+
+.theme-pop .sticky-btn-line {
+    background: #06c755;
+    color: #fff;
+    border-radius: var(--radius-pill);
+    border: 1px solid #06c755;
+}
+
+.theme-pop .sticky-btn-primary {
+    background: var(--pop-yellow);
+    color: var(--pop-black);
+    border-radius: var(--radius-pill);
+    border: 2px solid var(--pop-black);
+    box-shadow: 2px 2px 0 0 var(--pop-black);
+    font-weight: 900;
 }
