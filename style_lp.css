@@ -699,6 +699,16 @@ a {
     margin-left: 10px;
 }
 
+.benefits-list {
+    margin-top: 20px;
+}
+
+.campaign-note {
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: #555;
+}
+
 .pricing-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -1041,5 +1051,19 @@ textarea {
 
     .btn-main-cta {
         width: 100%;
+    }
+
+    .trial-offer-box {
+        padding: 25px 15px;
+        /* Reduce padding for mobile */
+        border-width: 3px;
+        /* Slightly thinner border */
+        background: #FAFAFA;
+        /* Slight background to separate from white page */
+    }
+
+    .campaign-note {
+        font-size: 0.95rem;
+        /* Adjust font size for mobile */
     }
 }
