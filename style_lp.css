@@ -124,15 +124,20 @@ a {
 }
 
 .logo {
-    font-weight: 900;
-    font-size: 1.2rem;
     display: flex;
     align-items: center;
     gap: 10px;
+    font-weight: 900;
+    font-size: 1.2rem;
+    color: var(--secondary);
+    text-decoration: none;
+    white-space: nowrap;
+    /* Prevent wrapping */
 }
 
 .logo img {
-    height: 32px;
+    height: 40px;
+    width: auto;
 }
 
 .btn-header-cta {
@@ -933,9 +938,38 @@ textarea {
         padding: 0 20px;
     }
 
+    .section {
+        padding: 60px 0;
+        /* Slightly tighter vertical padding for mobile */
+    }
+
+    /* Mobile Text Readability */
+    p {
+        font-size: 1rem;
+        line-height: 1.9;
+        /* More breathable line height */
+    }
+
+    .logo {
+        font-size: 1rem;
+        /* Smaller font for logo to fit */
+    }
+
+    .logo img {
+        height: 30px;
+        /* Resize logo img for mobile header */
+    }
+
+    .header-inner {
+        height: 60px;
+        /* Slightly shorter header */
+    }
+
     .hero-container {
         flex-direction: column-reverse;
-        gap: 20px;
+        gap: 30px;
+        text-align: center;
+        /* Center hero text on mobile */
     }
 
     .hero-visual {
