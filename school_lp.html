@@ -42,7 +42,7 @@
                 ニストスタジオ
             </a>
             <!-- Simple Menu for LP -->
-            <a href="#form" class="btn-header-cta nav-link" style="color: var(--primary-color);">体験予約</a>
+            <a href="contact.html" class="btn-header-cta nav-link" style="color: var(--primary-color);">体験予約</a>
         </div>
     </header>
 
@@ -67,10 +67,16 @@
                 </div>
 
                 <div class="hero-cta-wrapper">
-                    <a href="#form" class="btn-main-cta pulse-animation">
+                    <a href="contact.html" class="btn-main-cta pulse-animation">
                         <span class="check-mark">✓</span> 無料体験レッスンを予約する
                         <span class="btn-sub">50分で劇的な変化を体感</span>
                     </a>
+                    <div style="text-align: center; margin-top: 15px;">
+                        <a href="https://nyctstudio.com/schedule/" target="_blank"
+                            style="font-weight: 700; text-decoration: underline; color: #333;">
+                            <i class="far fa-calendar-alt"></i> 予約可能日時はこちら
+                        </a>
+                    </div>
                     <p class="micro-copy">※当日入会でレッスン1回分無料</p>
                 </div>
             </div>
@@ -314,9 +320,15 @@
             </div>
 
             <div class="cta-area">
-                <a href="#form" class="btn-main-cta">
+                <a href="contact.html" class="btn-main-cta">
                     <span class="check-mark">✓</span> 無料体験レッスンを予約する
                 </a>
+                <div style="text-align: center; margin-top: 15px;">
+                    <a href="https://nyctstudio.com/schedule/" target="_blank"
+                        style="font-weight: 700; text-decoration: underline; color: #333;">
+                        <i class="far fa-calendar-alt"></i> 予約可能日時はこちら
+                    </a>
+                </div>
             </div>
         </div>
     </section>
@@ -391,9 +403,15 @@
             </div>
 
             <div class="cta-wrapper">
-                <a href="#form" class="btn-main-cta pulse-animation">
+                <a href="contact.html" class="btn-main-cta pulse-animation">
                     <span class="check-mark">✓</span> 【30秒で完了】無料体験レッスンに申し込む
                 </a>
+                <div style="text-align: center; margin-top: 15px;">
+                    <a href="https://nyctstudio.com/schedule/" target="_blank"
+                        style="font-weight: 700; text-decoration: underline; color: #FFF;">
+                        <i class="far fa-calendar-alt"></i> 予約可能日時はこちら
+                    </a>
+                </div>
                 <p class="micro-copy text-white">※体験レッスン当日ご入会で、レッスン1回分(5,500円相当)無料</p>
             </div>
 
@@ -409,101 +427,24 @@
         </div>
     </section>
 
-    <!-- Form Section -->
-    <section id="form" class="section section-form">
-        <div class="container">
-            <h2 class="section-heading">無料体験レッスン予約フォーム</h2>
-            <!-- Google Form Embed or Custom Form -->
-            <!-- Using a distinct Custom Form structure as per requirements, styling handled in CSS -->
-            <form action="https://docs.google.com/forms/d/e/1FAIpQLSdXwZ.../formResponse" method="POST"
-                class="trial-form"> <!-- Placeholder Action -->
-
-                <div class="form-group">
-                    <label for="name">お名前 <span class="required">*</span></label>
-                    <input type="text" id="name" name="entry.name" placeholder="山田 太郎" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="email">メールアドレス <span class="required">*</span></label>
-                    <input type="email" id="email" name="entry.email" placeholder="example@email.com" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="tel">電話番号 <span class="required">*</span></label>
-                    <input type="tel" id="tel" name="entry.tel" placeholder="090-1234-5678" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="date1">希望日時(第1希望) <span class="required">*</span></label>
-                    <div class="datetime-group">
-                        <input type="date" id="date1" name="entry.date1" required>
-                        <select name="entry.time1" required>
-                            <option value="">時間を選択</option>
-                            <option value="10:00">10:00</option>
-                            <option value="11:00">11:00</option>
-                            <option value="13:00">13:00</option>
-                            <option value="15:00">15:00</option>
-                            <option value="17:00">17:00</option>
-                            <option value="19:00">19:00</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="date2">希望日時(第2希望)</label>
-                    <div class="datetime-group">
-                        <input type="date" id="date2" name="entry.date2">
-                        <select name="entry.time2">
-                            <option value="">時間を選択</option>
-                            <option value="10:00">10:00</option>
-                            <option value="11:00">11:00</option>
-                            <option value="13:00">13:00</option>
-                            <option value="15:00">15:00</option>
-                            <option value="17:00">17:00</option>
-                            <option value="19:00">19:00</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label>受講希望コース <span class="required">*</span></label>
-                    <div class="radio-group">
-                        <label><input type="radio" name="entry.course" value="vocal" checked> ボーカルコース</label>
-                        <label><input type="radio" name="entry.course" value="speech"> 話し方コース</label>
-                        <label><input type="radio" name="entry.course" value="both"> どちらも興味あり</label>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="message">ご質問・ご要望</label>
-                    <textarea id="message" name="entry.message" rows="4"></textarea>
-                </div>
-
-                <div class="form-group checkbox-group">
-                    <label><input type="checkbox" required> プライバシーポリシーに同意する</label>
-                </div>
-
-                <button type="submit" class="btn-submit">この内容で送信する</button>
-            </form>
-        </div>
-    </section>
+    <!-- Form Section Removed -->
 
     <!-- Footer -->
     <footer class="footer lp-footer">
         <div class="container">
-            <div class="footer-logo">Nyct Studio</div>
+            <div class="footer-logo">ニストスタジオ</div>
             <p class="footer-desc">広島駅徒歩3分のボイストレーニングスクール。<br>現役ナレーターによるマンツーマンレッスン。</p>
 
             <ul class="footer-nav">
                 <li><a href="school_lp.html">コース</a></li>
                 <li><a href="profile.html">講師紹介</a></li>
-                <li><a href="#form">体験予約</a></li>
+                <li><a href="contact.html">体験予約</a></li>
                 <li><a href="contact.html">お問い合わせ</a></li>
             </ul>
 
             <div class="footer-legal">
                 <a href="privacy.html">プライバシーポリシー</a>
-                <a href="#">特定商取引法に基づく表記</a>
+                <!-- <a href="#">特定商取引法に基づく表記</a> -->
             </div>
 
             <p class="copyright">© 2025 Nyct Studio. All Rights Reserved.</p>
@@ -512,7 +453,7 @@
 
     <!-- Floating CTA -->
     <div class="floating-cta">
-        <a href="#form" class="btn-float">
+        <a href="contact.html" class="btn-float">
             <i class="fas fa-check-circle"></i> 無料体験レッスンを予約する
         </a>
     </div>
