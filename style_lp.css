@@ -17,7 +17,9 @@
     --white: #FFFFFF;
     --bg-light: #F9F9F9;
     --text-color: #333;
-    --radius: 16px;
+    --radius-l: 24px;
+    --radius-m: 16px;
+    --radius-s: 8px;
     --header-height: 70px;
 }
 
@@ -43,48 +45,37 @@ a {
 }
 
 /* ==========================================================================
-   2. Layout Container
+   2. Container & Layout
    ========================================================================== */
 .container {
     width: 100%;
-    max-width: 1100px;
+    max-width: 1000px;
     margin: 0 auto;
     padding: 0 20px;
     position: relative;
-    /* Ensure it holds position */
+}
+
+.text-center {
+    text-align: center;
+}
+
+.section {
+    padding: 80px 0;
+    position: relative;
+    background: #fff;
 }
 
 /* ==========================================================================
-   3. Component Utilities
+   3. Typography & Headings
    ========================================================================== */
-.btn-main {
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    background-color: var(--primary);
-    color: var(--secondary);
-    font-weight: 900;
-    font-size: 1.1rem;
-    padding: 18px 40px;
-    border-radius: 50px;
-    box-shadow: 0 5px 15px rgba(255, 198, 0, 0.4);
-    width: 100%;
-    max-width: 360px;
-    margin-top: 10px;
-}
-
-.btn-main:hover {
-    transform: translateY(-2px);
-    background-color: #FFD54F;
-}
-
 .section-heading {
     text-align: center;
-    font-size: 1.8rem;
+    font-size: 2rem;
     font-weight: 900;
-    margin-bottom: 50px;
+    margin-bottom: 60px;
     position: relative;
-    padding-bottom: 15px;
+    padding-bottom: 20px;
+    line-height: 1.4;
 }
 
 .section-heading::after {
@@ -93,10 +84,19 @@ a {
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
-    width: 50px;
-    height: 4px;
+    width: 60px;
+    height: 6px;
     background-color: var(--primary);
-    border-radius: 2px;
+    border-radius: 10px;
+}
+
+.section-solution {
+    background: var(--secondary);
+    color: white;
+}
+
+.section-solution .section-heading::after {
+    background: var(--primary);
 }
 
 /* ==========================================================================
@@ -109,7 +109,7 @@ a {
     top: 0;
     width: 100%;
     z-index: 1000;
-    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
     display: flex;
     align-items: center;
 }
@@ -118,6 +118,7 @@ a {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    width: 100%;
 }
 
 .logo {
@@ -132,29 +133,35 @@ a {
     height: 32px;
 }
 
+.btn-header-cta {
+    background: var(--primary);
+    color: var(--secondary);
+    padding: 8px 20px;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 0.9rem;
+}
+
 /* ==========================================================================
-   5. Hero Section (Side-by-Side Illustration)
+   5. Hero Section
    ========================================================================== */
 .hero {
     margin-top: var(--header-height);
-    padding: 60px 0;
-    min-height: auto;
+    padding: 80px 0;
     background: #fff;
     overflow: hidden;
-    /* Prevent spill */
 }
 
 .hero-container {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 40px;
+    gap: 50px;
 }
 
 .hero-content-text {
     flex: 1;
     min-width: 300px;
-    z-index: 2;
 }
 
 .hero-visual {
@@ -167,121 +174,99 @@ a {
 }
 
 .hero-illustration {
-    max-width: 100%;
-    height: auto;
-    border-radius: var(--radius);
-    /* Add a POP background blob or circle behind styling if desired, simpler for now */
-    box-shadow: 20px 20px 0px var(--primary);
-    /* POP Check shadow */
+    border-radius: var(--radius-l);
+    box-shadow: 15px 15px 0px var(--primary);
+    transform: rotate(2deg);
 }
 
 .hero-catch {
     background: var(--primary);
-    /* Yellow bg for catch */
     color: var(--secondary);
     display: inline-block;
     padding: 8px 16px;
     border-radius: 50px;
-    font-weight: 800;
+    font-weight: 700;
     margin-bottom: 20px;
-    font-size: 1rem;
-    box-shadow: 0 4px 10px rgba(255, 198, 0, 0.3);
 }
 
 .hero-title {
-    font-size: 3rem;
+    font-size: 3.2rem;
     font-weight: 900;
-    line-height: 1.3;
-    margin-bottom: 25px;
+    line-height: 1.2;
+    margin-bottom: 30px;
     color: var(--secondary);
 }
 
 .text-highlight {
     background: linear-gradient(transparent 60%, var(--primary) 60%);
-    display: inline;
 }
 
 .hero-sub {
     font-size: 1.1rem;
     margin-bottom: 30px;
-    color: #555;
+    color: #666;
     line-height: 1.8;
 }
 
 .hero-badges {
     display: flex;
     flex-wrap: wrap;
-    gap: 12px;
-    margin-bottom: 35px;
+    gap: 10px;
+    margin-bottom: 30px;
 }
 
 .badge-item {
-    background: #FFECB3;
-    /* Pale Yellow */
-    color: #333;
-    padding: 6px 16px;
-    font-size: 0.9rem;
+    background: #FFF9C4;
+    padding: 5px 15px;
     font-weight: 700;
     border-radius: 20px;
+    font-size: 0.9rem;
 }
 
-/* Mobile Hero */
-@media (max-width: 900px) {
-    .hero {
-        padding: 40px 0;
-        text-align: center;
-    }
+/* CTA Buttons */
+.btn-main-cta {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: var(--primary);
+    color: var(--secondary);
+    width: 100%;
+    max-width: 400px;
+    padding: 15px 20px;
+    border-radius: 50px;
+    text-align: center;
+    box-shadow: 0 10px 20px rgba(255, 198, 0, 0.3);
+    font-weight: 900;
+    font-size: 1.2rem;
+}
 
-    .hero-container {
-        flex-direction: column-reverse;
-        /* Visual on top? Or Text on top? Standard is visual first often, but text first for SEO/Catch */
-        /* Let's do Visual first to match "POP" impact */
-        flex-direction: column;
-    }
+.btn-main-cta:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 30px rgba(255, 198, 0, 0.4);
+}
 
-    .hero-visual {
-        width: 100%;
-        margin-bottom: 30px;
-    }
+.check-mark {
+    font-size: 1rem;
+    margin-bottom: 2px;
+}
 
-    .hero-illustration {
-        max-width: 80%;
-        box-shadow: 10px 10px 0px var(--primary);
-    }
-
-    .hero-content-text {
-        width: 100%;
-    }
-
-    .hero-title {
-        font-size: 2.2rem;
-    }
+.btn-sub {
+    font-size: 0.8rem;
+    font-weight: normal;
+    margin-top: 2px;
 }
 
 /* ==========================================================================
-   6. Sections
+   6. Empathy Section
    ========================================================================== */
-.section {
-    padding: 80px 0;
-}
-
 .section-empathy {
     background: var(--bg-light);
-}
-
-.section-solution {
-    background: var(--secondary);
-    color: white;
-}
-
-.section-solution .section-heading::after {
-    background: var(--primary);
 }
 
 .worry-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    /* Auto fit but min 280px */
     gap: 20px;
     margin-bottom: 40px;
 }
@@ -289,30 +274,402 @@ a {
 .worry-card {
     background: white;
     padding: 30px;
-    border-radius: var(--radius);
+    border-radius: var(--radius-m);
     text-align: center;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.worry-icon {
+    font-size: 2rem;
+    margin-bottom: 15px;
+    color: var(--primary);
+}
+
+.message-box {
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: 700;
+    border: 4px solid var(--primary);
+    background: white;
+    padding: 30px;
+    border-radius: var(--radius-m);
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* ==========================================================================
+   7. Solution & Steps
+   ========================================================================== */
+.step-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
 }
 
 .step-card {
     background: #444;
-    padding: 20px;
-    border-radius: var(--radius);
-    margin-bottom: 20px;
+    padding: 30px;
+    border-radius: var(--radius-m);
     text-align: center;
+    position: relative;
+    border: 1px solid #555;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-.step-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 20px;
+.step-num {
+    background: var(--primary);
+    color: var(--secondary);
+    display: inline-block;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-weight: 800;
+    margin-bottom: 15px;
+}
+
+.step-icon {
+    font-size: 3rem;
+    color: var(--primary);
+    margin: 20px 0;
+}
+
+.step-desc {
+    font-size: 0.95rem;
+    line-height: 1.8;
+    opacity: 0.9;
 }
 
 /* ==========================================================================
-   7. Form & Footer
+   8. Lecturer
    ========================================================================== */
+.section-lecturer {
+    background: #fff;
+}
+
+.lecturer-profile {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.lecturer-img {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    border: 5px solid var(--primary);
+    margin-bottom: 20px;
+}
+
+.lecturer-name {
+    font-size: 1.8rem;
+    font-weight: 900;
+}
+
+.lecturer-title {
+    font-size: 0.9rem;
+    margin-left: 10px;
+    font-weight: normal;
+    color: #666;
+}
+
+.expertise-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.expertise-card {
+    background: var(--bg-light);
+    padding: 30px;
+    border-radius: var(--radius-m);
+    text-align: center;
+}
+
+.expert-icon {
+    font-size: 3rem;
+    margin-bottom: 10px;
+}
+
+.expert-sub {
+    color: #888;
+    font-size: 0.9rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+/* ==========================================================================
+   9. Reviews (Styled)
+   ========================================================================== */
+.section-stories {
+    background: #FFF9C4;
+    /* Very pale yellow bg */
+}
+
+.story-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    margin-bottom: 50px;
+}
+
+.story-card {
+    display: flex;
+    flex-direction: column;
+}
+
+.story-meta {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 15px;
+    padding-left: 10px;
+}
+
+.story-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    color: #555;
+    font-size: 1.2rem;
+}
+
+.story-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.story-attr {
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+
+.story-stars {
+    color: #FF9800;
+    font-size: 0.9rem;
+}
+
+.story-bubble {
+    background: white;
+    padding: 25px;
+    border-radius: var(--radius-m);
+    position: relative;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+    flex: 1;
+}
+
+.story-bubble::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: 30px;
+    border-width: 0 10px 10px 10px;
+    border-style: solid;
+    border-color: transparent transparent white transparent;
+}
+
+.story-title {
+    font-weight: 900;
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+    color: var(--secondary);
+}
+
+.story-text {
+    font-size: 0.95rem;
+    color: #555;
+}
+
+.ugc-box {
+    background: white;
+    text-align: center;
+    padding: 30px;
+    border-radius: var(--radius-m);
+    max-width: 600px;
+    margin: 0 auto;
+    border: 2px dashed var(--primary);
+}
+
+.ugc-list {
+    text-align: left;
+    display: inline-block;
+    margin-top: 15px;
+}
+
+.ugc-list li {
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+.ugc-list i {
+    color: var(--primary);
+    margin-right: 10px;
+}
+
+/* ==========================================================================
+   10. Q&A (Styled)
+   ========================================================================== */
+.section-qa {
+    background: #fff;
+}
+
+.qa-grid {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.qa-item {
+    background: #fff;
+    border: 2px solid #EEE;
+    border-radius: var(--radius-m);
+    margin-bottom: 20px;
+    overflow: hidden;
+    transition: 0.3s;
+}
+
+.qa-item:hover {
+    border-color: var(--primary);
+}
+
+.qa-question {
+    padding: 20px 25px;
+    background: #FAFAFA;
+    font-weight: 900;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: 1.1rem;
+}
+
+.q-icon {
+    color: var(--primary);
+    font-size: 1.5rem;
+    margin-right: 15px;
+}
+
+.toggle-icon {
+    margin-left: auto;
+    font-size: 1.5rem;
+    color: #CCC;
+}
+
+.qa-answer {
+    padding: 25px;
+    border-top: 1px solid #EEE;
+    display: flex;
+    gap: 15px;
+    line-height: 1.8;
+}
+
+.a-icon {
+    color: #FF5252;
+    font-weight: 900;
+    font-size: 1.2rem;
+}
+
+/* ==========================================================================
+   11. Pricing & Form
+   ========================================================================== */
+.trial-offer-box {
+    background: #FFF;
+    border: 4px solid var(--primary);
+    border-radius: var(--radius-l);
+    padding: 40px;
+    text-align: center;
+    position: relative;
+    max-width: 700px;
+    margin: 0 auto 60px;
+    box-shadow: 0 10px 40px rgba(255, 198, 0, 0.15);
+}
+
+.ribbon {
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #FF5252;
+    color: white;
+    padding: 5px 20px;
+    border-radius: 20px;
+    font-weight: 700;
+}
+
+.price-display {
+    font-size: 1.5rem;
+    font-weight: 900;
+    margin: 20px 0;
+}
+
+.currency {
+    font-size: 1.5rem;
+}
+
+.amount {
+    font-size: 3.5rem;
+    color: var(--secondary);
+}
+
+.strike {
+    font-size: 1rem;
+    color: #999;
+    text-decoration: line-through;
+    margin-left: 10px;
+}
+
+.pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.pricing-card {
+    border: 1px solid #EEE;
+    padding: 20px;
+    text-align: center;
+    border-radius: var(--radius-m);
+}
+
+.pricing-card.main-plan {
+    border: 3px solid var(--primary);
+    background: #FFFDE7;
+    position: relative;
+    transform: scale(1.05);
+}
+
+.rec-label {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--primary);
+    color: #333;
+    font-size: 0.8rem;
+    padding: 2px 10px;
+    border-radius: 10px;
+    font-weight: 700;
+}
+
+.plan-name {
+    font-weight: 900;
+    font-size: 1.1rem;
+    margin-bottom: 5px;
+}
+
+.plan-price {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--secondary);
+}
+
+/* Form */
 .section-form {
     padding-bottom: 150px;
+    background: #FAFAFA;
 }
 
 .form-group {
@@ -321,54 +678,41 @@ a {
 
 .form-group label {
     display: block;
+    margin-bottom: 8px;
     font-weight: 700;
-    margin-bottom: 5px;
 }
 
 input,
-textarea,
-select {
+select,
+textarea {
     width: 100%;
-    padding: 12px;
+    padding: 15px;
     border: 1px solid #ddd;
     border-radius: 8px;
-    font-size: 1rem;
-    background: #fff;
+    background: white;
 }
 
 .btn-submit {
     width: 100%;
+    padding: 20px;
     background: var(--secondary);
     color: var(--primary);
-    padding: 15px;
     font-weight: 900;
     border: none;
     border-radius: 50px;
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     cursor: pointer;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
-.lp-footer {
-    background: #222;
-    color: white;
-    text-align: center;
-    padding: 40px 0 100px;
-}
-
-.footer-nav {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    margin: 20px 0;
-}
-
+/* Floating CTA */
 .floating-cta {
     position: fixed;
     bottom: 20px;
     left: 50%;
     transform: translateX(-50%);
     width: 90%;
-    max-width: 400px;
+    max-width: 450px;
     z-index: 2000;
 }
 
@@ -376,62 +720,54 @@ select {
     display: flex;
     justify-content: center;
     align-items: center;
+    gap: 10px;
     background: var(--primary);
     color: var(--secondary);
-    font-weight: 900;
     padding: 15px;
     border-radius: 50px;
+    font-weight: 900;
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
-    width: 100%;
 }
 
 /* ==========================================================================
-   8. Mobile Specific
+   12. Mobile Responsive
    ========================================================================== */
 @media (max-width: 900px) {
     .container {
-        padding: 0 15px;
+        padding: 0 20px;
     }
 
-    .hero {
-        flex-direction: column;
-        padding-top: 40px;
-        text-align: center;
-        /* Center everything on mobile */
+    .hero-container {
+        flex-direction: column-reverse;
+        gap: 20px;
     }
 
-    .hero-bg {
+    .hero-visual {
         width: 100%;
-        height: 300px;
-        position: relative;
-        /* Normal flow on mobile */
-        order: -1;
-        /* Show image first */
-        margin-bottom: 20px;
-        border-radius: 0 0 30px 30px;
     }
 
-    .hero-content {
-        width: 100%;
-        background: none;
-        backdrop-filter: none;
-        padding: 0;
+    .hero-illustration {
+        width: 90%;
+        transform: rotate(0);
     }
 
     .hero-title {
-        font-size: 2rem;
+        font-size: 2.2rem;
     }
 
-    .hero-badges {
-        justify-content: center;
+    .step-grid,
+    .expertise-grid,
+    .story-grid,
+    .pricing-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
     }
 
-    .btn-main {
+    .pricing-card.main-plan {
+        transform: scale(1);
+    }
+
+    .btn-main-cta {
         width: 100%;
-    }
-
-    /* Fix vertically stacked text if any remains */
-    .hero-catch {
-        white-space: normal;
     }
 }
