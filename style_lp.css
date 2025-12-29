@@ -851,7 +851,7 @@ textarea {
 
 .contact-sub h3 {
     margin-bottom: 20px;
-    color: white;
+    color: var(--secondary);
 }
 
 /* Footer Styling */
