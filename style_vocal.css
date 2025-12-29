@@ -1,0 +1,248 @@
+@charset "UTF-8";
+
+/* ==========================================================================
+   Vocal Course Theme (POP & Bright)
+   Overrides for .theme-pop class
+   ========================================================================== */
+
+body.theme-pop {
+    /* Color Overrides */
+    --bg-dark: #ffffff;
+    --text-white: #333333;
+    --text-gray: #666666;
+
+    /* New Variables for Pop Theme */
+    --bg-pop-light: #fffdf5;
+    /* Warm Cream */
+    --bg-pop-accent: #e0f7fa;
+    /* Light Teal */
+    --shadow-pop: 0 10px 25px rgba(0, 164, 216, 0.15);
+
+    /* Font Override - Rounder for POP feel */
+    font-family: "Zen Maru Gothic", var(--font-main);
+
+    background-image: none;
+    background-color: var(--bg-pop-light);
+}
+
+/* Header Override */
+.theme-pop .header {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+}
+
+.theme-pop .logo {
+    color: #333;
+    text-shadow: none;
+}
+
+.theme-pop .logo img {
+    filter: none;
+    /* Show original logo colors if applicable, or keep existing */
+}
+
+.theme-pop .nav-link {
+    color: #555;
+}
+
+.theme-pop .nav-link:hover {
+    color: var(--accent-teal);
+    text-shadow: none;
+}
+
+/* Hero Section Override */
+.theme-pop .hero {
+    background: linear-gradient(135deg, #fff 0%, #fffdf5 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Add some playful background elements for Hero */
+.theme-pop .hero::before {
+    content: '';
+    position: absolute;
+    top: -10%;
+    right: -10%;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(252, 200, 0, 0.1) 0%, rgba(255, 255, 255, 0) 70%);
+    border-radius: 50%;
+    z-index: 0;
+}
+
+.theme-pop .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -5%;
+    left: -5%;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(0, 164, 216, 0.1) 0%, rgba(255, 255, 255, 0) 70%);
+    border-radius: 50%;
+    z-index: 0;
+}
+
+.theme-pop .hero-bg {
+    opacity: 0.15;
+    /* Lighter background image */
+    filter: none;
+    /* Remove grayscale/contrast filter */
+    mix-blend-mode: multiply;
+}
+
+.theme-pop .hero-content {
+    color: #333;
+    text-shadow: none;
+    /* Remove heavy text shadows */
+}
+
+.theme-pop .hero-subtitle {
+    color: var(--accent-teal);
+    text-shadow: none;
+    background: rgba(0, 164, 216, 0.1);
+    display: inline-block;
+    padding: 5px 20px;
+    border-radius: 50px;
+    font-weight: 700;
+}
+
+.theme-pop .hero-title {
+    color: #333;
+    text-shadow: 3px 3px 0px rgba(252, 200, 0, 0.3);
+    /* Pop shadow */
+    font-family: "Zen Maru Gothic", sans-serif;
+    letter-spacing: 0.05em;
+}
+
+.theme-pop .hero-desc {
+    color: #555;
+    text-shadow: none;
+    font-weight: 600;
+}
+
+.theme-pop .hero-badges span {
+    color: #555 !important;
+    /* Force override inline styles if possible, or use !important */
+    text-shadow: none !important;
+    background: #fff;
+    padding: 8px 15px;
+    border-radius: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    border: 1px solid #eee;
+}
+
+/* Section Overrides */
+.theme-pop .section {
+    background: transparent;
+    backdrop-filter: none;
+}
+
+.theme-pop .section-title {
+    color: #333;
+    text-shadow: none;
+}
+
+.theme-pop .section-title::after {
+    background: var(--accent-teal);
+    box-shadow: none;
+    /* Remove neon glow */
+    height: 6px;
+    border-radius: 10px;
+}
+
+.theme-pop .section-subtitle {
+    text-shadow: none;
+    color: var(--primary-neon);
+    /* Yellow subtitle */
+    background: #333;
+    /* Dark background stroke effect replacement */
+    color: #fff;
+    display: inline-block;
+    padding: 2px 12px;
+    border-radius: 4px;
+    transform: rotate(-2deg);
+    /* Playful tilt */
+}
+
+/* Content & Layout */
+.theme-pop .bg-light {
+    background-color: #f7f9fc;
+    /* Light cool gray */
+}
+
+.theme-pop .bg-concrete {
+    background-color: #fff;
+    background-image: radial-gradient(#ddd 1px, transparent 1px);
+    background-size: 20px 20px;
+    /* Polka dot pattern */
+}
+
+.theme-pop .bg-dark-concrete {
+    background-color: var(--accent-teal-dark);
+    /* Use teal brand color instead of dark grey */
+    color: #fff;
+}
+
+/* Cards & Boxes */
+.theme-pop .content-box-light {
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: var(--shadow-pop);
+    border: 2px solid #f0f0f0;
+    color: #333;
+}
+
+.theme-pop .content-box-light h3 {
+    color: var(--accent-teal-dark);
+}
+
+.theme-pop .business-card,
+.theme-pop .profile-box img,
+.theme-pop .content_vocal_img {
+    border-radius: 24px;
+    /* Rounder corners */
+    box-shadow: var(--shadow-pop);
+    border: none;
+}
+
+/* Buttons */
+.theme-pop .btn-primary {
+    background: var(--accent-teal);
+    color: #fff;
+    border-radius: 50px;
+    box-shadow: 0 5px 15px rgba(0, 164, 216, 0.4);
+    border: none;
+    font-weight: 700;
+}
+
+.theme-pop .btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 164, 216, 0.5);
+    background: var(--accent-teal-dark);
+}
+
+/* Text overrides in specific sections */
+.theme-pop h2 {
+    color: #333 !important;
+    /* Override inline styles */
+}
+
+.theme-pop p {
+    color: #555;
+}
+
+/* Pricing Section */
+.theme-pop .price-card {
+    background: #fff;
+    border-radius: 20px;
+    border: 2px solid #eee;
+    color: #333;
+    box-shadow: var(--shadow-pop);
+}
+
+/* Footer Override */
+.theme-pop .footer {
+    background: #333;
+    /* Keep footer dark for contrast */
+}
