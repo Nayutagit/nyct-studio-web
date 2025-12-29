@@ -864,7 +864,10 @@ textarea {
     justify-content: center;
     list-style: none;
     gap: 30px;
-    margin-bottom: 30px;
+    padding: 0;
+    /* Reset default UL padding */
+    margin: 0 auto 30px;
+    /* Center with margin */
     flex-wrap: wrap;
 }
 
