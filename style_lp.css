@@ -246,17 +246,21 @@ a {
     background: var(--primary);
     color: var(--secondary);
     width: 100%;
-    max-width: 400px;
-    padding: 20px 30px;
-    border-radius: var(--radius-l);
-    /* Changed from 50px to 24px (radius-l) for better shape */
+    max-width: 320px;
+    /* Reduced max-width for better shape */
+    padding: 15px 20px;
+    border-radius: 50px;
+    /* Fully rounded for capsule shape */
     text-align: center;
     box-shadow: 0 10px 20px rgba(255, 198, 0, 0.3);
     font-weight: 900;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     line-height: 1.4;
     margin: 0 auto;
     /* Ensure centering */
+    box-sizing: border-box;
+    /* Prevent padding from breaking width */
+    text-decoration: none;
 }
 
 .btn-main-cta:hover {
