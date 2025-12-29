@@ -268,8 +268,29 @@ a {
     text-align: center;
 }
 
-.section-access {
-    background: #FAFAFA;
+background: #FAFAFA;
+}
+
+/* Map Container Responsive */
+.map-container {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%;
+    /* 16:9 Aspect Ratio */
+    height: 0;
+    overflow: hidden;
+    border-radius: var(--radius-m);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+.map-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
 }
 
 /* Desktop Overrides */
@@ -558,9 +579,65 @@ a {
     color: var(--secondary);
 }
 
-.story-text {
-    font-size: 0.95rem;
-    color: #555;
+color: #555;
+}
+
+/* Success Cases */
+.section-success {
+    background: white;
+    padding-top: 0;
+    /* Merge visually with empathy section or keep tight */
+}
+
+.success-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.success-card {
+    background: #FFFDE7;
+    /* Light yellow background */
+    border: 2px solid var(--primary);
+    border-radius: var(--radius-m);
+    padding: 25px;
+    position: relative;
+}
+
+.success-label {
+    background: var(--primary);
+    color: #333;
+    font-weight: 700;
+    padding: 5px 15px;
+    border-radius: 20px;
+    position: absolute;
+    top: -15px;
+    left: 20px;
+    font-size: 0.9rem;
+}
+
+.success-before {
+    margin-top: 15px;
+    color: #777;
+    font-size: 0.9rem;
+    border-bottom: 1px dashed #CCC;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
+
+.success-after {
+    font-weight: 900;
+    font-size: 1.1rem;
+    color: var(--secondary);
+    line-height: 1.6;
+}
+
+.success-icon {
+    float: right;
+    font-size: 2rem;
+    color: #FFB300;
+    opacity: 0.2;
 }
 
 .ugc-box {
@@ -1035,6 +1112,13 @@ textarea {
 
     .hero-title {
         font-size: 2.2rem;
+        line-height: 1.4;
+        /* Better line height */
+    }
+
+    /* Br improvements */
+    br.sp-only {
+        display: block;
     }
 
     .step-grid,
