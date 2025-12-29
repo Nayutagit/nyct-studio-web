@@ -151,67 +151,63 @@ a {
 
 /* ==========================================================================
    5. Hero Section
+  /* ==========================================================================
+   4. Hero Section - Mobile First
    ========================================================================== */
-.hero {
-    margin-top: var(--header-height);
-    padding: 80px 0;
-    background: #fff;
-    overflow: hidden;
-}
-
 .hero-container {
     display: flex;
+    flex-direction: column-reverse;
+    /* Image on top for Mobile */
     align-items: center;
-    justify-content: space-between;
-    gap: 50px;
+    gap: 30px;
+    padding-top: 20px;
+    text-align: center;
 }
 
-.hero-content-text {
-    flex: 1;
-    min-width: 300px;
+.hero-content {
+    width: 100%;
 }
 
 .hero-visual {
-    flex: 1;
+    width: 100%;
     display: flex;
     justify-content: center;
-    align-items: center;
-    position: relative;
-    min-width: 300px;
 }
 
 .hero-illustration {
+    width: 100%;
+    max-width: 500px;
+    height: auto;
     border-radius: var(--radius-l);
-    box-shadow: 15px 15px 0px var(--primary);
-    transform: rotate(2deg);
+    box-shadow: 20px 20px 0px rgba(0, 0, 0, 0.1);
+    /* POP Shadow */
+    object-fit: cover;
 }
 
-.hero-catch {
-    background: var(--primary);
-    color: var(--secondary);
-    display: inline-block;
-    padding: 8px 16px;
-    border-radius: 50px;
-    font-weight: 700;
-    margin-bottom: 20px;
+.hero-visual::before {
+    display: none;
+    /* Simplify mobile view */
 }
 
 .hero-title {
-    font-size: 3.2rem;
-    font-weight: 900;
-    line-height: 1.2;
-    margin-bottom: 30px;
+    font-size: 2.5rem;
+    line-height: 1.3;
+    margin-bottom: 20px;
     color: var(--secondary);
+    font-weight: 900;
+    position: relative;
+    display: inline-block;
 }
 
-.text-highlight {
+.hero-title .highlight {
     background: linear-gradient(transparent 60%, var(--primary) 60%);
+    display: inline;
 }
 
 .hero-sub {
-    font-size: 1.1rem;
+    font-size: 1rem;
     margin-bottom: 30px;
-    color: #666;
+    color: #555;
     line-height: 1.8;
 }
 
@@ -220,21 +216,6 @@ a {
     flex-direction: column;
     align-items: center;
     width: 100%;
-}
-
-.hero-badges {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-bottom: 30px;
-}
-
-.badge-item {
-    background: #FFF9C4;
-    padding: 5px 15px;
-    font-weight: 700;
-    border-radius: 20px;
-    font-size: 0.9rem;
 }
 
 /* CTA Buttons */
@@ -246,21 +227,19 @@ a {
     background: var(--primary);
     color: var(--secondary);
     width: 100%;
-    max-width: 320px;
-    /* Reduced max-width for better shape */
-    padding: 15px 20px;
+    max-width: 340px;
+    /* Optimal width for mobile/desktop buttons */
+    padding: 18px 20px;
     border-radius: 50px;
-    /* Fully rounded for capsule shape */
     text-align: center;
     box-shadow: 0 10px 20px rgba(255, 198, 0, 0.3);
     font-weight: 900;
     font-size: 1.1rem;
     line-height: 1.4;
     margin: 0 auto;
-    /* Ensure centering */
     box-sizing: border-box;
-    /* Prevent padding from breaking width */
     text-decoration: none;
+    transition: transform 0.3s, box-shadow 0.3s;
 }
 
 .btn-main-cta:hover {
@@ -268,9 +247,17 @@ a {
     box-shadow: 0 15px 30px rgba(255, 198, 0, 0.4);
 }
 
+.btn-sub {
+    font-size: 0.9rem;
+    font-weight: 700;
+    margin-top: 5px;
+    background: rgba(255, 255, 255, 0.3);
+    padding: 2px 10px;
+    border-radius: 10px;
+}
+
 .cta-area {
-    margin-top: 60px;
-    /* Increased margin */
+    margin-top: 40px;
     text-align: center;
 }
 
@@ -278,15 +265,39 @@ a {
     background: #FAFAFA;
 }
 
-.check-mark {
-    font-size: 1rem;
-    margin-bottom: 2px;
-}
+/* Desktop Overrides */
+@media (min-width: 900px) {
+    .hero-container {
+        flex-direction: row;
+        /* Side by side on Desktop */
+        text-align: left;
+        justify-content: space-between;
+    }
 
-.btn-sub {
-    font-size: 0.8rem;
-    font-weight: normal;
-    margin-top: 2px;
+    .hero-content {
+        width: 50%;
+    }
+
+    .hero-visual {
+        width: 45%;
+    }
+
+    .hero-illustration {
+        transform: rotate(2deg);
+    }
+
+    .hero-cta-wrapper {
+        align-items: flex-start;
+        /* Left align CTA on desktop hero */
+    }
+
+    .hero-title {
+        font-size: 3.5rem;
+    }
+
+    .hero-sub {
+        font-size: 1.2rem;
+    }
 }
 
 /* ==========================================================================
