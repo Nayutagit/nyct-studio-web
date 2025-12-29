@@ -515,6 +515,8 @@ a {
     font-weight: 900;
     color: #555;
     font-size: 1.2rem;
+    flex-shrink: 0;
+    /* Prevent squashing on mobile */
 }
 
 .story-info {
