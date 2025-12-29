@@ -799,6 +799,63 @@ textarea {
     border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
+/* Footer Styling */
+.lp-footer {
+    background: #222;
+    color: white;
+    text-align: center;
+    padding: 60px 0 100px;
+    /* Bottom padding for floating CTA space */
+}
+
+.footer-logo {
+    font-size: 1.5rem;
+    font-weight: 900;
+    margin-bottom: 15px;
+    letter-spacing: 1px;
+}
+
+.footer-desc {
+    font-size: 0.9rem;
+    color: #AAA;
+    margin-bottom: 30px;
+    line-height: 1.6;
+}
+
+.footer-nav {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    gap: 30px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+.footer-nav a {
+    color: white;
+    font-weight: 700;
+    font-size: 0.95rem;
+}
+
+.footer-nav a:hover {
+    color: var(--primary);
+}
+
+.footer-legal {
+    margin-bottom: 20px;
+    font-size: 0.85rem;
+}
+
+.footer-legal a {
+    color: #888;
+    margin: 0 10px;
+}
+
+.copyright {
+    color: #666;
+    font-size: 0.8rem;
+}
+
 .closing-limit {
     font-weight: 700;
     color: var(--primary);
