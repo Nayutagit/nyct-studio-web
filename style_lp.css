@@ -242,18 +242,27 @@ a {
     transition: transform 0.3s, box-shadow 0.3s;
 }
 
+.btn-label-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    width: 100%;
+    margin-bottom: 2px;
+}
+
 .btn-main-cta:hover {
     transform: translateY(-3px);
     box-shadow: 0 15px 30px rgba(255, 198, 0, 0.4);
 }
 
 .btn-sub {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     font-weight: 700;
-    margin-top: 5px;
-    background: rgba(255, 255, 255, 0.3);
-    padding: 2px 10px;
-    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 2px 12px;
+    border-radius: 12px;
+    display: inline-block;
 }
 
 .cta-area {
