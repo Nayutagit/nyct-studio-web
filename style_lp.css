@@ -267,28 +267,12 @@ a {
 
 /* Desktop Overrides */
 @media (min-width: 900px) {
+
+    /* Keep Hero Stacked but centered */
     .hero-container {
-        flex-direction: row;
-        /* Side by side on Desktop */
-        text-align: left;
-        justify-content: space-between;
-    }
-
-    .hero-content {
-        width: 50%;
-    }
-
-    .hero-visual {
-        width: 45%;
-    }
-
-    .hero-illustration {
-        transform: rotate(2deg);
-    }
-
-    .hero-cta-wrapper {
-        align-items: flex-start;
-        /* Left align CTA on desktop hero */
+        max-width: 800px;
+        /* Limit width for readability */
+        margin: 0 auto;
     }
 
     .hero-title {
@@ -297,6 +281,11 @@ a {
 
     .hero-sub {
         font-size: 1.2rem;
+    }
+
+    /* Adjust Wording Grid for Desktop */
+    .worry-grid {
+        grid-template-columns: repeat(3, 1fr);
     }
 }
 
