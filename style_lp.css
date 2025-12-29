@@ -268,7 +268,8 @@ a {
     text-align: center;
 }
 
-background: #FAFAFA;
+.section-access {
+    background: #FAFAFA;
 }
 
 /* Map Container Responsive */
@@ -579,7 +580,9 @@ background: #FAFAFA;
     color: var(--secondary);
 }
 
-color: #555;
+.story-text {
+    font-size: 0.95rem;
+    color: #555;
 }
 
 /* Success Cases */
