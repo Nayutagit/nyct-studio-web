@@ -710,10 +710,16 @@ a {
 }
 
 .pricing-card {
-    border: 1px solid #EEE;
-    padding: 20px;
+    border: 2px solid #ddd;
+    background: #fff;
+    padding: 30px 20px;
     text-align: center;
     border-radius: var(--radius-m);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 .pricing-card.main-plan {
@@ -721,6 +727,8 @@ a {
     background: #FFFDE7;
     position: relative;
     transform: scale(1.05);
+    box-shadow: 0 10px 25px rgba(255, 198, 0, 0.2);
+    z-index: 2;
 }
 
 .rec-label {
