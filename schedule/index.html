@@ -16,7 +16,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lesson Schedule | ニストスタジオ</title>
-    <link rel="icon" href="../img/favicon.png">
+    <link rel="icon" href="../img/favicon.png?v=2">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -82,6 +82,42 @@
     <section class="section bg-dark-concrete">
         <div class="container">
 
+            <!-- CTA (Moved to Top for Mobile Optimization) -->
+            <div class="cta-grid" style="margin-bottom: 50px;">
+                <div class="cta-card"
+                    style="border: 2px solid var(--primary-neon); background: rgba(255,255,255,0.95);">
+                    <div
+                        style="background:var(--primary-neon); color:black; font-weight:bold; display:inline-block; padding:2px 10px; border-radius:10px; font-size:0.8rem; margin-bottom:10px;">
+                        RECOMMENDED</div>
+                    <h3 style="color: black;">初めての方へ</h3>
+                    <p style="color: #333;">
+                        <strong>無料体験レッスン</strong>の申し込みは、<br>
+                        以下のフォームまたはLINEからご連絡ください。<br>
+                        <span style="font-size: 0.85em; color: #666;">(空き状況の確認は不要です)</span>
+                    </p>
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 15px;">
+                        <a href="../contact.html" class="btn btn-primary" style="flex: 1;">予約フォーム</a>
+                        <a href="https://lin.ee/QPJ3dva" target="_blank" class="btn"
+                            style="flex: 1; background-color: #06C755; color: white;">LINEで相談</a>
+                    </div>
+                </div>
+                <div class="cta-card">
+                    <h3>会員の方へ</h3>
+                    <p>
+                        いつもご利用ありがとうございます。<br>
+                        2回目以降のご予約は、以下のカレンダーから空き状況をご確認の上、選択してください。
+                    </p>
+                    <a href="#calendar-area" class="btn btn-secondary"
+                        onclick="document.getElementById('calendar-area').scrollIntoView({behavior: 'smooth'}); return false;">カレンダーを見る</a>
+                </div>
+            </div>
+
+            <div id="calendar-area" class="section-title-area"
+                style="margin-top: 60px; margin-bottom: 30px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 40px;">
+                <h2 class="section-title" style="font-size: 1.5rem;">レッスンスケジュール</h2>
+                <p style="color: #ccc; font-size: 0.9rem;">(会員様・2回目以降の方)</p>
+            </div>
+
             <div class="calendar-controls">
                 <button class="cal-btn" id="prevWeek"><i class="fas fa-chevron-left"></i> 前の週</button>
                 <h2 class="current-month">2025年 12月</h2>
@@ -112,30 +148,7 @@
                 ※ ◯・△をクリックすると予約フォームへ進みます。
             </div>
 
-            <!-- CTA -->
-            <div class="cta-grid">
-                <div class="cta-card">
-                    <h3>初めての方へ</h3>
-                    <p>
-                        初回体験レッスンは無料です。<br>
-                        まずはカウンセリングから、お気軽にご相談ください。<br>
-                        <span style="font-size: 0.9em; color: #666;">LINEでも相談可能です！</span>
-                    </p>
-                    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                        <a href="../contact.html" class="btn btn-primary" style="flex: 1;">予約フォーム</a>
-                        <a href="https://lin.ee/QPJ3dva" target="_blank" class="btn"
-                            style="flex: 1; background-color: #06C755; color: white;">LINEで相談</a>
-                    </div>
-                </div>
-                <div class="cta-card">
-                    <h3>会員の方へ</h3>
-                    <p>
-                        いつもご利用ありがとうございます。<br>
-                        ご予約の変更・キャンセルは前日までにお願いいたします。
-                    </p>
-                    <a href="mailto:reserve@nyct.jp" class="btn btn-secondary">メールで連絡する</a>
-                </div>
-            </div>
+
 
         </div>
     </section>

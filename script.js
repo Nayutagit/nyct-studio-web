@@ -101,6 +101,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const contactForm = document.getElementById('contact-form');
     if (contactForm) {
         contactForm.addEventListener('submit', function (e) {
+
+            // Google Ads Conversion Event (Trigger on Attempt)
+            if (typeof gtag === 'function') {
+                gtag('event', 'conversion', { 'send_to': 'AW-17794227403/NLHHCMaejtEbEMu5-aRC' });
+            }
+
             e.preventDefault();
             const status = document.getElementById('form-status');
             const data = new FormData(e.target);
@@ -116,7 +122,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }).then(response => {
                 if (response.ok) {
-                    // Google Ads Conversion Event (Trigger on Attempt - already triggered)
                     // Redirect to Thank You Page
                     window.location.href = 'thanks.html';
                 } else {
@@ -135,6 +140,15 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     }
+
+    // 8. LINE Button Tracking
+    document.querySelectorAll('a[href*="lin.ee"]').forEach(link => {
+        link.addEventListener('click', () => {
+            if (typeof gtag === 'function') {
+                gtag('event', 'conversion', { 'send_to': 'AW-17794227403/NLHHCMaejtEbEMu5-aRC' });
+            }
+        });
+    });
     // 8. Opening Animation (Refined)
     function initOpeningAnimation() {
         const container = document.getElementById('opening-animation');

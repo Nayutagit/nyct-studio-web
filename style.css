@@ -2148,3 +2148,77 @@ ul {
         visibility: hidden;
     }
 }
+
+/* ==========================================================================
+   Mobile Sticky Footer
+   ========================================================================== */
+.sticky-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(10, 10, 10, 0.95);
+    padding: 12px 15px;
+    z-index: 2000;
+    display: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.5);
+}
+
+@media (max-width: 768px) {
+    .sticky-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        animation: fadeUp 0.5s ease 1s forwards;
+        /* Delay appearance */
+        opacity: 0;
+    }
+
+    /* Reveal animation override */
+    .sticky-footer {
+        opacity: 1 !important;
+        /* Force visible if animation fails or just simple */
+        animation: none;
+    }
+
+    body {
+        padding-bottom: 70px;
+        /* Prevent content hiding behind footer */
+    }
+}
+
+.sticky-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px;
+    border-radius: 4px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: transform 0.2s;
+}
+
+.sticky-btn:active {
+    transform: scale(0.95);
+}
+
+.sticky-btn-line {
+    background-color: #06C755;
+    color: white;
+    flex: 1;
+    border: 1px solid #06C755;
+}
+
+.sticky-btn-primary {
+    background-color: var(--primary-neon);
+    color: #000;
+    flex: 1.5;
+    /* Larger button */
+    border: 1px solid var(--primary-neon);
+    box-shadow: 0 0 10px rgba(252, 200, 0, 0.3);
+}
