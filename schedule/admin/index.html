@@ -727,6 +727,12 @@
                         displayText = `<div style="font-size:0.75rem; line-height:1.2; color:var(--primary-neon);">
                             <i class="fas fa-user-circle"></i><br>${sName}
                         </div>`;
+                    } else if (record && record.memo) {
+                        // Display Memo (e.g. Sync Status)
+                        // Make font small
+                        displayText = `<div style="font-size:0.65rem; line-height:1.1; color:#555; overflow:hidden;">
+                            ${record.memo}
+                        </div>`;
                     }
 
                     const div = document.createElement('div');

@@ -5,8 +5,8 @@ const { createClient } = require('@supabase/supabase-js');
 // Configuration
 const CALENDAR_URL_AIRRESERVE = 'https://calendar.google.com/calendar/ical/6f54ce11f97b681070bc5a69d523b453f161b06daaee4005fe97c1f42fa41b57%40group.calendar.google.com/private-4c9613486a17a1634cb2ef536ba855ff/basic.ics';
 
-// Placeholder for Personal Calendar (Will be replaced by user input)
-const CALENDAR_URL_PERSONAL = 'https://calendar.google.com/calendar/ical/nytaffi%40gmail.com/private-250098ed24a1ac2a7267f5b588c01f25/basic.ics'; // To be filled
+// Personal Calendar
+const CALENDAR_URL_PERSONAL = 'https://calendar.google.com/calendar/ical/nytaffi%40gmail.com/private-250098ed24a1ac2a7267f5b588c01f25/basic.ics';
 
 // Supabase Config
 const SUPABASE_URL = 'https://yptegzzukymqotzchgnp.supabase.co';
@@ -96,11 +96,6 @@ async function syncCalendar() {
     const airReserveData = await fetchAndParseCalendar(CALENDAR_URL_AIRRESERVE, 'AIRRESERVE');
     const personalData = await fetchAndParseCalendar(CALENDAR_URL_PERSONAL, 'PERSONAL');
 
-    // Combine Data
-    // We treat Personal Calendar as an overlay that might block everything?
-    // User Requirement: "Personal schedule -> Block (NG)"?
-    // Let's assume yes.
-
     console.log('Merging Data and Preparing Upsert...');
 
     const today = new Date();
@@ -116,46 +111,65 @@ async function syncCalendar() {
         const dateKey = `${y}-${m}-${day}`;
 
         for (let hour = 8; hour <= 22; hour++) {
-            // Check Personal Block
+            // Check Personal Block from Google Calendar
             const isPersonalBusy = personalData[dateKey] && personalData[dateKey][hour] && personalData[dateKey][hour]['PERSONAL'];
 
-            // Check AirReserve
+            // Check AirReserve Data
             const arSlot = (airReserveData[dateKey] && airReserveData[dateKey][hour]) || {};
-            const userA = arSlot.A;
-            const userB = arSlot.B;
+            const nameA = arSlot.A;
+            const nameB = arSlot.B;
 
-            let status = 'status-ok';
             let memo = [];
 
-            if (userA) memo.push(`A: ${userA}`);
-            if (userB) memo.push(`B: ${userB}`);
+            // Analyze Occupancy & Special Keywords
+            let isRoomABusy = false;
+            let isRoomBBusy = false;
+            let isAkiyamaBusy = false; // "Akiyama" = Nayuta himself (Busy)
+
+            if (nameA) {
+                if (nameA.includes('フザイ')) {
+                    memo.push(`A: Owner Away`);
+                    // Fuzai DOES NOT block the room for Nayuta (He can use it)
+                } else if (nameA.includes('アキヤマ')) {
+                    memo.push(`A: Me (Akiyama)`);
+                    isAkiyamaBusy = true; // Nayuta is busy here
+                    isRoomABusy = true;
+                } else {
+                    memo.push(`A: ${nameA}`);
+                    isRoomABusy = true;
+                }
+            }
+
+            if (nameB) {
+                if (nameB.includes('フザイ')) {
+                    memo.push(`B: Owner Away`);
+                } else if (nameB.includes('アキヤマ')) {
+                    memo.push(`B: Me (Akiyama)`);
+                    isAkiyamaBusy = true;
+                    isRoomBBusy = true;
+                } else {
+                    memo.push(`B: ${nameB}`);
+                    isRoomBBusy = true;
+                }
+            }
+
             if (isPersonalBusy) memo.push(`Personal: Busy`);
 
-            // --- Determination Logic ---
+            // --- Status Determination Logic ---
+            let status = 'status-ok';
 
-            if (isPersonalBusy) {
-                // Personal busy -> Completely NG
+            if (isPersonalBusy || isAkiyamaBusy) {
+                // Completely Busy (Personal schedule or 'Akiyama' lesson)
                 status = 'status-ng';
-            } else if (userA && userB) {
-                // Both rooms full -> Online Only
+            } else if (isRoomABusy && isRoomBBusy) {
+                // Both rooms occupied by others -> Online Only
                 status = 'status-online';
-            } else if (userA || userB) {
-                // One room free -> Still OK (Face-to-face possible in the other room)
-                status = 'status-ok';
             } else {
-                // Both free -> OK
+                // At least one room is free (or 'Fuzai') -> OK for Face-to-Face
                 status = 'status-ok';
             }
 
-            // Note about Status Overwrite:
-            // If the slot WAS 'status-ng' manually, this script might overwrite it to 'status-ok' if purely based on Calendar.
-            // But we usually want the Calendar to be the Source of Truth + Manual blocks.
-            // If we assume the script runs hourly, it imposes the Calendar state.
-
             const memoStr = memo.length > 0 ? memo.join(', ') : null;
-
-            // Only push if there's a reason to update (or just update everything to be safe/consistent)
-            // Updating everything ensures cleared events become free again.
 
             upsertBuffer.push({
                 date: dateKey,
