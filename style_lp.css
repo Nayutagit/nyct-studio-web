@@ -487,9 +487,8 @@ a {
 
 .video-wrapper {
     position: relative;
-    padding-bottom: 56.25%;
-    /* 16:9 Aspect Ratio */
-    height: 0;
+    aspect-ratio: 16 / 9;
+    width: 100%;
     overflow: hidden;
     border-radius: var(--radius-s);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
@@ -1402,6 +1401,13 @@ textarea {
 }
 
 /* Mobile Adjustments for New Sections */
+.video-placeholder .video-wrapper {
+    flex: none;
+    /* Reset flex basis which affects height in column layout */
+    width: 100%;
+    max-width: 100%;
+}
+
 @media (max-width: 768px) {
     .comparison-wrapper {
         flex-direction: column;
