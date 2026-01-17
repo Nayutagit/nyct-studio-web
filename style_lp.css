@@ -140,6 +140,29 @@ a {
     width: auto;
 }
 
+.logo span {
+    white-space: normal;
+    /* Allow wrapping if needed on small screens */
+    display: inline-block;
+    font-size: 1rem;
+    /* Adjust font size for mobile */
+}
+
+/* Mobile Header Adjustments */
+@media (max-width: 600px) {
+    .logo {
+        font-size: 1rem;
+    }
+
+    .logo img {
+        height: 30px;
+    }
+
+    .header {
+        padding: 0 10px;
+    }
+}
+
 .btn-header-cta {
     background: var(--primary);
     color: var(--secondary);
@@ -152,6 +175,10 @@ a {
 /* ==========================================================================
    4. Hero Section - Mobile First
    ========================================================================== */
+.hero {
+    padding-top: calc(var(--header-height) + 40px);
+}
+
 .hero-container {
     display: flex;
     flex-direction: column-reverse;
@@ -175,11 +202,14 @@ a {
 .hero-illustration {
     width: 100%;
     max-width: 500px;
-    height: auto;
+    height: 350px;
+    /* Set fixed height for crop */
     border-radius: var(--radius-l);
     box-shadow: 20px 20px 0px rgba(0, 0, 0, 0.1);
-    /* POP Shadow */
     object-fit: cover;
+    /* Crop to fit */
+    object-position: center 20%;
+    /* Focus on faces/upper body */
 }
 
 .hero-visual::before {
@@ -355,7 +385,8 @@ a {
     padding: 30px;
     border-radius: var(--radius-m);
     max-width: 800px;
-    margin: 0 auto;
+    margin: 60px auto 0;
+    /* Increased top margin for separation */
 }
 
 /* ==========================================================================
@@ -428,6 +459,51 @@ a {
     margin-bottom: 40px;
 }
 
+/* Narration Portfolio */
+.narration-portfolio {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto 60px;
+    /* Spacing below profile */
+    text-align: center;
+}
+
+.portfolio-label {
+    font-size: 0.9rem;
+    color: #888;
+    margin-bottom: 15px;
+    display: inline-block;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 5px;
+    letter-spacing: 0.1em;
+}
+
+.portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    /* Responsive grid */
+    gap: 20px;
+}
+
+.video-wrapper {
+    position: relative;
+    padding-bottom: 56.25%;
+    /* 16:9 Aspect Ratio */
+    height: 0;
+    overflow: hidden;
+    border-radius: var(--radius-s);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    background: #000;
+}
+
+.video-wrapper iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
 .access-text {
     font-size: 1.1rem;
     margin-bottom: 20px;
@@ -494,7 +570,8 @@ a {
     color: #888;
     font-size: 0.9rem;
     font-weight: 700;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
+    /* Increased spacing */
 }
 
 /* ==========================================================================
@@ -596,7 +673,10 @@ a {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 30px;
-    margin-top: 40px;
+    gap: 40px;
+    /* Increased gap from 30px */
+    margin-top: 60px;
+    /* Increased margin-top */
 }
 
 .success-card {
