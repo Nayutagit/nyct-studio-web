@@ -479,9 +479,9 @@ a {
 }
 
 .portfolio-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    /* Responsive grid */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     gap: 20px;
 }
 
@@ -494,6 +494,11 @@ a {
     border-radius: var(--radius-s);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     background: #000;
+    /* Flex item properties */
+    flex: 1 1 300px;
+    /* Grow, Shrink, Basis */
+    max-width: 480px;
+    /* Prevent being too wide on large screens */
 }
 
 .video-wrapper iframe {
@@ -1357,8 +1362,9 @@ textarea {
 }
 
 .video-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     gap: 30px;
     max-width: 900px;
     margin: 0 auto;
@@ -1366,7 +1372,7 @@ textarea {
 
 .video-placeholder {
     background: #333;
-    aspect-ratio: 16 / 9;
+    /* aspect-ratio removed, handled by wrapper inside */
     border-radius: var(--radius-m);
     display: flex;
     flex-direction: column;
@@ -1374,6 +1380,9 @@ textarea {
     justify-content: center;
     border: 2px dashed #555;
     transition: 0.3s;
+    /* Flex item prop for this container */
+    flex: 1 1 300px;
+    max-width: 450px;
 }
 
 .video-placeholder:hover {
