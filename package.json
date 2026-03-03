@@ -1,6 +1,10 @@
 {
+  "scripts": {
+    "story": "node scripts/generate_insta_story.js"
+  },
   "dependencies": {
     "@supabase/supabase-js": "^2.87.3",
-    "node-ical": "^0.23.1"
+    "node-ical": "^0.23.1",
+    "puppeteer": "^24.37.2"
   }
 }

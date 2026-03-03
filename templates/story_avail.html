@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1080, height=1920, initial-scale=1.0">
+    <title>Chocolat Music Availability</title>
+    <style>
+        /* Import Elegant Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Zen+Old+Mincho:wght@400;700&display=swap');
+
+        :root {
+            --text-color: #4a4a4a;
+            /* Dark Charcoal */
+            --accent-color: #d4af37;
+            /* Gold */
+            --bg-base: #fffaf0;
+            /* Floral White */
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            width: 1080px;
+            height: 1920px;
+            /* Watercolor-like background using multiple gradients */
+            background-color: var(--bg-base);
+            background-image:
+                radial-gradient(circle at 10% 20%, rgba(255, 192, 203, 0.4) 0%, transparent 50%),
+                /* Pink */
+                radial-gradient(circle at 90% 10%, rgba(173, 216, 230, 0.4) 0%, transparent 50%),
+                /* Light Blue */
+                radial-gradient(circle at 30% 80%, rgba(255, 228, 196, 0.4) 0%, transparent 50%),
+                /* Bisque */
+                radial-gradient(circle at 80% 90%, rgba(221, 160, 221, 0.3) 0%, transparent 50%);
+            /* Plum */
+            background-blend-mode: multiply;
+
+            color: var(--text-color);
+            font-family: 'Zen Old Mincho', serif;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            /* Center content vertically */
+        }
+
+        .decorative-border {
+            position: absolute;
+            top: 40px;
+            left: 40px;
+            right: 40px;
+            bottom: 40px;
+            border: 2px solid rgba(212, 175, 55, 0.5);
+            border-radius: 40px;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .container {
+            width: 900px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 60px;
+            z-index: 5;
+        }
+
+        .main-header {
+            text-align: center;
+            width: 100%;
+            margin-bottom: 40px;
+        }
+
+        .date-text {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 110px;
+            font-weight: 600;
+            color: var(--text-color);
+            line-height: 1.2;
+            display: block;
+        }
+
+        .date-text span.weekday {
+            font-size: 80px;
+            color: #777;
+            margin-left: 10px;
+        }
+
+        .avail-text {
+            font-family: 'Zen Old Mincho', serif;
+            font-size: 70px;
+            font-weight: 700;
+            color: var(--text-color);
+            margin-top: 10px;
+            letter-spacing: 0.1em;
+            display: block;
+            border-bottom: 2px solid rgba(212, 175, 55, 0.4);
+            padding-bottom: 20px;
+            display: inline-block;
+        }
+
+        .time-slots {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .slot {
+            font-family: 'Cormorant Garamond', serif;
+            background: #fff;
+            border: 2px solid var(--accent-color);
+            color: var(--text-color);
+            border-radius: 60px;
+            padding: 20px 0;
+            width: 220px;
+            font-size: 56px;
+            font-weight: 600;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
+        }
+
+        .no-slots {
+            font-size: 48px;
+            opacity: 0.6;
+            text-align: center;
+            padding: 40px;
+            font-style: italic;
+            font-family: 'Cormorant Garamond', serif;
+            width: 100%;
+        }
+
+        footer {
+            position: absolute;
+            bottom: 120px;
+            width: 100%;
+            text-align: center;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 36px;
+            color: #888;
+            letter-spacing: 0.05em;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="decorative-border"></div>
+
+    <div class="container" id="schedule-container">
+        <!-- Example Structure -->
+        <div class="main-header">
+            <span class="date-text">2/9 <span class="weekday">(Mon)</span></span><br>
+            <span class="avail-text">の空き状況</span>
+        </div>
+
+        <div class="time-slots">
+            <div class="slot">10:00</div>
+            <div class="slot">11:00</div>
+            <div class="slot">13:00</div>
+            <div class="slot">14:00</div>
+            <div class="slot">16:00</div>
+        </div>
+    </div>
+
+    <footer>
+        Book now at airrsv.net/chocolat-music
+    </footer>
+</body>
+
+</html>

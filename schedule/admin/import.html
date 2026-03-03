@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AirRESERVE Import Tools</title>
+    <link rel="stylesheet" href="../../style.css?v=6">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            padding: 20px;
+            background: #f4f4f9;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        textarea {
+            width: 100%;
+            height: 200px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 12px;
+        }
+
+        .btn-group {
+            margin: 20px 0;
+            display: flex;
+            gap: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 0.9rem;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background: #f0f0f0;
+        }
+
+        .status-ok {
+            color: green;
+        }
+
+        .status-skip {
+            color: orange;
+        }
+
+        .log-area {
+            background: #222;
+            color: #0f0;
+            padding: 10px;
+            height: 150px;
+            overflow-y: auto;
+            font-family: monospace;
+            margin-top: 20px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>AirRESERVE Data Import</h1>
+        <p>AirRESERVEの「予約検索」画面からコピーしたテキストを貼り付けてください。<br>
+            ※「予約確定」のデータのみ、対象の時間を「Booked」として上書きします。</p>
+
+        <textarea id="rawInput" placeholder="ここにテキストを貼り付け..."></textarea>
+
+        <div class="btn-group">
+            <button class="btn btn-secondary" onclick="parseData()">1. プレビュー (Parse)</button>
+            <button class="btn btn-primary" onclick="importData()" id="importBtn" disabled>2. インポート実行 (Import)</button>
+        </div>
+
+        <div id="previewArea">
+            <h3>Preview: <span id="countDisplay">0</span> records found</h3>
+            <table id="previewTable">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Name</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+
+        <div class="log-area" id="logArea">Ready...</div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        // Config
+        const SUPABASE_URL = 'https://yptegzzukymqotzchgnp.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlwdGVnenp1a3ltcW90emNoZ25wIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM4NDU1MTYsImV4cCI6MjA3OTQyMTUxNn0.iKWkVYwlKrSBlJKUxRebbGRcgvprzkcyAOgDaCHKLSY';
+        const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        let parsedRecords = [];
+
+        function log(msg) {
+            const div = document.getElementById('logArea');
+            div.innerHTML += `<div>[${new Date().toLocaleTimeString()}] ${msg}</div>`;
+            div.scrollTop = div.scrollHeight;
+        }
+
+        function parseData() {
+            const text = document.getElementById('rawInput').value;
+            const lines = text.split('\n');
+            parsedRecords = [];
+
+            // Context state for parsing multi-line blocks
+            let buffer = [];
+            let currentRecord = {};
+
+            // Simple heuristic: Iterate and look for date patterns
+            // Pattern: YYYY/MM/DD(Day) HH:MM～HH:MM
+            const dateRangeRegex = /(\d{4}\/\d{2}\/\d{2})\(.\)\s*(\d{2}:\d{2})～(\d{2}:\d{2})/;
+
+            // We will loop through lines and try to construct objects
+            // The format is a bit messy, so we'll look for key identifiers.
+
+            /*
+            Block structure example:
+            20XMFXYTS (ID)
+            (Type)
+            
+            (Booking Date) TAB (Usage Date/Time)
+            Name
+            Kana
+            Menu
+            Resource
+            Price TAB Status TAB Action
+            */
+
+            // Let's try to split by the ID pattern "10ABCD234" or similar 9-char alphanum? 
+            // Or just scan for the Date line which contains the critical info.
+
+            for (let i = 0; i < lines.length; i++) {
+                const line = lines[i].trim();
+                const dateMatch = line.match(dateRangeRegex);
+
+                if (dateMatch) {
+                    // Found a date line: "2025/12/09(火) 09:59	2026/03/19(木) 11:00～13:00"
+                    // The second part is the usage time.
+                    // Depending on copy-paste, it might be tab separated.
+
+                    // Let's try to extract the usage part specifically
+                    // It usually looks like: 2026/03/19(木) 11:00～13:00
+                    const parts = line.split(/\s+/);
+                    let usageDate = null;
+                    let startTime = null;
+                    let endTime = null;
+
+                    // Find the part with '～'
+                    const rangePartIndex = parts.findIndex(p => p.includes('～'));
+                    if (rangePartIndex !== -1) {
+                        const rangeStr = parts[rangePartIndex];
+                        const [start, end] = rangeStr.split('～');
+                        startTime = start;
+                        endTime = end;
+
+                        // The date should be immediately before the range or part of extracted date match
+                        // If Regex matched:
+                        const d = dateMatch[1]; // 2025/12/09 - wait, extraction above captured the *first* date found?
+                        // Actually the line has TWO dates. Booking date and Usage date.
+                        // usage date is usually the second one if present.
+
+                        // Let's use a stricter regex for the Usage Date part
+                        // It is followed by times.
+                        const usageRegex = /(\d{4}\/\d{2}\/\d{2})\(.\)\s*(\d{2}:\d{2})～(\d{2}:\d{2})/;
+                        // If the line has two dates, we want the one associated with the range.
+                        // Let's split by tab and check each segment.
+
+                        // Check if line contains tab
+                        const segments = line.split('\t');
+                        let usageSegment = segments.find(s => s.includes('～')) || line;
+
+                        const usageMatch = usageSegment.match(usageRegex);
+                        if (usageMatch) {
+                            usageDate = usageMatch[1]; // 2026/03/19
+                            startTime = usageMatch[2];
+                            endTime = usageMatch[3];
+
+                            // Look ahead for Name and Status
+                            // Name is usually 1-2 lines down?
+                            // Status is usually 3-5 lines down? "予約確定" or "キャンセル"
+
+                            let name = "Unknown";
+                            let status = "Unknown";
+
+                            // We'll scan next 10 lines for "予約確定" or "キャンセル"
+                            for (let j = 1; j <= 8; j++) {
+                                if (i + j >= lines.length) break;
+                                const nextLine = lines[i + j].trim();
+
+                                // Check for Status
+                                if (nextLine.includes('予約確定')) {
+                                    status = 'Confirmed';
+                                } else if (nextLine.includes('キャンセル')) {
+                                    status = 'Cancelled';
+                                }
+
+                                // Check for Name (heuristic: line after date or 2 lines?)
+                                // The line immediately after date often contains Name if formatted narrowly
+                                // Or it might be "福永先生 \n フクナガ"
+                                if (name === "Unknown" && nextLine.length > 0 && !nextLine.includes('room') && !nextLine.match(/\d/)) {
+                                    // Exclude lines that look like prices or IDs
+                                    name = nextLine;
+                                }
+                            }
+
+                            // Normalize Date
+                            const dateKey = usageDate.replace(/\//g, '-');
+
+                            parsedRecords.push({
+                                date: dateKey,
+                                start: startTime,
+                                end: endTime,
+                                name: name,
+                                status: status
+                            });
+                        }
+                    }
+                }
+            }
+
+            renderPreview();
+        }
+
+        function renderPreview() {
+            const tbody = document.querySelector('#previewTable tbody');
+            tbody.innerHTML = '';
+
+            let count = 0;
+            parsedRecords.forEach(rec => {
+                if (rec.status !== 'Confirmed') return; // Only show Confirmed for import? Or show all.
+                // Let's show all but gray out cancelled
+
+                const tr = document.createElement('tr');
+                if (rec.status === 'Cancelled') {
+                    tr.style.color = '#ccc';
+                    tr.style.textDecoration = 'line-through';
+                }
+
+                tr.innerHTML = `
+                <td>${rec.date}</td>
+                <td>${rec.start} ~ ${rec.end}</td>
+                <td>${rec.name}</td>
+                <td>${rec.status}</td>
+                <td>${rec.status === 'Confirmed' ? 'Will Import' : 'Skip'}</td>
+            `;
+                tbody.appendChild(tr);
+                if (rec.status === 'Confirmed') count++;
+            });
+
+            document.getElementById('countDisplay').innerText = count;
+            document.getElementById('importBtn').disabled = count === 0;
+            log(`Parsed ${parsedRecords.length} records. Found ${count} valid confirmed reservations.`);
+        }
+
+        async function importData() {
+            if (!confirm('本当にインポートを実行しますか？\n既存の予約データが上書きされる可能性があります。')) return;
+
+            const validRecords = parsedRecords.filter(r => r.status === 'Confirmed');
+            const total = validRecords.length;
+            let processed = 0;
+            let errors = 0;
+
+            log('Starting import...');
+
+            // Batch processing? Or one by one?
+            // Let's do batch preparation first
+            // We need to expand time ranges to slots: 11:00~13:00 -> 11:00, 12:00
+
+            const upsertData = [];
+
+            validRecords.forEach(rec => {
+                const startHour = parseInt(rec.start.split(':')[0]);
+                const endHour = parseInt(rec.end.split(':')[0]);
+                // If end matches :00, loop until endHour - 1
+                // If end matches :30, strip minutes? System uses hourly slots.
+                // Assumption: integer hours. If 11:30, maybe block 11:00?
+                // Current system only has exact hours? checking index.html... hours are integers.
+                // Let's assume floor.
+
+                for (let h = startHour; h < endHour; h++) {
+                    // If it ends at 13:00, we book 11, 12.
+                    // If it ends at 13:30, we book 13 too?
+                    // Let's just do < endHour for now as mostly integer.
+                    // Actually, if input is 13:30, h < 13.
+                    // Safer: Math.ceil(duration)? 
+
+                    // Let's stick to standard behavior: start inclusive, end exclusive.
+                    const timeCode = `${h}:00`;
+
+                    upsertData.push({
+                        date: rec.date,
+                        time_code: timeCode,
+                        status: 'status-booked',
+                        booking_type: 'Lesson', // Default
+                        memo: `Imported: ${rec.name} (${rec.start}~${rec.end})`
+                        // leaving student_id empty as we don't have mapping
+                    });
+                }
+                // Handling edge case: 13:00~14:30 -> Block 13:00 and 14:00?
+                // If parse gives minutes > 0 for end time, include that hour?
+                if (rec.end.includes(':30') || rec.end.includes(':15') || rec.end.includes(':45')) {
+                    const lastH = parseInt(rec.end.split(':')[0]);
+                    if (lastH > startHour) { // Ensure validity
+                        upsertData.push({
+                            date: rec.date,
+                            time_code: `${lastH}:00`,
+                            status: 'status-booked',
+                            booking_type: 'Lesson',
+                            memo: `Imported: ${rec.name} (${rec.start}~${rec.end})`
+                        });
+                    }
+                }
+            });
+
+            // Remove duplicates in upsertData (same date/time)
+            // If multiple bookings overlap (A room & B room), we just need one 'Booked' status.
+            const uniqueData = [];
+            const seen = new Set();
+            upsertData.forEach(item => {
+                const key = `${item.date}_${item.time_code}`;
+                if (!seen.has(key)) {
+                    seen.add(key);
+                    uniqueData.push(item);
+                }
+            });
+
+            log(`Prepared ${uniqueData.length} slots for update.`);
+
+            // Supabase Upsert limit? 
+            // Let's do it in chunks of 50
+            const CHUNK_SIZE = 50;
+            for (let i = 0; i < uniqueData.length; i += CHUNK_SIZE) {
+                const chunk = uniqueData.slice(i, i + CHUNK_SIZE);
+                const { error } = await client
+                    .from('schedule_slots')
+                    .upsert(chunk, { onConflict: 'date, time_code' });
+
+                if (error) {
+                    console.error(error);
+                    log(`Error in chunk ${i}: ${error.message}`);
+                    errors++;
+                } else {
+                    processed += chunk.length;
+                    log(`Processed ${Math.min(i + CHUNK_SIZE, uniqueData.length)} / ${uniqueData.length}`);
+                }
+            }
+
+            if (errors === 0) {
+                alert('インポート完了！ (' + processed + ' slots updated)');
+                log('Success!');
+            } else {
+                alert('完了しましたが、いくつかエラーが発生しました。ログを確認してください。');
+            }
+        }
+    </script>
+
+</body>
+
+</html>

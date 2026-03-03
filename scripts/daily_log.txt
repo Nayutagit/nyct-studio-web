@@ -1,0 +1,194 @@
+Fetching AirReserve Calendar...
+Generated Display Data: [
+  {
+    "date": "2/9",
+    "weekday": "(Mon)",
+    "slots": [
+      "15:00",
+      "16:00",
+      "17:00",
+      "18:00",
+      "19:00",
+      "20:00",
+      "21:00"
+    ]
+  }
+]
+Generating Image with Puppeteer...
+Saved story to /Users/nayuta/.gemini/Nayuta_Brain/01_Projects/Client_chocolat/story_2026-02-08.png
+Fetching AirReserve Calendar...
+Generated Display Data: [
+  {
+    "date": "2/12",
+    "weekday": "(Thu)",
+    "slots": [
+      "10:00",
+      "11:00",
+      "12:00",
+      "13:00",
+      "14:00",
+      "15:00",
+      "16:00",
+      "17:00",
+      "18:00",
+      "19:00",
+      "20:00",
+      "21:00"
+    ]
+  }
+]
+Generating Image with Puppeteer...
+Saved story to /Users/nayuta/.gemini/Nayuta_Brain/01_Projects/Client_chocolat/story_2026-02-11.png
+Fetching AirReserve Calendar...
+Error fetching calendar: TypeError: fetch failed
+    at node:internal/deps/undici/undici:13510:13
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5) {
+  [cause]: Error: getaddrinfo ENOTFOUND calendar.google.com
+      at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:122:26) {
+    errno: -3008,
+    code: 'ENOTFOUND',
+    syscall: 'getaddrinfo',
+    hostname: 'calendar.google.com'
+  }
+}
+Generated Display Data: [
+  {
+    "date": "2/19",
+    "weekday": "(Thu)",
+    "slots": [
+      "10:00",
+      "11:00",
+      "12:00",
+      "13:00",
+      "14:00",
+      "15:00",
+      "16:00",
+      "17:00",
+      "18:00",
+      "19:00",
+      "20:00",
+      "21:00"
+    ]
+  }
+]
+Generating Image with Puppeteer...
+Saved story to /Users/nayuta/.gemini/Nayuta_Brain/01_Projects/Client_chocolat/story_2026-02-18.png
+Fetching AirReserve Calendar...
+Generated Display Data: [
+  {
+    "date": "2/20",
+    "weekday": "(Fri)",
+    "slots": [
+      "15:00",
+      "16:00",
+      "18:00",
+      "19:00",
+      "20:00",
+      "21:00"
+    ]
+  }
+]
+Generating Image with Puppeteer...
+Saved story to /Users/nayuta/.gemini/Nayuta_Brain/01_Projects/Client_chocolat/story_2026-02-19.png
+Fetching AirReserve Calendar...
+Error fetching calendar: TypeError: fetch failed
+    at node:internal/deps/undici/undici:13510:13
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5) {
+  [cause]: Error: getaddrinfo ENOTFOUND calendar.google.com
+      at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:122:26) {
+    errno: -3008,
+    code: 'ENOTFOUND',
+    syscall: 'getaddrinfo',
+    hostname: 'calendar.google.com'
+  }
+}
+Generated Display Data: [
+  {
+    "date": "2/24",
+    "weekday": "(Tue)",
+    "slots": [
+      "10:00",
+      "11:00",
+      "12:00",
+      "13:00",
+      "14:00",
+      "15:00",
+      "16:00",
+      "17:00",
+      "18:00",
+      "19:00",
+      "20:00",
+      "21:00"
+    ]
+  }
+]
+Generating Image with Puppeteer...
+Saved story to /Users/nayuta/.gemini/Nayuta_Brain/01_Projects/Client_chocolat/story_2026-02-23.png
+Fetching AirReserve Calendar...
+Generated Display Data: [
+  {
+    "date": "2/27",
+    "weekday": "(Fri)",
+    "slots": [
+      "15:00",
+      "16:00",
+      "18:00",
+      "21:00"
+    ]
+  }
+]
+Generating Image with Puppeteer...
+Saved story to /Users/nayuta/.gemini/Nayuta_Brain/01_Projects/Client_chocolat/story_2026-02-26.png
+Fetching AirReserve Calendar...
+Generated Display Data: [
+  {
+    "date": "2/28",
+    "weekday": "(Sat)",
+    "slots": [
+      "10:00",
+      "14:00",
+      "15:00",
+      "21:00"
+    ]
+  }
+]
+Generating Image with Puppeteer...
+Saved story to /Users/nayuta/.gemini/Nayuta_Brain/01_Projects/Client_chocolat/story_2026-02-27.png
+Fetching AirReserve Calendar...
+Generated Display Data: [
+  {
+    "date": "3/2",
+    "weekday": "(Mon)",
+    "slots": [
+      "10:00",
+      "11:00",
+      "12:00",
+      "13:00",
+      "14:00",
+      "15:00",
+      "16:00",
+      "17:00",
+      "19:00",
+      "20:00",
+      "21:00"
+    ]
+  }
+]
+Generating Image with Puppeteer...
+Saved story to /Users/nayuta/.gemini/Nayuta_Brain/01_Projects/Client_chocolat/story_2026-03-01.png
+Fetching AirReserve Calendar...
+Generated Display Data: [
+  {
+    "date": "3/3",
+    "weekday": "(Tue)",
+    "slots": [
+      "10:00",
+      "11:00",
+      "12:00",
+      "20:00",
+      "21:00"
+    ]
+  }
+]
+Generating Image with Puppeteer...
+Saved story to /Users/nayuta/.gemini/Nayuta_Brain/01_Projects/Client_chocolat/story_2026-03-02.png
