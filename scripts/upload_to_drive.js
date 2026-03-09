@@ -46,7 +46,8 @@ async function uploadToDrive(filePath) {
         const response = await drive.files.create({
             resource: fileMetadata,
             media: media,
-            fields: 'id, name, webViewLink'
+            fields: 'id, name, webViewLink',
+            supportsAllDrives: true
         });
 
         console.log(`Successfully uploaded!`);
