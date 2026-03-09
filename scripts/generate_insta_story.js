@@ -222,6 +222,7 @@ async function generateStory() {
             slotsBContainer.appendChild(noSlot);
         }
         roomBContainer.appendChild(slotsBContainer);
+        container.appendChild(roomBContainer);
     }, displayData);
 
     await page.screenshot({ path: OUTPUT_FILE });
