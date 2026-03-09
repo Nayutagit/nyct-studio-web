@@ -104,23 +104,15 @@ async function generateStory() {
 
     const dayOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][d.getDay()];
 
-    const slots = [];
+    const slotsA = [];
+    const slotsB = [];
     // Hours 10:00 to 22:00
     for (let h = 10; h < 22; h++) {
         const block = (occupancy[dateKey] && occupancy[dateKey][h]) || { A: false, B: false, Fuzai: false };
 
-        let isAvailable = false;
-
-        if (block.Fuzai) {
-            isAvailable = false;
-        } else if (block.A && block.B) {
-            isAvailable = false;
-        } else {
-            isAvailable = true;
-        }
-
-        if (isAvailable) {
-            slots.push(`${h}:00`);
+        if (!block.Fuzai) {
+            if (!block.A) slotsA.push(`${h}:00`);
+            if (!block.B) slotsB.push(`${h}:00`);
         }
     }
 
@@ -128,7 +120,8 @@ async function generateStory() {
     displayData.push({
         date: `${Number(m)}/${Number(day)}`, // Remove leading zeros for design (e.g. 2/9)
         weekday: `(${dayOfWeek})`,
-        slots: slots
+        slotsA: slotsA,
+        slotsB: slotsB
     });
 
     // 3. Generate Image
@@ -167,25 +160,68 @@ async function generateStory() {
 
         container.appendChild(header);
 
-        // 2. Time Slots
-        const slotsContainer = document.createElement('div');
-        slotsContainer.className = 'time-slots';
+        // 2. Room A Header & Slots
+        const roomAContainer = document.createElement('div');
+        roomAContainer.style.width = '100%';
+        roomAContainer.style.display = 'flex';
+        roomAContainer.style.flexDirection = 'column';
+        roomAContainer.style.alignItems = 'center';
+        roomAContainer.style.gap = '20px';
 
-        if (day.slots.length > 0) {
-            day.slots.forEach(time => {
+        const roomAHeader = document.createElement('div');
+        roomAHeader.className = 'room-header';
+        roomAHeader.innerText = 'ROOM A';
+        roomAContainer.appendChild(roomAHeader);
+
+        const slotsAContainer = document.createElement('div');
+        slotsAContainer.className = 'time-slots';
+
+        if (day.slotsA.length > 0) {
+            day.slotsA.forEach(time => {
                 const slot = document.createElement('div');
                 slot.className = 'slot';
                 slot.innerText = time;
-                slotsContainer.appendChild(slot);
+                slotsAContainer.appendChild(slot);
             });
         } else {
             const noSlot = document.createElement('div');
             noSlot.className = 'no-slots';
-            noSlot.innerHTML = 'Full / Close<br>予約で一杯です';
-            slotsContainer.appendChild(noSlot);
+            noSlot.innerHTML = '予約で一杯です';
+            slotsAContainer.appendChild(noSlot);
         }
+        roomAContainer.appendChild(slotsAContainer);
+        container.appendChild(roomAContainer);
 
-        container.appendChild(slotsContainer);
+        // 3. Room B Header & Slots
+        const roomBContainer = document.createElement('div');
+        roomBContainer.style.width = '100%';
+        roomBContainer.style.display = 'flex';
+        roomBContainer.style.flexDirection = 'column';
+        roomBContainer.style.alignItems = 'center';
+        roomBContainer.style.gap = '20px';
+
+        const roomBHeader = document.createElement('div');
+        roomBHeader.className = 'room-header';
+        roomBHeader.innerText = 'ROOM B';
+        roomBContainer.appendChild(roomBHeader);
+
+        const slotsBContainer = document.createElement('div');
+        slotsBContainer.className = 'time-slots';
+
+        if (day.slotsB.length > 0) {
+            day.slotsB.forEach(time => {
+                const slot = document.createElement('div');
+                slot.className = 'slot';
+                slot.innerText = time;
+                slotsBContainer.appendChild(slot);
+            });
+        } else {
+            const noSlot = document.createElement('div');
+            noSlot.className = 'no-slots';
+            noSlot.innerHTML = '予約で一杯です';
+            slotsBContainer.appendChild(noSlot);
+        }
+        roomBContainer.appendChild(slotsBContainer);
     }, displayData);
 
     await page.screenshot({ path: OUTPUT_FILE });
