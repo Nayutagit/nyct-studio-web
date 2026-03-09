@@ -6,13 +6,17 @@ const path = require('path');
 // Configuration
 const CALENDAR_URL_AIRRESERVE = 'https://calendar.google.com/calendar/ical/6f54ce11f97b681070bc5a69d523b453f161b06daaee4005fe97c1f42fa41b57%40group.calendar.google.com/private-4c9613486a17a1634cb2ef536ba855ff/basic.ics';
 const TEMPLATE_PATH = path.join(__dirname, '../templates/story_avail.html');
-// Updated Output Directory per user request
-const OUTPUT_DIR = '/Users/nayuta/.gemini/Nayuta_Brain/01_Projects/Client_chocolat';
+// Updated Output Directory per user request, but configurable for Cloud
+const OUTPUT_DIR = process.env.OUTPUT_DIR || '/Users/nayuta/.gemini/Nayuta_Brain/01_Projects/Client_chocolat';
 const OUTPUT_FILE = path.join(OUTPUT_DIR, `story_${new Date().toISOString().split('T')[0]}.png`);
 
-// Ensure output directory exists
+// Ensure output directory exists (unless it's the absolute hardcoded path that might not exist in CI)
 if (!fs.existsSync(OUTPUT_DIR)) {
-    fs.mkdirSync(OUTPUT_DIR);
+    try {
+        fs.mkdirSync(OUTPUT_DIR, { recursive: true });
+    } catch (e) {
+        console.log("Could not create output directory, continuing anyway.", e);
+    }
 }
 
 const ROOM_A = 'A';

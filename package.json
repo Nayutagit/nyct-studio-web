@@ -4,6 +4,7 @@
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.87.3",
+    "googleapis": "^171.4.0",
     "node-ical": "^0.23.1",
     "puppeteer": "^24.37.2"
   }
