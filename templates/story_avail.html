@@ -20,20 +20,10 @@
 
         body {
             margin: 0;
-            padding: 0;
+            padding: 160px 0 0 0;
             width: 1080px;
             height: 1920px;
-            /* Watercolor-like background using multiple gradients */
             background-color: var(--bg-base);
-            background-image:
-                radial-gradient(circle at 10% 20%, rgba(255, 192, 203, 0.4) 0%, transparent 50%),
-                /* Pink */
-                radial-gradient(circle at 90% 10%, rgba(173, 216, 230, 0.4) 0%, transparent 50%),
-                /* Light Blue */
-                radial-gradient(circle at 30% 80%, rgba(255, 228, 196, 0.4) 0%, transparent 50%),
-                /* Bisque */
-                radial-gradient(circle at 80% 90%, rgba(221, 160, 221, 0.3) 0%, transparent 50%);
-            /* Plum */
             background-blend-mode: multiply;
 
             color: var(--text-color);
@@ -42,8 +32,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            /* Center content vertically */
+            justify-content: flex-start;
         }
 
         .decorative-border {
@@ -143,9 +132,28 @@
             width: 100%;
         }
 
+        .link-placeholder {
+            position: absolute;
+            bottom: 140px;
+            width: 500px;
+            height: 120px;
+            border: 3px dashed rgba(212, 175, 55, 0.6);
+            border-radius: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 34px;
+            font-weight: 700;
+            color: rgba(212, 175, 55, 0.8);
+            font-family: 'Zen Old Mincho', serif;
+            letter-spacing: 0.1em;
+            background: rgba(255, 255, 255, 0.4);
+            z-index: 5;
+        }
+
         footer {
             position: absolute;
-            bottom: 120px;
+            bottom: 60px;
             width: 100%;
             text-align: center;
             font-family: 'Cormorant Garamond', serif;
@@ -160,20 +168,9 @@
     <div class="decorative-border"></div>
 
     <div class="container" id="schedule-container">
-        <!-- Example Structure -->
-        <div class="main-header">
-            <span class="date-text">2/9 <span class="weekday">(Mon)</span></span><br>
-            <span class="avail-text">の空き状況</span>
-        </div>
-
-        <div class="time-slots">
-            <div class="slot">10:00</div>
-            <div class="slot">11:00</div>
-            <div class="slot">13:00</div>
-            <div class="slot">14:00</div>
-            <div class="slot">16:00</div>
-        </div>
     </div>
+
+    <div class="link-placeholder">ここにリンクスタンプを配置</div>
 
     <footer>
         Book now at airrsv.net/chocolat-music

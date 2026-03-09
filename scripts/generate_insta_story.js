@@ -104,6 +104,19 @@ async function generateStory() {
 
     const dayOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][d.getDay()];
 
+    // Define beautiful, subtle watercolor-like gradients
+    const palettes = [
+        // Pink / Blue / Bisque / Plum (Original Elegant)
+        'radial-gradient(circle at 10% 20%, rgba(255,192,203,0.4) 0%, transparent 50%), radial-gradient(circle at 90% 10%, rgba(173,216,230,0.4) 0%, transparent 50%), radial-gradient(circle at 30% 80%, rgba(255,228,196,0.4) 0%, transparent 50%), radial-gradient(circle at 80% 90%, rgba(221,160,221,0.3) 0%, transparent 50%)',
+        // Mint / Lavender / Peach / Yellow (Soft Nature)
+        'radial-gradient(circle at 10% 20%, rgba(152,251,152,0.3) 0%, transparent 50%), radial-gradient(circle at 90% 10%, rgba(230,230,250,0.4) 0%, transparent 50%), radial-gradient(circle at 30% 80%, rgba(255,218,185,0.4) 0%, transparent 50%), radial-gradient(circle at 80% 90%, rgba(255,250,205,0.4) 0%, transparent 50%)',
+        // Sky Blue / Rose / Lemon / White (Bright Morning)
+        'radial-gradient(circle at 20% 30%, rgba(135,206,250,0.3) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(255,228,225,0.5) 0%, transparent 50%), radial-gradient(circle at 40% 70%, rgba(255,250,205,0.4) 0%, transparent 50%), radial-gradient(circle at 90% 80%, rgba(240,248,255,0.5) 0%, transparent 50%)',
+        // Warm Gold / Coral / Ivory / Peach (Sunset Warmth)
+        'radial-gradient(circle at 15% 15%, rgba(255,215,0,0.15) 0%, transparent 50%), radial-gradient(circle at 85% 15%, rgba(255,127,80,0.15) 0%, transparent 50%), radial-gradient(circle at 20% 80%, rgba(255,255,240,0.5) 0%, transparent 50%), radial-gradient(circle at 80% 85%, rgba(255,218,185,0.3) 0%, transparent 50%)'
+    ];
+    const randomBg = palettes[Math.floor(Math.random() * palettes.length)];
+
     const slotsA = [];
     const slotsB = [];
     // Hours 10:00 to 22:00
@@ -121,7 +134,8 @@ async function generateStory() {
         date: `${Number(m)}/${Number(day)}`, // Remove leading zeros for design (e.g. 2/9)
         weekday: `(${dayOfWeek})`,
         slotsA: slotsA,
-        slotsB: slotsB
+        slotsB: slotsB,
+        bgGradient: randomBg
     });
 
     // 3. Generate Image
@@ -138,6 +152,9 @@ async function generateStory() {
         const container = document.getElementById('schedule-container');
         container.innerHTML = ''; // Clear example data
         const day = data[0]; // Single day
+
+        // Apply Random Background
+        document.body.style.backgroundImage = day.bgGradient;
 
         // 1. Main Header (Date + Availability Text)
         const header = document.createElement('div');
