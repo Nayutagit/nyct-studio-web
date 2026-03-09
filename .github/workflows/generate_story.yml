@@ -35,9 +35,16 @@ jobs:
           mkdir -p _output
           node scripts/generate_insta_story.js
 
-      - name: Upload to Google Drive
-        env:
-          OUTPUT_DIR: _output
-          GDRIVE_CREDENTIALS: ${{ secrets.GDRIVE_CREDENTIALS }}
-          GDRIVE_FOLDER_ID: ${{ secrets.GDRIVE_FOLDER_ID }}
-        run: node scripts/upload_to_drive.js
+      - name: Send email with generated story
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          secure: true
+          username: ${{ secrets.MAIL_USERNAME }}
+          password: ${{ secrets.MAIL_PASSWORD }}
+          subject: "【Chocolat Music】明日の空き状況"
+          to: "nytaffi@gmail.com"
+          from: "Chocolat Story Bot"
+          body: "明日の空き状況の画像が生成されました。\n添付ファイル（画像）を保存してInstagramのストーリーズに投稿してください！"
+          attachments: ./_output/*.png
