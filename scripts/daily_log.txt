@@ -192,3 +192,197 @@ Generated Display Data: [
 ]
 Generating Image with Puppeteer...
 Saved story to /Users/nayuta/.gemini/Nayuta_Brain/01_Projects/Client_chocolat/story_2026-03-02.png
+Fetching AirReserve Calendar...
+Generated Display Data: [
+  {
+    "date": "3/7",
+    "weekday": "(Sat)",
+    "slots": [
+      "11:00",
+      "12:00",
+      "13:00",
+      "14:00",
+      "15:00",
+      "16:00",
+      "17:00",
+      "18:00",
+      "19:00",
+      "21:00"
+    ]
+  }
+]
+Generating Image with Puppeteer...
+Saved story to /Users/nayuta/.gemini/Nayuta_Brain/01_Projects/Client_chocolat/story_2026-03-06.png
+Fetching AirReserve Calendar...
+Generated Display Data: [
+  {
+    "date": "3/8",
+    "weekday": "(Sun)",
+    "slots": [
+      "13:00",
+      "21:00"
+    ]
+  }
+]
+Generating Image with Puppeteer...
+Saved story to /Users/nayuta/.gemini/Nayuta_Brain/01_Projects/Client_chocolat/story_2026-03-07.png
+Fetching AirReserve Calendar...
+Generated Display Data: [
+  {
+    "date": "3/9",
+    "weekday": "(Mon)",
+    "slots": [
+      "10:00",
+      "11:00",
+      "12:00",
+      "13:00",
+      "14:00",
+      "15:00",
+      "16:00",
+      "19:00",
+      "20:00",
+      "21:00"
+    ]
+  }
+]
+Generating Image with Puppeteer...
+Saved story to /Users/nayuta/.gemini/Nayuta_Brain/01_Projects/Client_chocolat/story_2026-03-08.png
+Fetching AirReserve Calendar...
+Generated Display Data: [
+  {
+    "date": "3/10",
+    "weekday": "(Tue)",
+    "slots": [
+      "10:00",
+      "11:00",
+      "14:00",
+      "15:00",
+      "16:00",
+      "20:00",
+      "21:00"
+    ]
+  }
+]
+Generating Image with Puppeteer...
+Saved story to /Users/nayuta/.gemini/Nayuta_Brain/01_Projects/Client_chocolat/story_2026-03-09.png
+Fetching AirReserve Calendar...
+Error fetching calendar: TypeError: fetch failed
+    at node:internal/deps/undici/undici:13510:13
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5) {
+  [cause]: Error: getaddrinfo ENOTFOUND calendar.google.com
+      at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:122:26) {
+    errno: -3008,
+    code: 'ENOTFOUND',
+    syscall: 'getaddrinfo',
+    hostname: 'calendar.google.com'
+  }
+}
+Generated Display Data: [
+  {
+    "date": "3/12",
+    "weekday": "(Thu)",
+    "slotsA": [
+      "10:00",
+      "11:00",
+      "12:00",
+      "13:00",
+      "14:00",
+      "15:00",
+      "16:00",
+      "17:00",
+      "18:00",
+      "19:00",
+      "20:00",
+      "21:00"
+    ],
+    "slotsB": [
+      "10:00",
+      "11:00",
+      "12:00",
+      "13:00",
+      "14:00",
+      "15:00",
+      "16:00",
+      "17:00",
+      "18:00",
+      "19:00",
+      "20:00",
+      "21:00"
+    ],
+    "bgGradient": "radial-gradient(circle at 10% 20%, rgba(152,251,152,0.3) 0%, transparent 50%), radial-gradient(circle at 90% 10%, rgba(230,230,250,0.4) 0%, transparent 50%), radial-gradient(circle at 30% 80%, rgba(255,218,185,0.4) 0%, transparent 50%), radial-gradient(circle at 80% 90%, rgba(255,250,205,0.4) 0%, transparent 50%)"
+  }
+]
+Generating Image with Puppeteer...
+/Users/nayuta/.gemini/Nayuta_Brain/01_Projects/nyctstudio-web/node_modules/@puppeteer/browsers/lib/cjs/launch.js:350
+                reject(new Error([
+                       ^
+
+Error: Failed to launch the browser process:  Code: null
+
+stderr:
+dlopen /Users/nayuta/.cache/puppeteer/chrome/mac-145.0.7632.46/chrome-mac-x64/Google Chrome for Testing.app/Contents/MacOS/../Frameworks/Google Chrome for Testing Framework.framework/Versions/145.0.7632.46/Google Chrome for Testing Framework: dlopen(/Users/nayuta/.cache/puppeteer/chrome/mac-145.0.7632.46/chrome-mac-x64/Google Chrome for Testing.app/Contents/MacOS/../Frameworks/Google Chrome for Testing Framework.framework/Versions/145.0.7632.46/Google Chrome for Testing Framework, 0x0105): tried: '/Users/nayuta/.cache/puppeteer/chrome/mac-145.0.7632.46/chrome-mac-x64/Google Chrome for Testing.app/Contents/MacOS/../Frameworks/Google Chrome for Testing Framework.framework/Versions/145.0.7632.46/Google Chrome for Testing Framework' (code signature in <4C4C447E-5555-3144-A1F5-7CA3B404E57B> '/Users/nayuta/.cache/puppeteer/chrome/mac-145.0.7632.46/chrome-mac-x64/Google Chrome for Testing.app/Contents/Frameworks/Google Chrome for Testing Framework.framework/Versions/145.0.7632.46/Google Chrome for Testing Framework' not valid for use in process: system is shutting down), '/System/Volumes/Preboot/Cryptexes/OS/Users/nayuta/.cache/puppeteer/chrome/mac-145.0.7632.46/chrome-mac-x64/Google Chrome for Testing.app/Contents/MacOS/../Frameworks/Google Chrome for Testing Framework.framework/Versions/145.0.7632.46/Google Chrome for Testing Framework' (no such file), '/Users/nayuta/.cache/puppeteer/chrome/mac-145.0.7632.46/chrome-mac-x64/Google Chrome for Testing.app/Contents/MacOS/../Frameworks/Google Chrome for Testing Framework.framework/Versions/145.0.7632.46/Google Chrome for Testing Framework' (code signature in <4C4C447E-5555-3144-A1F5-7CA3B404E57B> '/Users/nayuta/.cache/puppeteer/chrome/mac-145.0.7632.46/chrome-mac-x64/Google Chrome for Testing.app/Contents/Frameworks/Google Chrome for Testing Framework.framework/Versions/145.0.7632.46/Google Chrome for Testing Framework' not valid for use in process: system is shutting down), '/Users/nayuta/.cache/puppeteer/chrome/mac-145.0.7632.46/chrome-mac-x64/Google Chrome for Testing.app/Contents/Frameworks/Google Chrome for Testing Framework.framework/Versions/145.0.7632.46/Google Chrome for Testing Framework' (code signature in <4C4C447E-5555-3144-A1F5-7CA3B404E57B> '/Users/nayuta/.cache/puppeteer/chrome/mac-145.0.7632.46/chrome-mac-x64/Google Chrome for Testing.app/Contents/Frameworks/Google Chrome for Testing Framework.framework/Versions/145.0.7632.46/Google Chrome for Testing Framework' not valid for use in process: system is shutting down), '/System/Volumes/Preboot/Cryptexes/OS/Users/nayuta/.cache/puppeteer/chrome/mac-145.0.7632.46/chrome-mac-x64/Google Chrome for Testing.app/Contents/Frameworks/Google Chrome for Testing Framework.framework/Versions/145.0.7632.46/Google Chrome for Testing Framework' (no such file), '/Users/nayuta/.cache/puppeteer/chrome/mac-145.0.7632.46/chrome-mac-x64/Google Chrome for Testing.app/Contents/Frameworks/Google Chrome for Testing Framework.framework/Versions/145.0.7632.46/Google Chrome for Testing Framework' (code signature in <4C4C447E-5555-3144-A1F5-7CA3B404E57B> '/Users/nayuta/.cache/puppeteer/chrome/mac-145.0.7632.46/chrome-mac-x64/Google Chrome for Testing.app/Contents/Frameworks/Google Chrome for Testing Framework.framework/Versions/145.0.7632.46/Google Chrome for Testing Framework' not valid for use in process: system is shutting down).
+
+TROUBLESHOOTING: https://pptr.dev/troubleshooting
+
+    at ChildProcess.onClose (/Users/nayuta/.gemini/Nayuta_Brain/01_Projects/nyctstudio-web/node_modules/@puppeteer/browsers/lib/cjs/launch.js:350:24)
+    at ChildProcess.emit (node:events:530:35)
+    at ChildProcess._handle.onexit (node:internal/child_process:293:12)
+
+Node.js v22.15.0
+Fetching AirReserve Calendar...
+Generated Display Data: [
+  {
+    "date": "3/18",
+    "weekday": "(Wed)",
+    "slotsA": [
+      "10:00",
+      "11:00",
+      "12:00",
+      "13:00",
+      "14:00",
+      "15:00",
+      "16:00",
+      "17:00",
+      "18:00",
+      "21:00"
+    ],
+    "slotsB": [
+      "10:00",
+      "11:00",
+      "12:00",
+      "13:00",
+      "14:00",
+      "15:00",
+      "16:00",
+      "17:00",
+      "18:00",
+      "19:00",
+      "20:00",
+      "21:00"
+    ],
+    "bgGradient": "radial-gradient(circle at 15% 15%, rgba(255,215,0,0.15) 0%, transparent 50%), radial-gradient(circle at 85% 15%, rgba(255,127,80,0.15) 0%, transparent 50%), radial-gradient(circle at 20% 80%, rgba(255,255,240,0.5) 0%, transparent 50%), radial-gradient(circle at 80% 85%, rgba(255,218,185,0.3) 0%, transparent 50%)"
+  }
+]
+Generating Image with Puppeteer...
+Saved story to /Users/nayuta/.gemini/Nayuta_Brain/01_Projects/Client_chocolat/story_2026-03-17.png
+Fetching AirReserve Calendar...
+Generated Display Data: [
+  {
+    "date": "3/19",
+    "weekday": "(Thu)",
+    "slotsA": [
+      "10:00",
+      "11:00",
+      "12:00",
+      "16:00",
+      "17:00",
+      "21:00"
+    ],
+    "slotsB": [
+      "21:00"
+    ],
+    "bgGradient": "radial-gradient(circle at 15% 15%, rgba(255,215,0,0.15) 0%, transparent 50%), radial-gradient(circle at 85% 15%, rgba(255,127,80,0.15) 0%, transparent 50%), radial-gradient(circle at 20% 80%, rgba(255,255,240,0.5) 0%, transparent 50%), radial-gradient(circle at 80% 85%, rgba(255,218,185,0.3) 0%, transparent 50%)"
+  }
+]
+Generating Image with Puppeteer...
+Saved story to /Users/nayuta/.gemini/Nayuta_Brain/01_Projects/Client_chocolat/story_2026-03-18.png

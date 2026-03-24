@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=1080, height=1920, initial-scale=1.0">
-    <title>Chocolat Music Availability</title>
+    <title>Chocolat musique Availability</title>
     <style>
         /* Import Elegant Fonts */
         @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Zen+Old+Mincho:wght@400;700&display=swap');
@@ -52,7 +52,8 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 60px;
+            gap: 40px;
+            /* Reduced gap */
             z-index: 5;
         }
 
@@ -64,7 +65,8 @@
 
         .date-text {
             font-family: 'Cormorant Garamond', serif;
-            font-size: 110px;
+            font-size: 90px;
+            /* Reduced */
             font-weight: 600;
             color: var(--text-color);
             line-height: 1.2;
@@ -72,14 +74,16 @@
         }
 
         .date-text span.weekday {
-            font-size: 80px;
+            font-size: 65px;
+            /* Reduced */
             color: #777;
             margin-left: 10px;
         }
 
         .avail-text {
             font-family: 'Zen Old Mincho', serif;
-            font-size: 70px;
+            font-size: 55px;
+            /* Reduced */
             font-weight: 700;
             color: var(--text-color);
             margin-top: 10px;
@@ -92,7 +96,8 @@
 
         .room-header {
             font-family: 'Cormorant Garamond', serif;
-            font-size: 50px;
+            font-size: 45px;
+            /* Reduced */
             font-weight: 600;
             color: var(--accent-color);
             margin-bottom: -10px;
@@ -103,7 +108,8 @@
         .time-slots {
             display: flex;
             flex-wrap: wrap;
-            gap: 30px;
+            gap: 20px;
+            /* Reduced */
             justify-content: center;
             width: 100%;
         }
@@ -113,10 +119,13 @@
             background: #fff;
             border: 2px solid var(--accent-color);
             color: var(--text-color);
-            border-radius: 60px;
-            padding: 20px 0;
-            width: 220px;
-            font-size: 56px;
+            border-radius: 50px;
+            padding: 15px 0;
+            /* Reduced */
+            width: 180px;
+            /* Reduced */
+            font-size: 48px;
+            /* Reduced */
             font-weight: 600;
             text-align: center;
             box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
@@ -134,20 +143,14 @@
 
         .link-placeholder {
             position: absolute;
-            bottom: 140px;
+            bottom: 110px;
+            /* Adjusted position */
             width: 500px;
             height: 120px;
-            border: 3px dashed rgba(212, 175, 55, 0.6);
-            border-radius: 60px;
+            /* Removed border and background */
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 34px;
-            font-weight: 700;
-            color: rgba(212, 175, 55, 0.8);
-            font-family: 'Zen Old Mincho', serif;
-            letter-spacing: 0.1em;
-            background: rgba(255, 255, 255, 0.4);
             z-index: 5;
         }
 
@@ -161,6 +164,55 @@
             color: #888;
             letter-spacing: 0.05em;
         }
+
+        .weekly-summary {
+            width: 100%;
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 30px;
+            box-sizing: border-box;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .weekly-header {
+            font-family: 'Zen Old Mincho', serif;
+            font-size: 35px;
+            font-weight: 700;
+            color: var(--text-color);
+            text-align: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+            padding-bottom: 10px;
+        }
+
+        .weekly-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .weekly-row {
+            display: flex;
+            justify-content: space-between;
+            width: 80%;
+            font-size: 40px;
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 600;
+        }
+
+        .weekly-date {
+            color: var(--text-color);
+        }
+
+        .weekly-status {
+            font-weight: 700;
+        }
+
+        .status-o { color: #4CAF50; }
+        .status-tri { color: #FF9800; }
+        .status-x { color: #F44336; opacity: 0.7; }
     </style>
 </head>
 
@@ -170,10 +222,10 @@
     <div class="container" id="schedule-container">
     </div>
 
-    <div class="link-placeholder">ここにリンクスタンプを配置</div>
+    <div class="link-placeholder"></div>
 
     <footer>
-        Book now at airrsv.net/chocolat-music
+        Chocolat musique | Book now at airrsv.net/chocolat-music
     </footer>
 </body>
 

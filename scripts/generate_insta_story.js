@@ -92,8 +92,8 @@ async function generateStory() {
     const displayData = [];
     const today = new Date();
 
-    // Target: Tomorrow (i=1)
-    const i = 1;
+    // Target: 2 days later (i=2)
+    const i = 2;
     const d = new Date(today);
     d.setDate(today.getDate() + i);
 
@@ -129,13 +129,50 @@ async function generateStory() {
         }
     }
 
+    // 2.5 Weekly summary (Next 7 days, starting 3 days later)
+    const weeklyData = [];
+    const weekdaysEng = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    for (let w = 3; w < 10; w++) {
+        const wd = new Date(today);
+        wd.setDate(today.getDate() + w);
+        const wy = wd.getFullYear();
+        const wm = String(wd.getMonth() + 1).padStart(2, '0');
+        const wday = String(wd.getDate()).padStart(2, '0');
+        const wkey = `${wy}-${wm}-${wday}`;
+        const wDayOfWeek = weekdaysEng[wd.getDay()];
+        
+        let slotsA = 0;
+        let slotsB = 0;
+        let isFuzai = false;
+        
+        for (let h = 10; h < 22; h++) {
+            const block = (occupancy[wkey] && occupancy[wkey][h]) || { A: false, B: false, Fuzai: false };
+            if (block.Fuzai) {
+                isFuzai = true;
+                break; // If Fuzai, the whole day is blocked
+            }
+            if (!block.A) slotsA++;
+            if (!block.B) slotsB++;
+        }
+        
+        let status = '〇';
+        if (isFuzai || (slotsA === 0 && slotsB === 0)) status = '×';
+        else if (slotsA + slotsB <= 4) status = '△';
+        
+        weeklyData.push({
+            dateStr: `${Number(wm)}/${Number(wday)}(${wDayOfWeek})`,
+            status: status
+        });
+    }
+
     // Push single day object
     displayData.push({
         date: `${Number(m)}/${Number(day)}`, // Remove leading zeros for design (e.g. 2/9)
         weekday: `(${dayOfWeek})`,
         slotsA: slotsA,
         slotsB: slotsB,
-        bgGradient: randomBg
+        bgGradient: randomBg,
+        weeklyData: weeklyData
     });
 
     // 3. Generate Image
@@ -240,6 +277,28 @@ async function generateStory() {
         }
         roomBContainer.appendChild(slotsBContainer);
         container.appendChild(roomBContainer);
+
+        // 4. Weekly Summary Section
+        const weeklyContainer = document.createElement('div');
+        weeklyContainer.className = 'weekly-summary';
+        
+        const weeklyHeader = document.createElement('div');
+        weeklyHeader.className = 'weekly-header';
+        weeklyHeader.innerText = '今後の空き状況 (Next 7 days)';
+        weeklyContainer.appendChild(weeklyHeader);
+
+        const weeklyList = document.createElement('div');
+        weeklyList.className = 'weekly-list';
+
+        day.weeklyData.forEach(w => {
+            const row = document.createElement('div');
+            row.className = 'weekly-row';
+            row.innerHTML = `<span class="weekly-date">${w.dateStr}</span><span class="weekly-status status-${w.status === '×' ? 'x' : (w.status === '△' ? 'tri' : 'o')}">${w.status}</span>`;
+            weeklyList.appendChild(row);
+        });
+
+        weeklyContainer.appendChild(weeklyList);
+        container.appendChild(weeklyContainer);
     }, displayData);
 
     await page.screenshot({ path: OUTPUT_FILE });
