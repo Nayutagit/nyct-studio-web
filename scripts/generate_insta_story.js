@@ -163,8 +163,8 @@ async function generateStory() {
         const wkey = `${wy}-${wm}-${wday}`;
         const wDayOfWeek = weekdaysEng[wd.getDay()];
         
-        let slotsA = 0;
-        let slotsB = 0;
+        let slotsA_available = [];
+        let slotsB_available = [];
         let isFuzai = false;
         
         for (let h = 10; h < 22; h++) {
@@ -173,13 +173,27 @@ async function generateStory() {
                 isFuzai = true;
                 break; // If Fuzai, the whole day is blocked
             }
-            if (!block.A) slotsA++;
-            if (!block.B) slotsB++;
+            if (!block.A) slotsA_available.push(h);
+            if (!block.B) slotsB_available.push(h);
         }
+
+        const has2HoursContiguous = (hours) => {
+            if (hours.length < 2) return false;
+            for (let i = 0; i < hours.length - 1; i++) {
+                if (hours[i+1] === hours[i] + 1) return true;
+            }
+            return false;
+        };
+
+        const aHas2Hr = has2HoursContiguous(slotsA_available);
+        const bHas2Hr = has2HoursContiguous(slotsB_available);
         
         let status = '〇';
-        if (isFuzai || (slotsA === 0 && slotsB === 0)) status = '×';
-        else if (slotsA + slotsB <= 4) status = '△';
+        if (isFuzai || (!aHas2Hr && !bHas2Hr)) {
+            status = '×';
+        } else if ((slotsA_available.length + slotsB_available.length) <= 12) {
+            status = '△';
+        }
         
         weeklyData.push({
             dateStr: `${Number(wm)}/${Number(wday)}(${wDayOfWeek})`,
@@ -246,7 +260,7 @@ async function generateStory() {
 
         const roomAHeader = document.createElement('div');
         roomAHeader.className = 'room-header';
-        roomAHeader.innerText = 'ROOM A';
+        roomAHeader.innerText = 'A room';
         roomAContainer.appendChild(roomAHeader);
 
         const slotsAContainer = document.createElement('div');
@@ -278,7 +292,7 @@ async function generateStory() {
 
         const roomBHeader = document.createElement('div');
         roomBHeader.className = 'room-header';
-        roomBHeader.innerText = 'ROOM B';
+        roomBHeader.innerText = 'B room';
         roomBContainer.appendChild(roomBHeader);
 
         const slotsBContainer = document.createElement('div');

@@ -207,8 +207,7 @@ async function generateStory() {
         const wkey = `${wy}-${wm}-${wday}`;
         const wDayOfWeek = weekdaysEng[wd.getDay()];
         
-        let studioSlots = 0;
-        let onlineSlots = 0;
+        let availableHours = [];
         
         for (let h = 10; h < 22; h++) {
             const isPersonalBusy = personalData[wkey] && personalData[wkey][h] && personalData[wkey][h]['PERSONAL'];
@@ -233,22 +232,26 @@ async function generateStory() {
 
             if (isPersonalBusy || isAkiyamaBusy) continue;
 
-            if (isRoomABusy && isRoomBBusy) {
-                onlineSlots++;
-            } else {
-                studioSlots++;
-            }
+            // Notice we only push the valid available hours for lesson rules regardless of studio vs online 
+            availableHours.push(h);
         }
+
+        const has2HoursContiguous = (hours) => {
+            if (hours.length < 2) return false;
+            for (let i = 0; i < hours.length - 1; i++) {
+                if (hours[i+1] === hours[i] + 1) return true;
+            }
+            return false;
+        };
+
+        const has2Hr = has2HoursContiguous(availableHours);
         
         let status = '〇';
-        let statusType = 'studio'; // fallback color if needed
-        if (studioSlots === 0 && onlineSlots === 0) {
+        let statusType = 'studio';
+        if (!has2Hr) {
             status = '×';
             statusType = 'busy';
-        } else if (studioSlots === 0 && onlineSlots > 0) {
-            status = '△';
-            statusType = 'online';
-        } else if (studioSlots + onlineSlots <= 4) {
+        } else if (availableHours.length <= 6) {
             status = '△';
             statusType = 'studio';
         }
