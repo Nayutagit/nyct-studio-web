@@ -182,14 +182,14 @@ async function generateStory() {
             if (item.hour === prev + 1 && item.type === currentType) {
                 prev = item.hour;
             } else {
-                ranges.push({ time: `${start}:00〜${prev + 1}:00`, type: currentType, label: currentLabel });
+                ranges.push({ time: `${start}:00 - ${prev + 1}:00`, type: currentType, label: currentLabel });
                 start = item.hour;
                 prev = start;
                 currentType = item.type;
                 currentLabel = item.label;
             }
         }
-        ranges.push({ time: `${start}:00〜${prev + 1}:00`, type: currentType, label: currentLabel });
+        ranges.push({ time: `${start}:00 - ${prev + 1}:00`, type: currentType, label: currentLabel });
         return ranges;
     };
 

@@ -139,12 +139,12 @@ async function generateStory() {
             if (sorted[idx] === prev + 1) {
                 prev = sorted[idx];
             } else {
-                ranges.push(`${start}:00〜${prev + 1}:00`);
+                ranges.push(`${start}:00 - ${prev + 1}:00`);
                 start = sorted[idx];
                 prev = start;
             }
         }
-        ranges.push(`${start}:00〜${prev + 1}:00`);
+        ranges.push(`${start}:00 - ${prev + 1}:00`);
         return ranges;
     };
 
