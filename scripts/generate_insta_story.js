@@ -124,10 +124,32 @@ async function generateStory() {
         const block = (occupancy[dateKey] && occupancy[dateKey][h]) || { A: false, B: false, Fuzai: false };
 
         if (!block.Fuzai) {
-            if (!block.A) slotsA.push(`${h}:00`);
-            if (!block.B) slotsB.push(`${h}:00`);
+            if (!block.A) slotsA.push(h);
+            if (!block.B) slotsB.push(h);
         }
     }
+
+    const formatTimeRanges = (hours) => {
+        if (hours.length === 0) return [];
+        const sorted = hours.slice().sort((a,b) => a-b);
+        const ranges = [];
+        let start = sorted[0];
+        let prev = start;
+        for (let idx = 1; idx < sorted.length; idx++) {
+            if (sorted[idx] === prev + 1) {
+                prev = sorted[idx];
+            } else {
+                ranges.push(`${start}:00〜${prev + 1}:00`);
+                start = sorted[idx];
+                prev = start;
+            }
+        }
+        ranges.push(`${start}:00〜${prev + 1}:00`);
+        return ranges;
+    };
+
+    const formattedSlotsA = formatTimeRanges(slotsA);
+    const formattedSlotsB = formatTimeRanges(slotsB);
 
     // 2.5 Weekly summary (Next 7 days, starting 3 days later)
     const weeklyData = [];
@@ -169,8 +191,8 @@ async function generateStory() {
     displayData.push({
         date: `${Number(m)}/${Number(day)}`, // Remove leading zeros for design (e.g. 2/9)
         weekday: `(${dayOfWeek})`,
-        slotsA: slotsA,
-        slotsB: slotsB,
+        slotsA: formattedSlotsA,
+        slotsB: formattedSlotsB,
         bgGradient: randomBg,
         weeklyData: weeklyData
     });

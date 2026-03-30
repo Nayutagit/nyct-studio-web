@@ -161,12 +161,39 @@ async function generateStory() {
 
         if (isRoomABusy && isRoomBBusy) {
             // Both rooms are booked -> Online Only
-            slots.push({ time: `${h}:00`, type: 'online', label: 'オンラインのみ' });
+            slots.push({ hour: h, type: 'online', label: 'オンラインのみ' });
         } else {
             // At least one room is free -> Studio OK (which implies online is also possible)
-            slots.push({ time: `${h}:00`, type: 'studio', label: 'スタジオOK' });
+            slots.push({ hour: h, type: 'studio', label: 'スタジオOK' });
         }
     }
+
+    const formatLessonRanges = (slotsArray) => {
+        if (slotsArray.length === 0) return [];
+        slotsArray.sort((a,b) => a.hour - b.hour);
+        const ranges = [];
+        let start = slotsArray[0].hour;
+        let prev = start;
+        let currentType = slotsArray[0].type;
+        let currentLabel = slotsArray[0].label;
+
+        for (let idx = 1; idx < slotsArray.length; idx++) {
+            const item = slotsArray[idx];
+            if (item.hour === prev + 1 && item.type === currentType) {
+                prev = item.hour;
+            } else {
+                ranges.push({ time: `${start}:00〜${prev + 1}:00`, type: currentType, label: currentLabel });
+                start = item.hour;
+                prev = start;
+                currentType = item.type;
+                currentLabel = item.label;
+            }
+        }
+        ranges.push({ time: `${start}:00〜${prev + 1}:00`, type: currentType, label: currentLabel });
+        return ranges;
+    };
+
+    const formattedSlots = formatLessonRanges(slots);
 
     // 2.5 Weekly summary (Next 7 days, starting 3 days later)
     const weeklyData = [];
@@ -219,7 +246,7 @@ async function generateStory() {
             status = '×';
             statusType = 'busy';
         } else if (studioSlots === 0 && onlineSlots > 0) {
-            status = '△(Online)';
+            status = '△';
             statusType = 'online';
         } else if (studioSlots + onlineSlots <= 4) {
             status = '△';
@@ -236,7 +263,7 @@ async function generateStory() {
     displayData.push({
         date: `${Number(m)}/${Number(day)}`,
         weekday: `(${dayOfWeek})`,
-        slots: slots,
+        slots: formattedSlots,
         weeklyData: weeklyData
     });
 
