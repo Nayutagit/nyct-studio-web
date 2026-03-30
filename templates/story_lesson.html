@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=1080, height=1920, initial-scale=1.0">
     <title>Chocolat musique Lesson Availability</title>
-        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Noto+Sans+JP:wght@300;400;500;700&family=Jost:wght@400;600&display=swap');
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Noto+Sans+JP:wght@300;400;500;700&display=swap');
 
         :root {
             --text-main: #343a40;
@@ -113,21 +114,18 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(212, 175, 55, 0.6);
-            border-radius: 60px;
+            background: #fff;
+            border-radius: 25px;
             padding: 20px 40px;
-            min-width: 580px;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08), inset 0 2px 4px rgba(255, 255, 255, 0.6);
+            min-width: 500px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
             transition: transform 0.2s;
         }
 
         .slot-time {
-            font-family: 'Jost', sans-serif;
-            font-size: 50px;
-            font-weight: 600;
-            letter-spacing: 0.05em;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 42px;
+            font-weight: 700;
         }
 
         .slot-badge {
@@ -187,49 +185,38 @@
 
         .weekly-summary {
             width: 100%;
-            margin-top: 10px;
-            padding: 40px;
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(15px);
-            border-radius: 40px;
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 30px;
             box-sizing: border-box;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
-            border: 1px solid rgba(255,255,255,0.8);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
         }
 
         .weekly-header {
-            font-family: 'Noto Sans JP', sans-serif;
-            font-size: 45px;
+            font-size: 35px;
             font-weight: 700;
             color: var(--text-main);
             text-align: center;
-            margin-bottom: 30px;
-            padding-bottom: 15px;
-            border-bottom: 3px solid rgba(78, 168, 222, 0.4);
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            padding-bottom: 10px;
         }
 
         .weekly-list {
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 15px;
             align-items: center;
         }
 
         .weekly-row {
             display: flex;
             justify-content: space-between;
-            width: 85%;
-            font-size: 50px;
-            font-family: 'Jost', sans-serif;
+            width: 80%;
+            font-size: 40px;
+            font-family: 'Cormorant Garamond', serif;
             font-weight: 600;
-            align-items: center;
-            border-bottom: 1px solid rgba(0,0,0,0.05);
-            padding-bottom: 15px;
-        }
-
-        .weekly-row:last-child {
-            border-bottom: none;
-            padding-bottom: 0;
         }
 
         .weekly-date {
@@ -238,39 +225,13 @@
 
         .weekly-status {
             font-weight: 700;
+            font-size: 50px;
             line-height: 1;
         }
 
         .status-studio { color: var(--accent-studio); font-size: 55px; }
         .status-online { color: var(--accent-online); font-size: 55px; }
-        .status-busy { color: #dc3545; font-size: 65px; font-weight: 400; }
-
-        .booking-prompt {
-            text-align: center;
-            margin-top: 30px;
-            z-index: 5;
-        }
-        .booking-text {
-            font-size: 55px;
-            font-weight: 700;
-            color: #fff;
-            background: var(--accent-studio);
-            padding: 15px 50px;
-            border-radius: 50px;
-            box-shadow: 0 10px 25px rgba(78, 168, 222, 0.4);
-            letter-spacing: 0.05em;
-            display: inline-block;
-        }
-        .booking-arrow {
-            font-size: 80px;
-            color: var(--accent-studio);
-            margin-top: 10px;
-            line-height: 1;
-        }
-        .booking-space {
-            height: 250px; 
-            width: 100%;
-        }
+        .status-busy { color: #dc3545; font-size: 65px; opacity: 0.9; }
     </style>
 </head>
 
@@ -281,20 +242,15 @@
     <div class="container" id="schedule-container">
     </div>
 
-    <div class="legend" style="margin-bottom: 20px;">
+    <div class="legend">
         <div class="legend-item">
-            <div class="dot dot-studio"></div><span>: スタジオ可能</span>
+            <div class="dot dot-studio"></div><span>: スタジオ or オンライン可能</span>
         </div>
         <div class="legend-item">
             <div class="dot dot-online"></div><span>: オンラインのみ</span>
         </div>
     </div>
-    
-    <div class="booking-prompt">
-        <span class="booking-text">ご予約はこちら</span>
-        <div class="booking-arrow">↓</div>
-    </div>
-    <div class="booking-space"></div>
+    <div style="height: 250px; width: 100%;"></div>
 </body>
 
 </html>

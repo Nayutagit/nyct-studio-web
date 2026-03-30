@@ -6,12 +6,13 @@
     <meta name="viewport" content="width=1080, height=1920, initial-scale=1.0">
     <title>Chocolat musique Availability</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Zen+Old+Mincho:wght@400;700&family=Jost:wght@400;600&display=swap');
+        /* Import Elegant Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Zen+Old+Mincho:wght@400;700&display=swap');
 
         :root {
-            --text-color: #333333;
+            --text-color: #4a4a4a;
             /* Dark Charcoal */
-            --accent-color: #c9a050;
+            --accent-color: #d4af37;
             /* Gold */
             --bg-base: #fffaf0;
             /* Floral White */
@@ -63,43 +64,45 @@
         }
 
         .date-text {
-            font-family: 'Jost', sans-serif;
-            font-size: 110px;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 90px;
+            /* Reduced */
             font-weight: 600;
             color: var(--text-color);
-            line-height: 1;
-            letter-spacing: -0.02em;
+            line-height: 1.2;
             display: block;
         }
 
         .date-text span.weekday {
-            font-size: 70px;
-            color: #666;
-            margin-left: 15px;
-            font-weight: 400;
+            font-size: 65px;
+            /* Reduced */
+            color: #777;
+            margin-left: 10px;
         }
 
         .avail-text {
             font-family: 'Zen Old Mincho', serif;
-            font-size: 60px;
+            font-size: 55px;
+            /* Reduced */
             font-weight: 700;
             color: var(--text-color);
-            margin-top: 15px;
-            letter-spacing: 0.15em;
+            margin-top: 10px;
+            letter-spacing: 0.1em;
+            display: block;
+            border-bottom: 2px solid rgba(212, 175, 55, 0.4);
+            padding-bottom: 20px;
             display: inline-block;
-            border-bottom: 3px solid rgba(212, 175, 55, 0.4);
-            padding-bottom: 25px;
         }
 
         .room-header {
-            font-family: 'Jost', sans-serif;
-            font-size: 55px;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 45px;
+            /* Reduced */
             font-weight: 600;
             color: var(--accent-color);
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
             margin-bottom: -10px;
             text-align: center;
+            letter-spacing: 0.1em;
         }
 
         .time-slots {
@@ -112,28 +115,26 @@
         }
 
         .slot {
-            font-family: 'Jost', sans-serif;
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(212, 175, 55, 0.6);
+            font-family: 'Cormorant Garamond', serif;
+            background: #fff;
+            border: 2px solid var(--accent-color);
             color: var(--text-color);
-            border-radius: 60px;
-            padding: 20px 0;
-            width: 100%;
-            max-width: 440px;
-            font-size: 50px;
-            font-weight: 600;
+            border-radius: 50px;
+            padding: 15px 30px;
+            min-width: 300px;
+            font-size: 44px;
+            font-weight: 700;
             text-align: center;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08), inset 0 2px 4px rgba(255, 255, 255, 0.6);
-            letter-spacing: 0.05em;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
         }
 
         .no-slots {
-            font-size: 50px;
+            font-size: 48px;
             opacity: 0.6;
             text-align: center;
             padding: 40px;
-            font-family: 'Zen Old Mincho', serif;
+            font-style: italic;
+            font-family: 'Cormorant Garamond', serif;
             width: 100%;
         }
 
@@ -153,25 +154,23 @@
 
         .weekly-summary {
             width: 100%;
-            margin-top: 10px;
-            padding: 40px;
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(15px);
-            border-radius: 40px;
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 30px;
             box-sizing: border-box;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
-            border: 1px solid rgba(255,255,255,0.8);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
         }
 
         .weekly-header {
             font-family: 'Zen Old Mincho', serif;
-            font-size: 45px;
+            font-size: 35px;
             font-weight: 700;
             color: var(--text-color);
             text-align: center;
-            margin-bottom: 30px;
-            padding-bottom: 15px;
-            border-bottom: 3px solid rgba(212, 175, 55, 0.6);
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+            padding-bottom: 10px;
         }
 
         .weekly-list {
@@ -184,18 +183,10 @@
         .weekly-row {
             display: flex;
             justify-content: space-between;
-            width: 85%;
-            font-size: 50px;
-            font-family: 'Jost', sans-serif;
+            width: 80%;
+            font-size: 40px;
+            font-family: 'Cormorant Garamond', serif;
             font-weight: 600;
-            align-items: center;
-            border-bottom: 1px solid rgba(0,0,0,0.05);
-            padding-bottom: 15px;
-        }
-
-        .weekly-row:last-child {
-            border-bottom: none;
-            padding-bottom: 0;
         }
 
         .weekly-date {
@@ -204,38 +195,13 @@
 
         .weekly-status {
             font-weight: 700;
+            font-size: 50px;
             line-height: 1;
         }
 
         .status-o { color: #4CAF50; font-size: 55px; }
         .status-tri { color: #FF9800; font-size: 55px; }
-        .status-x { color: #E53935; font-size: 65px; font-weight: 400; }
-        
-        .booking-prompt {
-            text-align: center;
-            margin-top: 30px;
-        }
-        .booking-text {
-            font-size: 55px;
-            font-weight: 700;
-            color: #fff;
-            background: var(--accent-color);
-            padding: 15px 50px;
-            border-radius: 50px;
-            box-shadow: 0 10px 25px rgba(212, 175, 55, 0.4);
-            letter-spacing: 0.05em;
-            display: inline-block;
-        }
-        .booking-arrow {
-            font-size: 80px;
-            color: var(--accent-color);
-            margin-top: 10px;
-            line-height: 1;
-        }
-        .booking-space {
-            height: 250px; 
-            width: 100%;
-        }
+        .status-x { color: #F44336; font-size: 65px; opacity: 0.9; }
     </style>
 </head>
 
@@ -245,11 +211,8 @@
     <div class="container" id="schedule-container">
     </div>
 
-    <div class="booking-prompt">
-        <span class="booking-text">ご予約はこちら</span>
-        <div class="booking-arrow">↓</div>
-    </div>
-    <div class="booking-space"></div>
+    <div class="link-placeholder"></div>
+    <div style="height: 250px; width: 100%;"></div>
 </body>
 
 </html>
