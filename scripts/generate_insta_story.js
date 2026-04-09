@@ -320,7 +320,7 @@ async function generateStory() {
         
         const weeklyHeader = document.createElement('div');
         weeklyHeader.className = 'weekly-header';
-        weeklyHeader.innerText = '今後の空き状況 (Next 7 days)';
+        weeklyHeader.innerText = '今後の空き状況';
         weeklyContainer.appendChild(weeklyHeader);
 
         const weeklyList = document.createElement('div');

@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1080, height=1350, initial-scale=1.0">
+    <title>Chocolat musique Lesson Post Availability</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Noto+Serif+JP:wght@400;500;600;700&display=swap');
+
+        :root {
+            --text-main: #343a40;
+            --text-light: #6c757d;
+            --accent-studio: #4ea8de;
+            --accent-online: #f7a072;
+            --bg-base: #f8f9fa;
+        }
+
+        body {
+            margin: 0;
+            padding: 100px 0;
+            width: 1080px;
+            height: 1350px;
+            background-color: var(--bg-base);
+            color: var(--text-main);
+            font-family: 'Noto Serif JP', serif;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        /* Abstract soft shapes for background */
+        .bg-shape-1 {
+            position: absolute;
+            top: -100px;
+            left: -100px;
+            width: 600px;
+            height: 600px;
+            background: rgba(78, 168, 222, 0.15);
+            border-radius: 50%;
+            filter: blur(60px);
+            z-index: 1;
+        }
+
+        .bg-shape-2 {
+            position: absolute;
+            bottom: 200px;
+            right: -100px;
+            width: 800px;
+            height: 800px;
+            background: rgba(247, 160, 114, 0.15);
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: 1;
+        }
+
+        .container {
+            width: 900px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 40px;
+            z-index: 5;
+        }
+
+        .main-header {
+            text-align: center;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .post-title {
+            font-size: 80px;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 10px;
+            letter-spacing: 0.1em;
+            display: inline-block;
+            border-bottom: 3px solid rgba(78, 168, 222, 0.4);
+            padding-bottom: 25px;
+        }
+
+        .subtitle {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 50px;
+            color: var(--text-light);
+            letter-spacing: 0.1em;
+            margin-top: 10px;
+        }
+
+        .weekly-summary {
+            width: 100%;
+            padding: 50px 60px;
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(15px);
+            border-radius: 40px;
+            box-sizing: border-box;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+        }
+
+        .weekly-list {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            align-items: center;
+        }
+
+        .weekly-row {
+            display: flex;
+            justify-content: space-between;
+            width: 85%;
+            font-size: 65px;
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 600;
+            align-items: center;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            padding-bottom: 15px;
+        }
+
+        .weekly-row:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .weekly-date {
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+        }
+        
+        .weekly-date span {
+            font-size: 50px;
+            color: #777;
+            margin-left: 15px;
+        }
+
+        .weekly-status {
+            font-weight: 700;
+            font-size: 60px;
+            line-height: 1;
+            width: 120px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .status-studio { color: var(--accent-studio); font-size: 80px; }
+        .status-online { color: var(--accent-online); font-size: 80px; }
+        .status-busy { color: #dc3545; font-size: 85px; opacity: 0.9; }
+        
+        .legend {
+            display: flex;
+            gap: 40px;
+            margin-top: 30px;
+            font-size: 30px;
+            color: var(--text-main);
+            z-index: 5;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .dot {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+        }
+
+        .dot-studio {
+            background: var(--accent-studio);
+        }
+
+        .dot-online {
+            background: var(--accent-online);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="bg-shape-1"></div>
+    <div class="bg-shape-2"></div>
+
+    <div class="container">
+        <div class="main-header">
+            <div class="post-title" id="post-title">来週の空き状況</div>
+            <div class="subtitle" id="date-range"></div>
+        </div>
+        
+        <div class="weekly-summary">
+            <div class="weekly-list" id="weekly-list">
+                <!-- Dynamically added -->
+            </div>
+        </div>
+    </div>
+    
+    <div class="legend">
+        <div class="legend-item">
+            <div class="dot dot-studio"></div><span>: スタジオ可能</span>
+        </div>
+        <div class="legend-item">
+            <div class="dot dot-online"></div><span>: オンラインのみ</span>
+        </div>
+    </div>
+</body>
+
+</html>

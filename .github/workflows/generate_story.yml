@@ -36,6 +36,8 @@ jobs:
           mkdir -p _output
           node scripts/generate_insta_story.js
           node scripts/generate_lesson_story.js
+          node scripts/generate_post_avail.js
+          node scripts/generate_post_lesson.js
 
       - name: Send email with generated story
         uses: dawidd6/action-send-mail@v3
@@ -48,5 +50,5 @@ jobs:
           subject: "【Chocolat musique】明後日および先1週間の空き状況"
           to: "nytaffi@gmail.com"
           from: "Chocolat Story Bot"
-          body: "明後日の詳細および向こう1週間の空き状況の画像が生成されました。\n添付ファイル（画像）を保存してInstagramのストーリーズに投稿してください！"
+          body: "本日分の自動生成画像が作成されました。\n添付ファイル（画像）を保存してご利用ください！\n\n・ストーリーズ用（明後日の詳細と1週間サマリー）\n・通常フィード投稿用（来週分のサマリー）\n計4枚添付されています。"
           attachments: ./_output/*.png

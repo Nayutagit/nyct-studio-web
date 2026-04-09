@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1080, height=1350, initial-scale=1.0">
+    <title>Chocolat musique Post Availability</title>
+    <style>
+        /* Import Elegant Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Noto+Serif+JP:wght@400;500;600;700&display=swap');
+
+        :root {
+            --text-color: #4a4a4a;
+            --accent-color: #d4af37;
+            --bg-base: #fffaf0;
+        }
+
+        body {
+            margin: 0;
+            padding: 100px 0;
+            width: 1080px;
+            height: 1350px;
+            background-color: var(--bg-base);
+            background-blend-mode: multiply;
+
+            color: var(--text-color);
+            font-family: 'Noto Serif JP', serif;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .decorative-border {
+            position: absolute;
+            top: 40px;
+            left: 40px;
+            right: 40px;
+            bottom: 40px;
+            border: 2px solid rgba(212, 175, 55, 0.5);
+            border-radius: 40px;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .container {
+            width: 900px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 40px;
+            z-index: 5;
+        }
+
+        .main-header {
+            text-align: center;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .post-title {
+            font-family: 'Noto Serif JP', serif;
+            font-size: 80px;
+            font-weight: 700;
+            color: var(--text-color);
+            margin-bottom: 10px;
+            letter-spacing: 0.1em;
+            display: inline-block;
+            border-bottom: 3px solid rgba(212, 175, 55, 0.4);
+            padding-bottom: 25px;
+        }
+
+        .subtitle {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 50px;
+            color: var(--accent-color);
+            letter-spacing: 0.1em;
+            margin-top: 10px;
+        }
+
+        .weekly-summary {
+            width: 100%;
+            padding: 50px 60px;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 40px;
+            box-sizing: border-box;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+        }
+
+        .weekly-list {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            align-items: center;
+        }
+
+        .weekly-row {
+            display: flex;
+            justify-content: space-between;
+            width: 85%;
+            font-size: 65px;
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 600;
+            align-items: center;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            padding-bottom: 15px;
+        }
+
+        .weekly-row:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .weekly-date {
+            color: var(--text-color);
+            display: flex;
+            align-items: center;
+        }
+        
+        .weekly-date span {
+            font-size: 50px;
+            color: #777;
+            margin-left: 15px;
+        }
+
+        .weekly-status {
+            font-weight: 700;
+            font-size: 60px;
+            line-height: 1;
+            width: 120px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .status-o { color: #4CAF50; font-size: 80px; }
+        .status-tri { color: #FF9800; font-size: 80px; }
+        .status-x { color: #F44336; font-size: 85px; opacity: 0.9; }
+    </style>
+</head>
+
+<body>
+    <div class="decorative-border"></div>
+    <div class="container">
+        <div class="main-header">
+            <div class="post-title" id="post-title">来週の空き状況</div>
+            <div class="subtitle" id="date-range"></div>
+        </div>
+        <div class="weekly-summary">
+            <div class="weekly-list" id="weekly-list">
+                <!-- Dynamically added -->
+            </div>
+        </div>
+    </div>
+</body>
+</html>

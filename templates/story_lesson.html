@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=1080, height=1920, initial-scale=1.0">
     <title>Chocolat musique Lesson Availability</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Noto+Sans+JP:wght@300;400;500;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Noto+Serif+JP:wght@400;500;600;700&display=swap');
 
         :root {
             --text-main: #343a40;
@@ -25,7 +25,7 @@
             height: 1920px;
             background-color: var(--bg-base);
             color: var(--text-main);
-            font-family: 'Noto Sans JP', sans-serif;
+            font-family: 'Noto Serif JP', serif;
             box-sizing: border-box;
             display: flex;
             flex-direction: column;
@@ -82,20 +82,20 @@
 
         .date-text {
             font-family: 'Cormorant Garamond', serif;
-            font-size: 100px;
+            font-size: 110px;
             font-weight: 600;
             color: var(--text-main);
             line-height: 1;
         }
 
         .weekday {
-            font-size: 60px;
+            font-size: 70px;
             color: var(--text-light);
             margin-left: 10px;
         }
 
         .avail-text {
-            font-size: 40px;
+            font-size: 50px;
             font-weight: 500;
             color: var(--text-light);
             margin-top: 20px;
@@ -116,15 +116,15 @@
             justify-content: space-between;
             background: #fff;
             border-radius: 25px;
-            padding: 20px 40px;
-            min-width: 500px;
+            padding: 25px 45px;
+            min-width: 580px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
             transition: transform 0.2s;
         }
 
         .slot-time {
             font-family: 'Cormorant Garamond', serif;
-            font-size: 42px;
+            font-size: 50px;
             font-weight: 700;
         }
 
@@ -194,7 +194,7 @@
         }
 
         .weekly-header {
-            font-size: 35px;
+            font-size: 45px;
             font-weight: 700;
             color: var(--text-main);
             text-align: center;
@@ -214,9 +214,10 @@
             display: flex;
             justify-content: space-between;
             width: 80%;
-            font-size: 40px;
+            font-size: 55px;
             font-family: 'Cormorant Garamond', serif;
             font-weight: 600;
+            align-items: center;
         }
 
         .weekly-date {
@@ -227,11 +228,15 @@
             font-weight: 700;
             font-size: 50px;
             line-height: 1;
+            width: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
-        .status-studio { color: var(--accent-studio); font-size: 55px; }
-        .status-online { color: var(--accent-online); font-size: 55px; }
-        .status-busy { color: #dc3545; font-size: 65px; opacity: 0.9; }
+        .status-studio { color: var(--accent-studio); font-size: 70px; }
+        .status-online { color: var(--accent-online); font-size: 70px; }
+        .status-busy { color: #dc3545; font-size: 75px; opacity: 0.9; }
     </style>
 </head>
 

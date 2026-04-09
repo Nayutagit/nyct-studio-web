@@ -7,7 +7,7 @@
     <title>Chocolat musique Availability</title>
     <style>
         /* Import Elegant Fonts */
-        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Zen+Old+Mincho:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Noto+Serif+JP:wght@400;500;600;700&display=swap');
 
         :root {
             --text-color: #4a4a4a;
@@ -27,7 +27,7 @@
             background-blend-mode: multiply;
 
             color: var(--text-color);
-            font-family: 'Zen Old Mincho', serif;
+            font-family: 'Noto Serif JP', serif;
             box-sizing: border-box;
             display: flex;
             flex-direction: column;
@@ -65,8 +65,7 @@
 
         .date-text {
             font-family: 'Cormorant Garamond', serif;
-            font-size: 90px;
-            /* Reduced */
+            font-size: 110px;
             font-weight: 600;
             color: var(--text-color);
             line-height: 1.2;
@@ -74,16 +73,14 @@
         }
 
         .date-text span.weekday {
-            font-size: 65px;
-            /* Reduced */
+            font-size: 80px;
             color: #777;
             margin-left: 10px;
         }
 
         .avail-text {
-            font-family: 'Zen Old Mincho', serif;
-            font-size: 55px;
-            /* Reduced */
+            font-family: 'Noto Serif JP', serif;
+            font-size: 70px;
             font-weight: 700;
             color: var(--text-color);
             margin-top: 10px;
@@ -96,8 +93,7 @@
 
         .room-header {
             font-family: 'Cormorant Garamond', serif;
-            font-size: 45px;
-            /* Reduced */
+            font-size: 60px;
             font-weight: 600;
             color: var(--accent-color);
             margin-bottom: -10px;
@@ -120,9 +116,9 @@
             border: 2px solid var(--accent-color);
             color: var(--text-color);
             border-radius: 50px;
-            padding: 15px 30px;
-            min-width: 300px;
-            font-size: 44px;
+            padding: 20px 40px;
+            min-width: 400px;
+            font-size: 60px;
             font-weight: 700;
             text-align: center;
             box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
@@ -163,8 +159,8 @@
         }
 
         .weekly-header {
-            font-family: 'Zen Old Mincho', serif;
-            font-size: 35px;
+            font-family: 'Noto Serif JP', serif;
+            font-size: 45px;
             font-weight: 700;
             color: var(--text-color);
             text-align: center;
@@ -184,9 +180,10 @@
             display: flex;
             justify-content: space-between;
             width: 80%;
-            font-size: 40px;
+            font-size: 55px;
             font-family: 'Cormorant Garamond', serif;
             font-weight: 600;
+            align-items: center;
         }
 
         .weekly-date {
@@ -197,11 +194,15 @@
             font-weight: 700;
             font-size: 50px;
             line-height: 1;
+            width: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
-        .status-o { color: #4CAF50; font-size: 55px; }
-        .status-tri { color: #FF9800; font-size: 55px; }
-        .status-x { color: #F44336; font-size: 65px; opacity: 0.9; }
+        .status-o { color: #4CAF50; font-size: 70px; }
+        .status-tri { color: #FF9800; font-size: 70px; }
+        .status-x { color: #F44336; font-size: 75px; opacity: 0.9; }
     </style>
 </head>
 
