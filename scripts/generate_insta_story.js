@@ -222,9 +222,11 @@ async function generateStory() {
 
     // Inject Data
     await page.evaluate((data) => {
-        const container = document.getElementById('schedule-container');
-        container.innerHTML = ''; // Clear example data
-        const day = data[0]; // Single day
+        const roomsContainer = document.getElementById('schedule-rooms-container');
+        const weeklyContainerParent = document.getElementById('schedule-weekly-container');
+        roomsContainer.innerHTML = '';
+        weeklyContainerParent.innerHTML = '';
+        const day = data[0];
 
         // Apply Random Background
         document.body.style.backgroundImage = day.bgGradient;
@@ -248,7 +250,7 @@ async function generateStory() {
         header.appendChild(document.createElement('br'));
         header.appendChild(availText);
 
-        container.appendChild(header);
+        roomsContainer.appendChild(header);
 
         // 2. Room A Header & Slots
         const roomAContainer = document.createElement('div');
@@ -280,7 +282,7 @@ async function generateStory() {
             slotsAContainer.appendChild(noSlot);
         }
         roomAContainer.appendChild(slotsAContainer);
-        container.appendChild(roomAContainer);
+        roomsContainer.appendChild(roomAContainer);
 
         // 3. Room B Header & Slots
         const roomBContainer = document.createElement('div');
@@ -312,7 +314,7 @@ async function generateStory() {
             slotsBContainer.appendChild(noSlot);
         }
         roomBContainer.appendChild(slotsBContainer);
-        container.appendChild(roomBContainer);
+        roomsContainer.appendChild(roomBContainer);
 
         // 4. Weekly Summary Section
         const weeklyContainer = document.createElement('div');
@@ -334,7 +336,7 @@ async function generateStory() {
         });
 
         weeklyContainer.appendChild(weeklyList);
-        container.appendChild(weeklyContainer);
+        weeklyContainerParent.appendChild(weeklyContainer);
     }, displayData);
 
     await page.screenshot({ path: OUTPUT_FILE });

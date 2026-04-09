@@ -278,8 +278,10 @@ async function generateStory() {
     await page.goto(`file://${TEMPLATE_PATH}`);
 
     await page.evaluate((data) => {
-        const container = document.getElementById('schedule-container');
-        container.innerHTML = '';
+        const roomsContainer = document.getElementById('schedule-rooms-container');
+        const weeklyContainerParent = document.getElementById('schedule-weekly-container');
+        roomsContainer.innerHTML = '';
+        weeklyContainerParent.innerHTML = '';
         const day = data[0];
 
         // 1. Header
@@ -296,7 +298,7 @@ async function generateStory() {
 
         header.appendChild(dateText);
         header.appendChild(availText);
-        container.appendChild(header);
+        roomsContainer.appendChild(header);
 
         // 2. Time Slots
         const slotsContainer = document.createElement('div');
@@ -326,7 +328,7 @@ async function generateStory() {
             slotsContainer.appendChild(noSlot);
         }
 
-        container.appendChild(slotsContainer);
+        roomsContainer.appendChild(slotsContainer);
 
         // 3. Weekly Summary Section
         const weeklyContainer = document.createElement('div');
@@ -348,7 +350,7 @@ async function generateStory() {
         });
 
         weeklyContainer.appendChild(weeklyList);
-        container.appendChild(weeklyContainer);
+        weeklyContainerParent.appendChild(weeklyContainer);
     }, displayData);
 
     await page.screenshot({ path: OUTPUT_FILE });
