@@ -104,9 +104,11 @@ async function generatePost() {
         let slotsB_available = [];
 
         for (let h = 10; h < 22; h++) {
-            const block = (occupancy[dateKey] && occupancy[dateKey][h]) || { A: false, B: false };
-            if (!block.A) slotsA_available.push(h);
-            if (!block.B) slotsB_available.push(h);
+            const block = (occupancy[dateKey] && occupancy[dateKey][h]) || { A: false, B: false, Fuzai: false };
+            if (!block.Fuzai) {
+                if (!block.A) slotsA_available.push(h);
+                if (!block.B) slotsB_available.push(h);
+            }
         }
 
         let status = '〇';
