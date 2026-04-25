@@ -242,7 +242,7 @@ async function generateStory() {
         if (availableHours.length === 0) {
             status = '×';
             statusType = 'busy';
-        } else if (availableHours.length <= 6) {
+        } else if (availableHours.length <= 9) {
             status = '△';
             statusType = 'studio';
         }

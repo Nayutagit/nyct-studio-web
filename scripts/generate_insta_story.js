@@ -177,7 +177,7 @@ async function generateStory() {
         
         if (totalAvail === 0) {
             status = '×';
-        } else if (totalAvail <= 12) {
+        } else if (totalAvail <= 18) {
             status = '△';
         }
         

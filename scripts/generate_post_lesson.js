@@ -126,7 +126,7 @@ async function generatePost() {
             status = '×';
             statusClass = 'busy';
         } else {
-            if (availableHours.length <= 6) {
+            if (availableHours.length <= 9) {
                 status = '△';
             }
             if (!hasStudioHours) {
