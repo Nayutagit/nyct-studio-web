@@ -119,18 +119,10 @@ async function generatePost() {
             }
         }
 
-        const has2HoursContiguous = (hours) => {
-            if (hours.length < 2) return false;
-            for (let j = 0; j < hours.length - 1; j++) {
-                if (hours[j+1] === hours[j] + 1) return true;
-            }
-            return false;
-        };
-
         let status = '〇';
         let statusClass = 'studio';
 
-        if (!has2HoursContiguous(availableHours)) {
+        if (availableHours.length === 0) {
             status = '×';
             statusClass = 'busy';
         } else {

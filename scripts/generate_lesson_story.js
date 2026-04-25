@@ -236,19 +236,10 @@ async function generateStory() {
             availableHours.push(h);
         }
 
-        const has2HoursContiguous = (hours) => {
-            if (hours.length < 2) return false;
-            for (let i = 0; i < hours.length - 1; i++) {
-                if (hours[i+1] === hours[i] + 1) return true;
-            }
-            return false;
-        };
-
-        const has2Hr = has2HoursContiguous(availableHours);
-        
         let status = '〇';
         let statusType = 'studio';
-        if (!has2Hr) {
+        
+        if (availableHours.length === 0) {
             status = '×';
             statusType = 'busy';
         } else if (availableHours.length <= 6) {

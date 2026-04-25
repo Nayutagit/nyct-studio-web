@@ -177,21 +177,12 @@ async function generateStory() {
             if (!block.B) slotsB_available.push(h);
         }
 
-        const has2HoursContiguous = (hours) => {
-            if (hours.length < 2) return false;
-            for (let i = 0; i < hours.length - 1; i++) {
-                if (hours[i+1] === hours[i] + 1) return true;
-            }
-            return false;
-        };
-
-        const aHas2Hr = has2HoursContiguous(slotsA_available);
-        const bHas2Hr = has2HoursContiguous(slotsB_available);
-        
         let status = '〇';
-        if (isFuzai || (!aHas2Hr && !bHas2Hr)) {
+        const totalAvail = slotsA_available.length + slotsB_available.length;
+        
+        if (isFuzai || totalAvail === 0) {
             status = '×';
-        } else if ((slotsA_available.length + slotsB_available.length) <= 12) {
+        } else if (totalAvail <= 12) {
             status = '△';
         }
         
