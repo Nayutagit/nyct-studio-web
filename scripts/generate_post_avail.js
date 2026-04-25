@@ -102,14 +102,9 @@ async function generatePost() {
 
         let slotsA_available = [];
         let slotsB_available = [];
-        let isFuzai = false;
 
         for (let h = 10; h < 22; h++) {
-            const block = (occupancy[dateKey] && occupancy[dateKey][h]) || { A: false, B: false, Fuzai: false };
-            if (block.Fuzai) {
-                isFuzai = true;
-                break;
-            }
+            const block = (occupancy[dateKey] && occupancy[dateKey][h]) || { A: false, B: false };
             if (!block.A) slotsA_available.push(h);
             if (!block.B) slotsB_available.push(h);
         }
@@ -117,7 +112,7 @@ async function generatePost() {
         let status = '〇';
         const totalAvail = slotsA_available.length + slotsB_available.length;
         
-        if (isFuzai || totalAvail === 0) {
+        if (totalAvail === 0) {
             status = '×';
         } else if (totalAvail <= 12) {
             status = '△';
