@@ -95,6 +95,7 @@ async function generatePost() {
     const weeklyData = [];
     const weekdaysEng = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
+    const weeklyStats = [];
     for (let i = 0; i < 7; i++) {
         const currentd = new Date(startDate);
         currentd.setDate(startDate.getDate() + i);
@@ -119,28 +120,35 @@ async function generatePost() {
             }
         }
 
-        let status = '〇';
-        let statusClass = 'studio';
-
-        if (availableHours.length === 0) {
-            status = '×';
-            statusClass = 'busy';
-        } else {
-            if (availableHours.length <= 9) {
-                status = '△';
-            }
-            if (!hasStudioHours) {
-                statusClass = 'online';
-            }
-        }
-        
-        weeklyData.push({
+        weeklyStats.push({
             dateStr: `${Number(m)}/${Number(d)}`,
             weekday: `(${dayOfWeek})`,
-            status: status,
-            statusClass: statusClass
+            availCount: availableHours.length,
+            status: '〇',
+            statusClass: hasStudioHours ? 'studio' : 'online'
         });
     }
+
+    const availableDays = weeklyStats.filter(day => day.availCount > 0);
+    availableDays.sort((a, b) => a.availCount - b.availCount);
+
+    weeklyStats.forEach(day => {
+        if (day.availCount === 0) {
+            day.status = '×';
+            day.statusClass = 'busy';
+        }
+    });
+
+    for (let i = 0; i < Math.min(2, availableDays.length); i++) {
+        availableDays[i].status = '△';
+    }
+
+    const weeklyData = weeklyStats.map(day => ({
+        dateStr: day.dateStr,
+        weekday: day.weekday,
+        status: day.status,
+        statusClass: day.statusClass
+    }));
 
     const browser = await puppeteer.launch();
     const page = await browser.newPage();

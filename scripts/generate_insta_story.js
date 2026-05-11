@@ -154,6 +154,7 @@ async function generateStory() {
     // 2.5 Weekly summary (Next 7 days, starting 3 days later)
     const weeklyData = [];
     const weekdaysEng = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    const weeklyStats = [];
     for (let w = 3; w < 10; w++) {
         const wd = new Date(today);
         wd.setDate(today.getDate() + w);
@@ -174,20 +175,29 @@ async function generateStory() {
             }
         }
 
-        let status = '〇';
         const totalAvail = slotsA_available.length + slotsB_available.length;
-        
-        if (totalAvail === 0) {
-            status = '×';
-        } else if (totalAvail <= 18) {
-            status = '△';
-        }
-        
-        weeklyData.push({
+        weeklyStats.push({
             dateStr: `${Number(wm)}/${Number(wday)}(${wDayOfWeek})`,
-            status: status
+            totalAvail: totalAvail,
+            status: '〇'
         });
     }
+
+    const availableDays = weeklyStats.filter(day => day.totalAvail > 0);
+    availableDays.sort((a, b) => a.totalAvail - b.totalAvail);
+
+    weeklyStats.forEach(day => {
+        if (day.totalAvail === 0) day.status = '×';
+    });
+
+    for (let i = 0; i < Math.min(2, availableDays.length); i++) {
+        availableDays[i].status = '△';
+    }
+
+    const weeklyData = weeklyStats.map(day => ({
+        dateStr: day.dateStr,
+        status: day.status
+    }));
 
     // Push single day object
     displayData.push({

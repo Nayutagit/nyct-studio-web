@@ -198,6 +198,7 @@ async function generateStory() {
     // 2.5 Weekly summary (Next 7 days, starting 3 days later)
     const weeklyData = [];
     const weekdaysEng = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    const weeklyStats = [];
     for (let w = 3; w < 10; w++) {
         const wd = new Date(today);
         wd.setDate(today.getDate() + w);
@@ -236,23 +237,33 @@ async function generateStory() {
             availableHours.push(h);
         }
 
-        let status = '〇';
-        let statusType = 'studio';
-        
-        if (availableHours.length === 0) {
-            status = '×';
-            statusType = 'busy';
-        } else if (availableHours.length <= 9) {
-            status = '△';
-            statusType = 'studio';
-        }
-        
-        weeklyData.push({
+        weeklyStats.push({
             dateStr: `${Number(wm)}/${Number(wday)}(${wDayOfWeek})`,
-            status: status,
-            statusType: statusType
+            availCount: availableHours.length,
+            status: '〇',
+            statusType: 'studio' // default
         });
     }
+
+    const availableDays = weeklyStats.filter(day => day.availCount > 0);
+    availableDays.sort((a, b) => a.availCount - b.availCount);
+
+    weeklyStats.forEach(day => {
+        if (day.availCount === 0) {
+            day.status = '×';
+            day.statusType = 'busy';
+        }
+    });
+
+    for (let i = 0; i < Math.min(2, availableDays.length); i++) {
+        availableDays[i].status = '△';
+    }
+
+    const weeklyData = weeklyStats.map(day => ({
+        dateStr: day.dateStr,
+        status: day.status,
+        statusType: day.statusType
+    }));
 
     displayData.push({
         date: `${Number(m)}/${Number(day)}`,

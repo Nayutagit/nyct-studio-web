@@ -90,6 +90,7 @@ async function generatePost() {
     const weeklyData = [];
     const weekdaysEng = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
+    const weeklyStats = [];
     for (let i = 0; i < 7; i++) {
         const currentd = new Date(startDate);
         currentd.setDate(startDate.getDate() + i);
@@ -111,21 +112,31 @@ async function generatePost() {
             }
         }
 
-        let status = '〇';
         const totalAvail = slotsA_available.length + slotsB_available.length;
-        
-        if (totalAvail === 0) {
-            status = '×';
-        } else if (totalAvail <= 18) {
-            status = '△';
-        }
-        
-        weeklyData.push({
+        weeklyStats.push({
             dateStr: `${Number(m)}/${Number(d)}`,
             weekday: `(${dayOfWeek})`,
-            status: status
+            totalAvail: totalAvail,
+            status: '〇'
         });
     }
+
+    const availableDays = weeklyStats.filter(day => day.totalAvail > 0);
+    availableDays.sort((a, b) => a.totalAvail - b.totalAvail);
+
+    weeklyStats.forEach(day => {
+        if (day.totalAvail === 0) day.status = '×';
+    });
+
+    for (let i = 0; i < Math.min(2, availableDays.length); i++) {
+        availableDays[i].status = '△';
+    }
+
+    const weeklyData = weeklyStats.map(day => ({
+        dateStr: day.dateStr,
+        weekday: day.weekday,
+        status: day.status
+    }));
 
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
