@@ -2096,3 +2096,32 @@ ul {
     border: 1px solid var(--primary-neon);
     box-shadow: 0 0 10px rgba(252, 200, 0, 0.3);
 }
+
+/* ==========================================================================
+   Contact Form Styles
+   ========================================================================== */
+.contact-form input[type="text"],
+.contact-form input[type="email"],
+.contact-form textarea,
+.contact-form select {
+    transition: all 0.3s ease;
+}
+
+.contact-form input[type="text"]:focus,
+.contact-form input[type="email"]:focus,
+.contact-form textarea:focus,
+.contact-form select:focus {
+    outline: none;
+    border-color: var(--primary-neon) !important;
+    box-shadow: 0 0 10px rgba(252, 200, 0, 0.25);
+    background: rgba(255, 255, 255, 0.05) !important;
+}
+
+/* Custom Dropdown Arrow for Select */
+#category {
+    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ffffff'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E") !important;
+    background-repeat: no-repeat !important;
+    background-position: right 12px center !important;
+    background-size: 24px !important;
+    padding-right: 40px !important;
+}
