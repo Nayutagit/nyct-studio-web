@@ -1160,6 +1160,27 @@ ul {
     color: #444;
 }
 
+/* Dark Content Box for premium dark theme */
+.content-box-dark {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: var(--text-gray);
+    padding: 40px;
+    border-radius: 12px;
+    backdrop-filter: blur(15px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+}
+
+.content-box-dark h3,
+.content-box-dark h2 {
+    color: #fff;
+}
+
+.content-box-dark p,
+.content-box-dark li {
+    color: var(--text-gray);
+}
+
 /* ==========================================================================
    Animations
    ========================================================================== */
