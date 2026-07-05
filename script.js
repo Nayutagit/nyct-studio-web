@@ -140,11 +140,12 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     }
-
     // 8. LINE Button Tracking
     document.querySelectorAll('a[href*="lin.ee"]').forEach(link => {
         link.addEventListener('click', () => {
             if (typeof gtag === 'function') {
                 gtag('event', 'conversion', { 'send_to': 'AW-17794227403/NLHHCMaejtEbEMu5-aRC' });
             }
+        });
+    });
 });
