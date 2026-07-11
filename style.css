@@ -2492,3 +2492,60 @@ body.light-theme-white .bg-dark-concrete {
         margin-top: 5px;
     }
 }
+
+/* Mobile overrides for training page sections */
+@media (max-width: 768px) {
+    .training-hero {
+        padding-top: 120px;
+        padding-bottom: 40px;
+    }
+    .training-hero-title {
+        font-size: 2.2rem;
+    }
+    .training-hero-subtitle {
+        font-size: 1rem;
+        padding: 0 15px;
+    }
+    .training-intro {
+        padding: 50px 0;
+    }
+    .training-intro-flex {
+        flex-direction: column;
+        gap: 30px;
+    }
+    .training-intro-image, .training-intro-text {
+        min-width: 100% !important;
+    }
+    .training-intro-text h2 {
+        font-size: 1.6rem;
+    }
+    .training-features {
+        padding: 60px 0;
+    }
+    .training-packages {
+        padding: 60px 0;
+    }
+    .package-card {
+        flex-direction: column;
+    }
+    .package-image, .package-content {
+        min-width: 100% !important;
+    }
+    .package-content {
+        padding: 30px 20px !important;
+    }
+    .package-title {
+        font-size: 1.4rem;
+    }
+    .curriculum-row {
+        flex-direction: column;
+        gap: 5px;
+    }
+    .curriculum-time {
+        width: 100%;
+        margin-bottom: 5px;
+    }
+    .training-pricing {
+        padding: 60px 0;
+    }
+}
