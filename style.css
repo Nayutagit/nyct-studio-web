@@ -1622,15 +1622,9 @@ body.light-theme-white .bg-dark-concrete {
 }
 /* Rising Hero (Udatsu Agaru) */
 .hero {
-
-    /* Slight diagonal for edge, but rising animation */
-    clip-path: polygon(0 0, 100% 0, 100% 88%, 0 100%);
-    margin-bottom: -50px;
     z-index: 10;
     /* Subtle Gradient for depth */
     background: radial-gradient(circle at 50% 50%, #1a1a1a 0%, #000 100%);
-    /* Rise Up Animation */
-    animation: heroRise 1.4s cubic-bezier(0.2, 1, 0.3, 1) forwards;
 }
 
 @keyframes heroRise {
