@@ -2564,3 +2564,108 @@ body.light-theme-white .bg-dark-concrete {
 .message-content p {
     font-family: var(--font-emotional);
 }
+
+/* Campaign Section Styles */
+.campaign-section {
+    background: #f4f9f9;
+    border: 1px solid rgba(0, 164, 216, 0.15);
+    border-radius: 12px;
+    padding: 50px 40px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 164, 216, 0.03);
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.campaign-badge {
+    display: inline-block;
+    background: var(--accent-teal);
+    color: #fff;
+    font-size: 0.8rem;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 50px;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border: none;
+}
+
+.campaign-title-en {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--accent-teal-dark);
+    letter-spacing: 0.25em;
+    margin-bottom: 15px;
+}
+
+.campaign-title-jp {
+    font-family: var(--font-serif);
+    font-size: 2.2rem;
+    font-weight: 700;
+    line-height: 1.4;
+    color: var(--text-dark);
+    margin-bottom: 25px;
+}
+
+.campaign-title-jp span {
+    color: var(--accent-teal);
+}
+
+.campaign-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    margin-top: 40px;
+    justify-content: center;
+}
+
+.campaign-benefit {
+    flex: 1;
+    min-width: 280px;
+    background: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    border-radius: 8px;
+    padding: 30px;
+    text-align: left;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.02);
+}
+
+.campaign-benefit-num {
+    display: inline-block;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--accent-teal);
+    border-bottom: 2px solid var(--accent-teal);
+    padding-bottom: 2px;
+    margin-bottom: 15px;
+    letter-spacing: 0.05em;
+}
+
+.benefit-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 15px;
+}
+
+.benefit-price {
+    font-size: 2.2rem;
+    font-weight: 900;
+    color: var(--accent-teal-dark);
+    margin-bottom: 15px;
+}
+
+.benefit-price small {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text-gray);
+    margin-left: 5px;
+}
+
+.benefit-desc {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: var(--text-gray);
+}
