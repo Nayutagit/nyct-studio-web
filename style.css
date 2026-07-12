@@ -25,8 +25,10 @@
     --bg-dark-section: #121212;  /* Dark background for dark sections */
 
     /* Fonts */
-    --font-main: "Tsukushi B Round Gothic", "Tsukushi B Gothic", "筑紫B丸ゴシック", "Zen Maru Gothic", "Zen Kaku Gothic New", sans-serif;
+    --font-primary: "Zen Kaku Gothic New", "Noto Sans JP", sans-serif;
+    --font-emotional: "Tsukushi B Round Gothic", "Tsukushi B Gothic", "筑紫B丸ゴシック", "Zen Maru Gothic", sans-serif;
     --font-serif: "Zen Old Mincho", "Times New Roman", serif;
+    --font-main: var(--font-primary); /* Backward compatibility */
 
     /* Spacing */
     --section-padding: 60px;
@@ -107,6 +109,7 @@ ul {
     position: relative;
     display: inline-block;
     color: var(--text-dark);
+    font-family: var(--font-serif);
     text-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
 }
 
@@ -291,6 +294,7 @@ body.light-theme-white .bg-dark-concrete {
     margin-bottom: 30px;
     line-height: 1.2;
     color: var(--text-light);
+    font-family: var(--font-serif);
     opacity: 0;
     animation: fadeUp 1s ease forwards 0.8s;
     text-shadow: 0 5px 30px rgba(0, 0, 0, 0.8);
@@ -316,6 +320,7 @@ body.light-theme-white .bg-dark-concrete {
     text-align: center;
     font-weight: 500;
     color: var(--text-dark);
+    font-family: var(--font-emotional);
     text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
 }
 
@@ -846,6 +851,7 @@ body.light-theme-white .bg-dark-concrete {
     font-weight: 900;
     margin-bottom: 20px;
     color: var(--text-light);
+    font-family: var(--font-serif);
     text-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
 }
 
@@ -1290,6 +1296,7 @@ body.light-theme-white .bg-dark-concrete {
     font-weight: 700;
     margin-bottom: 20px;
     color: var(--text-light);
+    font-family: var(--font-serif);
     text-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
 }
 
@@ -2157,6 +2164,7 @@ body.light-theme-white .bg-dark-concrete {
     font-size: 3.5rem;
     font-weight: 900;
     color: var(--text-dark);
+    font-family: var(--font-serif);
     letter-spacing: 2px;
     line-height: 1.2;
 }
@@ -2550,4 +2558,9 @@ body.light-theme-white .bg-dark-concrete {
     .training-pricing {
         padding: 60px 0;
     }
+}
+
+/* Emotional font override for representative message */
+.message-content p {
+    font-family: var(--font-emotional);
 }
