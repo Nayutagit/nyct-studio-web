@@ -148,39 +148,4 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
-
-    // 9. Profile Page Tab Switcher
-    const tabBtns = document.querySelectorAll('.profile-tab-btn');
-    const tabContents = document.querySelectorAll('.profile-tab-content');
-
-    if (tabBtns.length > 0) {
-        tabBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                // Remove active class and styles from all buttons
-                tabBtns.forEach(b => {
-                    b.classList.remove('active');
-                    b.style.color = 'var(--text-gray)';
-                    b.style.fontWeight = 'normal';
-                });
-
-                // Add active class and styles to clicked button
-                btn.classList.add('active');
-                btn.style.color = 'var(--primary-neon)';
-                btn.style.fontWeight = 'bold';
-
-                const targetTab = btn.getAttribute('data-tab');
-
-                // Hide all tab contents
-                tabContents.forEach(content => {
-                    content.classList.add('d-none');
-                });
-
-                // Show target tab content
-                const activeContent = document.getElementById(`tab-${targetTab}`);
-                if (activeContent) {
-                    activeContent.classList.remove('d-none');
-                }
-            });
-        });
-    }
 });

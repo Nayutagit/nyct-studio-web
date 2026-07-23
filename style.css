@@ -2669,33 +2669,3 @@ body.light-theme-white .bg-dark-concrete {
     line-height: 1.7;
     color: var(--text-gray);
 }
-
-/* ==========================================================================
-   Profile Tabs Styling
-   ========================================================================== */
-.profile-tab-btn {
-    transition: color 0.3s ease, font-weight 0.3s ease;
-}
-
-.profile-tab-btn::after {
-    content: '';
-    position: absolute;
-    bottom: -1px;
-    left: 0;
-    width: 0;
-    height: 3px;
-    background-color: var(--primary-neon);
-    transition: width 0.3s ease;
-}
-
-.profile-tab-btn.active::after {
-    width: 100%;
-}
-
-.profile-tab-content {
-    transition: opacity 0.3s ease;
-}
-
-.d-none {
-    display: none !important;
-}

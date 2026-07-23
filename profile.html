@@ -12,7 +12,7 @@
         href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&family=Zen+Kaku+Gothic+New:wght@300;400;500;700;900&family=Zen+Old+Mincho:wght@400;500;600&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css?v=111">
+    <link rel="stylesheet" href="style.css?v=112">
     <!-- Google Tag Manager -->
     <script>(function (w, d, s, l, i) {
             w[l] = w[l] || []; w[l].push({
@@ -92,14 +92,8 @@
                             style="display: inline-block; background: rgba(0, 0, 0, 0.05); color: var(--text-dark); border: 1px solid rgba(0,0,0,0.1); padding: 5px 15px; border-radius: 20px; font-size: 0.9rem; margin-right: 10px; margin-bottom: 10px;">ボイストレーナー</span>
                     </div>
 
-                    <!-- Profile Tabs -->
-                    <div class="profile-tabs" style="margin-bottom: 30px; display: flex; gap: 20px; border-bottom: 1px solid rgba(0,0,0,0.1);">
-                        <button class="profile-tab-btn active" data-tab="profile" style="background: none; border: none; padding: 10px 20px; font-size: 1.1rem; font-family: var(--font-serif); cursor: pointer; position: relative; color: var(--primary-neon); font-weight: bold; outline: none;">プロフィール</button>
-                        <button class="profile-tab-btn" data-tab="works" style="background: none; border: none; padding: 10px 20px; font-size: 1.1rem; font-family: var(--font-serif); cursor: pointer; position: relative; color: var(--text-gray); outline: none;">ナレーション実績</button>
-                    </div>
-
-                    <!-- Tab Content: Profile -->
-                    <div id="tab-profile" class="profile-tab-content">
+                    <!-- Profile Info Content (Linear Layout) -->
+                    <div class="profile-info-content">
                         <h3
                             style="font-size: 1.5rem; border-left: 4px solid var(--primary-neon); padding-left: 15px; margin-bottom: 20px; color: var(--text-dark);">
                             経歴</h3>
@@ -123,35 +117,9 @@
                         <h3
                             style="font-size: 1.5rem; border-left: 4px solid var(--primary-neon); padding-left: 15px; margin-bottom: 20px; color: var(--text-dark);">
                             目標</h3>
-                        <p style="color: var(--text-gray);">
+                        <p style="color: var(--text-gray); margin-bottom: 20px;">
                             スタジオ兼カフェの設立、そして70歳になってもステージに立ち、拍手を浴びる存在であり続けること。
                         </p>
-                    </div>
-
-                    <!-- Tab Content: Works (Voice Samples) -->
-                    <div id="tab-works" class="profile-tab-content d-none">
-                        <h3
-                            style="font-size: 1.5rem; border-left: 4px solid var(--primary-neon); padding-left: 15px; margin-bottom: 20px; color: var(--text-dark);">
-                            ボイスサンプル</h3>
-                        <div style="background: rgba(0, 0, 0, 0.02); border: 1px solid rgba(0, 0, 0, 0.08); padding: 20px; border-radius: 12px; margin-bottom: 30px; box-shadow: 0 10px 20px rgba(0,0,0,0.05);">
-                            <div style="position: relative; width: 100%; aspect-ratio: 16/9; overflow: hidden; border-radius: 8px;">
-                                <iframe width="100%" height="100%" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen
-                                    src="https://www.youtube.com/embed/-sPZ_EXLn6Q" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;"></iframe>
-                            </div>
-                            <p style="text-align: center; margin-top: 15px; font-size: 0.9rem; color: var(--text-gray);">※ 再生ボタンを押してご視聴ください</p>
-                        </div>
-                        
-                        <h3
-                            style="font-size: 1.5rem; border-left: 4px solid var(--primary-neon); padding-left: 15px; margin-bottom: 20px; color: var(--text-dark);">
-                            主な実績</h3>
-                        <ul style="line-height: 2; color: var(--text-gray); margin-bottom: 20px; list-style: disc; padding-left: 20px;">
-                            <li>テレビ・ラジオCM、Web広告ナレーション多数</li>
-                            <li>企業VP、ブランド紹介ムービー、社員研修動画等の音声吹き替え</li>
-                            <li>テレビ番組リポーター出演（20件以上）</li>
-                        </ul>
-                        <div style="text-align: center; margin-top: 30px; margin-bottom: 20px;">
-                            <a href="voice" class="btn btn-secondary" style="font-size: 0.9rem; padding: 10px 20px; display: inline-block;">さらに詳しい実績を見る</a>
-                        </div>
                     </div>
 
                 </div>
@@ -159,12 +127,124 @@
         </div>
     </section>
 
-    <!-- Works Link -->
+    <!-- Works Section (Integrated Portfolio) -->
     <section class="section bg-dark-concrete">
-        <div class="container" style="text-align: center;">
-            <h2 class="section-title" style="margin-bottom: 40px;">Works</h2>
-            <p style="margin-bottom: 40px;">ナレーションの実績はこちら</p>
-            <a href="voice" class="btn btn-secondary">実績一覧を見る</a>
+        <div class="container">
+            <div class="section-title-area" style="text-align: center; margin-bottom: 50px;">
+                <span class="section-subtitle">WORKS</span>
+                <h2 class="section-title">実績・ボイスサンプル</h2>
+            </div>
+
+            <!-- YouTube Main Voice Sample -->
+            <div style="max-width: 800px; margin: 0 auto 60px; background: rgba(255, 255, 255, 0.7); border: 1px solid rgba(0, 0, 0, 0.08); padding: 20px; border-radius: 12px; box-shadow: 0 15px 35px rgba(0,0,0,0.05);">
+                <div style="position: relative; width: 100%; aspect-ratio: 16/9; overflow: hidden; border-radius: 8px;">
+                    <iframe width="100%" height="100%" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen
+                        src="https://www.youtube.com/embed/-sPZ_EXLn6Q" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;"></iframe>
+                </div>
+                <p style="text-align: center; margin-top: 15px; font-size: 0.9rem; color: var(--text-gray);">※ 再生ボタンを押してメインボイスサンプルをご視聴ください</p>
+            </div>
+
+            <!-- YouTube Video Grid -->
+            <div class="video-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; margin-bottom: 60px;">
+                <!-- Video 1 -->
+                <div class="video-item" onclick="playVideo(this, 'JtPn_ItKtM8')" style="cursor: pointer; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.05); border: 1px solid rgba(0,0,0,0.05);">
+                    <div style="position: relative; padding-bottom: 56.25%; height: 0;">
+                        <img src="https://img.youtube.com/vi/JtPn_ItKtM8/maxresdefault.jpg" alt="三浦工業CM"
+                            style="position: absolute; top:0; left:0; width:100%; height:100%; object-fit: cover;">
+                        <div class="play-button" style="position: absolute; top:50%; left:50%; transform:translate(-50%, -50%); background: rgba(229,169,0,0.9); width: 50px; height:50px; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#fff; font-size: 1.2rem;"><i class="fas fa-play"></i></div>
+                    </div>
+                    <div class="video-info" style="padding: 15px;">
+                        <span class="video-tag" style="font-size: 0.75rem; background: rgba(0,104,136,0.1); color: var(--accent-teal); padding: 2px 8px; border-radius: 4px; font-weight: 700;">TV CM</span>
+                        <h3 class="video-title" style="font-size: 1rem; margin-top: 8px; color: var(--text-dark); font-weight: 700;">三浦工業「ミズカラ.ミウラカラ.」</h3>
+                    </div>
+                </div>
+
+                <!-- Video 2 -->
+                <div class="video-item" onclick="playVideo(this, 'qjgS6r0IEeM')" style="cursor: pointer; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.05); border: 1px solid rgba(0,0,0,0.05);">
+                    <div style="position: relative; padding-bottom: 56.25%; height: 0;">
+                        <img src="https://img.youtube.com/vi/qjgS6r0IEeM/maxresdefault.jpg" alt="プレディア呉駅前"
+                            style="position: absolute; top:0; left:0; width:100%; height:100%; object-fit: cover;">
+                        <div class="play-button" style="position: absolute; top:50%; left:50%; transform:translate(-50%, -50%); background: rgba(229,169,0,0.9); width: 50px; height:50px; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#fff; font-size: 1.2rem;"><i class="fas fa-play"></i></div>
+                    </div>
+                    <div class="video-info" style="padding: 15px;">
+                        <span class="video-tag" style="font-size: 0.75rem; background: rgba(0,104,136,0.1); color: var(--accent-teal); padding: 2px 8px; border-radius: 4px; font-weight: 700;">TV CM</span>
+                        <h3 class="video-title" style="font-size: 1rem; margin-top: 8px; color: var(--text-dark); font-weight: 700;">JR西日本プロパティーズ</h3>
+                    </div>
+                </div>
+
+                <!-- Video 3 -->
+                <div class="video-item" onclick="playVideo(this, 'hezTgDHCozI')" style="cursor: pointer; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.05); border: 1px solid rgba(0,0,0,0.05);">
+                    <div style="position: relative; padding-bottom: 56.25%; height: 0;">
+                        <img src="https://img.youtube.com/vi/hezTgDHCozI/maxresdefault.jpg" alt="広島県公式"
+                            style="position: absolute; top:0; left:0; width:100%; height:100%; object-fit: cover;">
+                        <div class="play-button" style="position: absolute; top:50%; left:50%; transform:translate(-50%, -50%); background: rgba(229,169,0,0.9); width: 50px; height:50px; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#fff; font-size: 1.2rem;"><i class="fas fa-play"></i></div>
+                    </div>
+                    <div class="video-info" style="padding: 15px;">
+                        <span class="video-tag" style="font-size: 0.75rem; background: rgba(0,104,136,0.1); color: var(--accent-teal); padding: 2px 8px; border-radius: 4px; font-weight: 700;">県公式CM</span>
+                        <h3 class="video-title" style="font-size: 1rem; margin-top: 8px; color: var(--text-dark); font-weight: 700;">広島県公式「瀬戸内さかな」</h3>
+                    </div>
+                </div>
+
+                <!-- Video 4 -->
+                <div class="video-item" onclick="playVideo(this, 'rH9mDV0zP8E')" style="cursor: pointer; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.05); border: 1px solid rgba(0,0,0,0.05);">
+                    <div style="position: relative; padding-bottom: 56.25%; height: 0;">
+                        <img src="https://img.youtube.com/vi/rH9mDV0zP8E/maxresdefault.jpg" alt="リーベリア"
+                            style="position: absolute; top:0; left:0; width:100%; height:100%; object-fit: cover;">
+                        <div class="play-button" style="position: absolute; top:50%; left:50%; transform:translate(-50%, -50%); background: rgba(229,169,0,0.9); width: 50px; height:50px; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#fff; font-size: 1.2rem;"><i class="fas fa-play"></i></div>
+                    </div>
+                    <div class="video-info" style="padding: 15px;">
+                        <span class="video-tag" style="font-size: 0.75rem; background: rgba(0,104,136,0.1); color: var(--accent-teal); padding: 2px 8px; border-radius: 4px; font-weight: 700;">Branding</span>
+                        <h3 class="video-title" style="font-size: 1rem; margin-top: 8px; color: var(--text-dark); font-weight: 700;">リーベリア ブランディング</h3>
+                    </div>
+                </div>
+
+                <!-- Video 5 -->
+                <div class="video-item" onclick="playVideo(this, 'xvuWGdOSdf0')" style="cursor: pointer; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.05); border: 1px solid rgba(0,0,0,0.05);">
+                    <div style="position: relative; padding-bottom: 56.25%; height: 0;">
+                        <img src="https://img.youtube.com/vi/xvuWGdOSdf0/maxresdefault.jpg" alt="良縁の大進"
+                            style="position: absolute; top:0; left:0; width:100%; height:100%; object-fit: cover;">
+                        <div class="play-button" style="position: absolute; top:50%; left:50%; transform:translate(-50%, -50%); background: rgba(229,169,0,0.9); width: 50px; height:50px; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#fff; font-size: 1.2rem;"><i class="fas fa-play"></i></div>
+                    </div>
+                    <div class="video-info" style="padding: 15px;">
+                        <span class="video-tag" style="font-size: 0.75rem; background: rgba(0,104,136,0.1); color: var(--accent-teal); padding: 2px 8px; border-radius: 4px; font-weight: 700;">PR Movie</span>
+                        <h3 class="video-title" style="font-size: 1rem; margin-top: 8px; color: var(--text-dark); font-weight: 700;">良縁の大進PR動画</h3>
+                    </div>
+                </div>
+
+                <!-- Video 6 -->
+                <div class="video-item" onclick="playVideo(this, 'TJLOWXzjvfk')" style="cursor: pointer; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.05); border: 1px solid rgba(0,0,0,0.05);">
+                    <div style="position: relative; padding-bottom: 56.25%; height: 0;">
+                        <img src="https://img.youtube.com/vi/TJLOWXzjvfk/maxresdefault.jpg" alt="日本司法書士会連合会"
+                            style="position: absolute; top:0; left:0; width:100%; height:100%; object-fit: cover;">
+                        <div class="play-button" style="position: absolute; top:50%; left:50%; transform:translate(-50%, -50%); background: rgba(229,169,0,0.9); width: 50px; height:50px; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#fff; font-size: 1.2rem;"><i class="fas fa-play"></i></div>
+                    </div>
+                    <div class="video-info" style="padding: 15px;">
+                        <span class="video-tag" style="font-size: 0.75rem; background: rgba(0,104,136,0.1); color: var(--accent-teal); padding: 2px 8px; border-radius: 4px; font-weight: 700;">TV CM</span>
+                        <h3 class="video-title" style="font-size: 1rem; margin-top: 8px; color: var(--text-dark); font-weight: 700;">日本司法書士会連合会</h3>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Other Achievements Text List -->
+            <div style="background: rgba(255, 255, 255, 0.7); border: 1px solid rgba(0, 0, 0, 0.08); padding: 40px; border-radius: 12px; box-shadow: 0 15px 35px rgba(0,0,0,0.02); margin-bottom: 40px;">
+                <h3 style="font-size: 1.3rem; margin-bottom: 25px; border-left: 4px solid var(--accent-teal); padding-left: 15px; color: var(--text-dark); font-weight: 700;">その他実績一覧</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
+                    <ul style="list-style: disc; padding-left: 20px; color: var(--text-gray); line-height: 1.8;">
+                        <li>株式会社穴吹工務店 テレビCM</li>
+                        <li>ラクア緑井 テレビCM</li>
+                        <li>株式会社フジ テレビCM</li>
+                        <li>株式会社NPシステム開発 テレビCM</li>
+                        <li>RCCカープナイター 株式会社ナカガワ ラジオCM</li>
+                    </ul>
+                    <ul style="list-style: disc; padding-left: 20px; color: var(--text-gray); line-height: 1.8;">
+                        <li>株式会社ILIFE ラジオCM</li>
+                        <li>山陰合同銀行 WebCM</li>
+                        <li>フェラーリ正規ディーラー 営業ツール</li>
+                        <li>株式会社リクルート社外イベント 司会進行</li>
+                        <li>国土交通省 中国地方整備局 司会進行</li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </section>
 
