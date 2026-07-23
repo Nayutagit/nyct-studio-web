@@ -78,7 +78,7 @@
                 </div>
                 <div style="flex: 1.5; min-width: 300px;">
                     <h2
-                        style="font-size: 2.5rem; margin-bottom: 10px; font-family: var(--font-serif); line-height: 1.4; color: var(--text-white);">
+                        style="font-size: 2.5rem; margin-bottom: 10px; font-family: var(--font-serif); line-height: 1.4; color: var(--text-dark);">
                         秋山 那由他
                     </h2>
                     <p
@@ -87,40 +87,72 @@
 
                     <div style="margin-bottom: 40px;">
                         <span
-                            style="display: inline-block; background: rgba(255,255,255,0.1); padding: 5px 15px; border-radius: 20px; font-size: 0.9rem; margin-right: 10px; margin-bottom: 10px;">ナレーター</span>
+                            style="display: inline-block; background: rgba(0, 0, 0, 0.05); color: var(--text-dark); border: 1px solid rgba(0,0,0,0.1); padding: 5px 15px; border-radius: 20px; font-size: 0.9rem; margin-right: 10px; margin-bottom: 10px;">ナレーター</span>
                         <span
-                            style="display: inline-block; background: rgba(255,255,255,0.1); padding: 5px 15px; border-radius: 20px; font-size: 0.9rem; margin-right: 10px; margin-bottom: 10px;">ボイストレーナー</span>
-                        <span
-                            style="display: inline-block; background: rgba(255,255,255,0.1); padding: 5px 15px; border-radius: 20px; font-size: 0.9rem; margin-right: 10px; margin-bottom: 10px;">事業主
-                            (ニストスタジオ代表)</span>
+                            style="display: inline-block; background: rgba(0, 0, 0, 0.05); color: var(--text-dark); border: 1px solid rgba(0,0,0,0.1); padding: 5px 15px; border-radius: 20px; font-size: 0.9rem; margin-right: 10px; margin-bottom: 10px;">ボイストレーナー</span>
                     </div>
 
-                    <h3
-                        style="font-size: 1.5rem; border-left: 4px solid var(--primary-neon); padding-left: 15px; margin-bottom: 20px;">
-                        経歴</h3>
-                    <ul class="history-list" style="margin-bottom: 40px; line-height: 2;">
-                        <li><strong>1994年</strong>: 広島県生まれ。</li>
-                        <li><strong>2017年</strong>: 音楽大学卒業後、新卒でフィットネスインストラクターとして活動 (東京→広島)。</li>
-                        <li><strong>2019年</strong>: 膝の怪我(靭帯断裂)により退職。ラジオ局(HFM)でAD、音楽教室講師を並行して開始。</li>
-                        <li><strong>2020年</strong>: コロナ禍を経て、独学でナレーションを開始。</li>
-                        <li><strong>現在</strong>: TVCM・WebCMなどのナレーターとして活動しながら、スタジオ設立を目指し「うだつ」サービス等を展開中。</li>
-                    </ul>
+                    <!-- Profile Tabs -->
+                    <div class="profile-tabs" style="margin-bottom: 30px; display: flex; gap: 20px; border-bottom: 1px solid rgba(0,0,0,0.1);">
+                        <button class="profile-tab-btn active" data-tab="profile" style="background: none; border: none; padding: 10px 20px; font-size: 1.1rem; font-family: var(--font-serif); cursor: pointer; position: relative; color: var(--primary-neon); font-weight: bold; outline: none;">プロフィール</button>
+                        <button class="profile-tab-btn" data-tab="works" style="background: none; border: none; padding: 10px 20px; font-size: 1.1rem; font-family: var(--font-serif); cursor: pointer; position: relative; color: var(--text-gray); outline: none;">ナレーション実績</button>
+                    </div>
 
-                    <h3
-                        style="font-size: 1.5rem; border-left: 4px solid var(--primary-neon); padding-left: 15px; margin-bottom: 20px;">
-                        大事にしていること</h3>
-                    <p style="margin-bottom: 20px; font-size: 1.1rem; font-weight: 700;">「声には価値がある」</p>
-                    <p style="margin-bottom: 20px;">
-                        誰の声にも価値があり、それを起点に人生を豊かにできる世界を作ることを目指しています。<br>
-                        「口だけ」だった過去を反省し、有言実行を信条に、泥臭くてもフルスロットルで生きる姿を見せていきたいです。
-                    </p>
+                    <!-- Tab Content: Profile -->
+                    <div id="tab-profile" class="profile-tab-content">
+                        <h3
+                            style="font-size: 1.5rem; border-left: 4px solid var(--primary-neon); padding-left: 15px; margin-bottom: 20px; color: var(--text-dark);">
+                            経歴</h3>
+                        <ul class="history-list" style="margin-bottom: 40px; line-height: 2;">
+                            <li><strong>1994年</strong>: 広島県生まれ。</li>
+                            <li><strong>2017年</strong>: 音楽大学卒業後、新卒でフィットネスインストラクターとして活動 (東京→広島)。</li>
+                            <li><strong>2019年</strong>: 膝の怪我(靭帯断裂)により退職。ラジオ局(HFM)でAD、音楽教室講師を並行して開始。</li>
+                            <li><strong>2020年</strong>: コロナ禍を経て、独学でナレーションを開始。</li>
+                            <li><strong>現在</strong>: TVCM・WebCMなどのナレーターとして活動しながら、スタジオ設立を目指し「うだつ」サービス等を展開中。</li>
+                        </ul>
 
-                    <h3
-                        style="font-size: 1.5rem; border-left: 4px solid var(--primary-neon); padding-left: 15px; margin-bottom: 20px;">
-                        目標</h3>
-                    <p>
-                        スタジオ兼カフェの設立、そして70歳になってもステージに立ち、拍手を浴びる存在であり続けること。
-                    </p>
+                        <h3
+                            style="font-size: 1.5rem; border-left: 4px solid var(--primary-neon); padding-left: 15px; margin-bottom: 20px; color: var(--text-dark);">
+                            大事にしていること</h3>
+                        <p style="margin-bottom: 20px; font-size: 1.1rem; font-weight: 700; color: var(--text-dark);">「声には価値がある」</p>
+                        <p style="margin-bottom: 20px; color: var(--text-gray);">
+                            誰の声にも価値があり、それを起点に人生を豊かにできる世界を作ることを目指しています。<br>
+                            「口だけ」だった過去を反省し、有言実行を信条に、泥臭くてもフルスロットルで生きる姿を見せていきたいです。
+                        </p>
+
+                        <h3
+                            style="font-size: 1.5rem; border-left: 4px solid var(--primary-neon); padding-left: 15px; margin-bottom: 20px; color: var(--text-dark);">
+                            目標</h3>
+                        <p style="color: var(--text-gray);">
+                            スタジオ兼カフェの設立、そして70歳になってもステージに立ち、拍手を浴びる存在であり続けること。
+                        </p>
+                    </div>
+
+                    <!-- Tab Content: Works (Voice Samples) -->
+                    <div id="tab-works" class="profile-tab-content d-none">
+                        <h3
+                            style="font-size: 1.5rem; border-left: 4px solid var(--primary-neon); padding-left: 15px; margin-bottom: 20px; color: var(--text-dark);">
+                            ボイスサンプル</h3>
+                        <div style="background: rgba(0, 0, 0, 0.02); border: 1px solid rgba(0, 0, 0, 0.08); padding: 20px; border-radius: 12px; margin-bottom: 30px; box-shadow: 0 10px 20px rgba(0,0,0,0.05);">
+                            <div style="position: relative; width: 100%; aspect-ratio: 16/9; overflow: hidden; border-radius: 8px;">
+                                <iframe width="100%" height="100%" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen
+                                    src="https://www.youtube.com/embed/-sPZ_EXLn6Q" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;"></iframe>
+                            </div>
+                            <p style="text-align: center; margin-top: 15px; font-size: 0.9rem; color: var(--text-gray);">※ 再生ボタンを押してご視聴ください</p>
+                        </div>
+                        
+                        <h3
+                            style="font-size: 1.5rem; border-left: 4px solid var(--primary-neon); padding-left: 15px; margin-bottom: 20px; color: var(--text-dark);">
+                            主な実績</h3>
+                        <ul style="line-height: 2; color: var(--text-gray); margin-bottom: 20px; list-style: disc; padding-left: 20px;">
+                            <li>テレビ・ラジオCM、Web広告ナレーション多数</li>
+                            <li>企業VP、ブランド紹介ムービー、社員研修動画等の音声吹き替え</li>
+                            <li>テレビ番組リポーター出演（20件以上）</li>
+                        </ul>
+                        <div style="text-align: center; margin-top: 30px; margin-bottom: 20px;">
+                            <a href="voice" class="btn btn-secondary" style="font-size: 0.9rem; padding: 10px 20px; display: inline-block;">さらに詳しい実績を見る</a>
+                        </div>
+                    </div>
 
                 </div>
             </div>
