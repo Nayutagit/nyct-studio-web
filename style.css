@@ -1671,53 +1671,10 @@ body.light-theme-white .bg-dark-concrete {
     }
 }
 
-/* Sharp Lightning Neon Titles */
+/* Sharp Lightning Neon Titles (Removed global container box style for consistency) */
 .section-title-area {
-    position: relative;
-    display: table;
-    /* Shrink to fit content */
-    margin: 0 auto 60px;
-    /* Center horizontally + bottom gap */
-    padding: 15px 50px;
-    background: rgba(0, 0, 0, 0.3);
-    /* Subtle dark backing */
-    color: #fff;
-
-    /* Lightning Neon: White Core + Neon Glow (Hollow) - Softened for classy glow */
-    border: 1px solid #fff;
-    box-shadow:
-        0 0 2px #fff,
-        0 0 6px rgba(252, 200, 0, 0.4),
-        0 0 12px rgba(252, 200, 0, 0.3);
-
-    backdrop-filter: blur(2px);
-    border-radius: 0;
-    /* Sharp, Inorganic */
-    transform: none;
-    /* No distortion */
-
-    /* Breathing Animation */
-    animation: neonPulse 4s infinite cubic-bezier(0.45, 0.05, 0.55, 0.95);
-}
-
-/* Reset colors for neon context */
-.section-title {
-    color: #fff;
-    text-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
-}
-
-.section-title::after {
-    display: none;
-}
-
-.section-subtitle {
-    color: #fff;
-    /* White for sharp contrast */
-    text-shadow: 0 0 10px var(--primary-neon);
-    display: block;
-    margin-bottom: 5px;
-    font-size: 0.9rem;
-    letter-spacing: 0.2em;
+    text-align: center;
+    margin-bottom: 60px;
 }
 
 @media (max-width: 768px) {
