@@ -148,4 +148,29 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
+
+    // 9. Floating CTA Scroll Control
+    const floatingCta = document.querySelector('.floating-cta-wrap');
+    const contactSection = document.querySelector('#contact');
+    
+    if (floatingCta) {
+        window.addEventListener('scroll', () => {
+            const scrollY = window.scrollY;
+            let isContactVisible = false;
+            
+            if (contactSection) {
+                const rect = contactSection.getBoundingClientRect();
+                // If the top of the contact section is within or above the viewport
+                if (rect.top < window.innerHeight - 50) {
+                    isContactVisible = true;
+                }
+            }
+            
+            if (scrollY > 400 && !isContactVisible) {
+                floatingCta.classList.add('visible');
+            } else {
+                floatingCta.classList.remove('visible');
+            }
+        });
+    }
 });
