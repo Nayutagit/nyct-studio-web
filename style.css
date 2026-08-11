@@ -2285,11 +2285,15 @@ body.light-theme-white .bg-dark-concrete {
     flex: 1;
     min-width: 320px;
     min-height: 300px;
+    background-color: #ffffff;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
 }
 
-.package-image.img1 { background: url('img/business_scene.png') center/cover; }
-.package-image.img2 { background: url('img/business_communication_scene.png') center/cover; }
-.package-image.img3 { background: url('img/business_feedback_scene.png') center/cover; }
+.package-image.img1 { background-image: url('img/business_scene.png'); }
+.package-image.img2 { background-image: url('img/business_communication_scene.png'); }
+.package-image.img3 { background-image: url('img/business_feedback_scene.png'); }
 
 .package-content {
     flex: 1.8;
