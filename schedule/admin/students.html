@@ -190,6 +190,8 @@
                     <tr>
                         <th>氏名</th>
                         <th>ふりがな</th>
+                        <th>コース</th>
+                        <th>次回レッスン</th>
                         <th>メールアドレス</th>
                         <th>電話番号</th>
                     </tr>
@@ -253,6 +255,14 @@
             </div>
 
             <div class="form-group">
+                <label>レッスンコース</label>
+                <select id="new_course" style="width: 100%; padding: 10px; background: #333; border: 1px solid #555; color: white; border-radius: 4px;">
+                    <option value="ボイトレ">ボイトレコース</option>
+                    <option value="ピアノ">ピアノコース</option>
+                    <option value="両方">ボイトレ・ピアノ両方</option>
+                </select>
+            </div>
+            <div class="form-group">
                 <label>メールアドレス</label>
                 <input type="email" id="new_email">
             </div>
@@ -280,17 +290,64 @@
         let allStudents = [];
 
         async function fetchStudents() {
-            const { data, error } = await client
+            const { data: students, error: studentError } = await client
                 .from('students')
                 .select('*')
                 .order('created_at', { ascending: false });
 
-            if (error) {
-                console.error("Error fetching students:", error);
+            if (studentError) {
+                console.error("Error fetching students:", studentError);
                 alert("生徒データの取得に失敗しました。テーブルが存在しない可能性があります。");
                 return;
             }
-            allStudents = data;
+
+            // 予約情報を並行して取得
+            const { data: slots, error: slotError } = await client
+                .from('schedule_slots')
+                .select('*')
+                .not('student_id', 'is', null);
+
+            let slotsByStudent = {};
+            if (!slotError && slots) {
+                const todayStr = new Date().toISOString().split('T')[0];
+                slots.forEach(slot => {
+                    // 今日以降の予約枠を抽出
+                    if (slot.date >= todayStr) {
+                        if (!slotsByStudent[slot.student_id]) {
+                            slotsByStudent[slot.student_id] = [];
+                        }
+                        slotsByStudent[slot.student_id].push(slot);
+                    }
+                });
+
+                // 生徒ごとに日付・時間順にソート
+                for (let sid in slotsByStudent) {
+                    slotsByStudent[sid].sort((a, b) => {
+                        if (a.date !== b.date) return a.date.localeCompare(b.date);
+                        return a.time_code.localeCompare(b.time_code);
+                    });
+                }
+            }
+
+            allStudents = students.map(student => {
+                const mySlots = slotsByStudent[student.id] || [];
+                const nextSlot = mySlots[0];
+
+                // コース情報の読み込み (フォールバック対応)
+                let course = student.course;
+                if (!course && student.memo) {
+                    const match = student.memo.match(/\[コース:\s*([^\]]+)\]/);
+                    if (match) course = match[1];
+                }
+                if (!course) course = '-';
+
+                return {
+                    ...student,
+                    course,
+                    nextLesson: nextSlot ? `${nextSlot.date} ${nextSlot.time_code}` : '-'
+                };
+            });
+
             renderStudents(allStudents);
         }
 
@@ -298,7 +355,6 @@
             const tbody = document.getElementById('studentTableBody');
             tbody.innerHTML = '';
             list.forEach(student => {
-                // Fallback for old data: name
                 const fullName = (student.last_name && student.first_name)
                     ? `${student.last_name} ${student.first_name}`
                     : (student.name || '-');
@@ -312,6 +368,8 @@
                 tr.innerHTML = `
                     <td style="font-weight: bold; color: white;">${fullName}</td>
                     <td style="color: #ccc;">${fullKana}</td>
+                    <td style="color: var(--accent-gold); font-weight: 500;">${student.course || '-'}</td>
+                    <td style="color: #4caf50; font-weight: 500;">${student.nextLesson || '-'}</td>
                     <td>${student.email || '-'}</td>
                     <td>${student.phone || '-'}</td>
                 `;
@@ -325,7 +383,8 @@
                 const fullName = ((s.last_name || '') + (s.first_name || '') + (s.name || '')).toLowerCase();
                 const fullKana = ((s.last_furigana || '') + (s.first_furigana || '') + (s.furigana || '')).toLowerCase();
                 const email = (s.email || '').toLowerCase();
-                return fullName.includes(term) || fullKana.includes(term) || email.includes(term);
+                const course = (s.course || '').toLowerCase();
+                return fullName.includes(term) || fullKana.includes(term) || email.includes(term) || course.includes(term);
             });
             renderStudents(filtered);
         }
@@ -340,21 +399,39 @@
             const first_name = document.getElementById('new_first_name').value.trim();
             const last_furigana = document.getElementById('new_last_furigana').value.trim();
             const first_furigana = document.getElementById('new_first_furigana').value.trim();
+            const course = document.getElementById('new_course').value;
             const email = document.getElementById('new_email').value.trim();
             const phone = document.getElementById('new_phone').value.trim();
             const memo = document.getElementById('new_memo').value.trim();
 
             if (!last_name || !first_name) { alert("姓と名は必須です"); return; }
 
-            const { error } = await client
+            // 1回目: courseカラムを含めて挿入を試みる
+            let { error } = await client
                 .from('students')
                 .insert([{
-                    name: `${last_name} ${first_name}`, // Schema requires 'name'
+                    name: `${last_name} ${first_name}`,
                     last_name, first_name,
-                    furigana: `${last_furigana} ${first_furigana}`, // Schema might require 'furigana'
+                    furigana: `${last_furigana} ${first_furigana}`,
                     last_furigana, first_furigana,
-                    email, phone, memo
+                    email, phone, memo, course
                 }]);
+
+            // もしカラムが存在しない等のエラーが出たら、memoの先頭に[コース: xx]を付加して再試行 (フォールバック)
+            if (error && (error.message && error.message.includes('column "course"') || error.code === 'PGRST301' || error.status === 400)) {
+                console.log("No course column found, attempting fallback to memo field.");
+                const fallbackMemo = `[コース: ${course}]\n${memo}`.trim();
+                const result = await client
+                    .from('students')
+                    .insert([{
+                        name: `${last_name} ${first_name}`,
+                        last_name, first_name,
+                        furigana: `${last_furigana} ${first_furigana}`,
+                        last_furigana, first_furigana,
+                        email, phone, memo: fallbackMemo
+                    }]);
+                error = result.error;
+            }
 
             if (error) {
                 alert("登録エラー: " + (error.message || "SQL実行が必要です"));

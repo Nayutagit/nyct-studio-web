@@ -115,6 +115,20 @@
                 </div>
             </div>
             <div class="form-group">
+                <label>レッスンコース</label>
+                <select id="s_course" style="width: 100%; padding: 12px; background: #222; border: 1px solid #444; color: white; border-radius: 4px; font-size: 1rem;">
+                    <option value="ボイトレ">ボイトレコース</option>
+                    <option value="ピアノ">ピアノコース</option>
+                    <option value="両方">ボイトレ・ピアノ両方</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>次回レッスン予定</label>
+                <div id="nextLessonDisplay" style="font-size: 1.2rem; font-weight: bold; color: #4caf50; padding: 12px; background: rgba(255,255,255,0.05); border-radius: 4px; border-left: 4px solid #4caf50;">
+                    -
+                </div>
+            </div>
+            <div class="form-group">
                 <label>メールアドレス</label>
                 <input type="email" id="s_email">
             </div>
@@ -176,12 +190,24 @@
             // Fallback for old name data? 
             if (!student.last_name && student.name) {
                 document.getElementById('s_last_name').value = student.name;
-                // Just put everything in last name for now
             }
 
             document.getElementById('s_email').value = student.email || '';
             document.getElementById('s_phone').value = student.phone || '';
-            document.getElementById('s_memo').value = student.memo || '';
+
+            // コース情報のデコードとメモの処理 (フォールバック)
+            let course = student.course;
+            let memo = student.memo || '';
+            if (!course && memo) {
+                const match = memo.match(/\[コース:\s*([^\]]+)\]/);
+                if (match) {
+                    course = match[1];
+                    // [コース: xxx] をメモ表示からは取り除く
+                    memo = memo.replace(/\[コース:\s*([^\]]+)\]\n?/, '');
+                }
+            }
+            document.getElementById('s_course').value = course || 'ボイトレ';
+            document.getElementById('s_memo').value = memo;
 
             // Fetch History
             const { data: history, error: hError } = await client
@@ -191,7 +217,26 @@
                 .order('date', { ascending: false })
                 .order('time_code', { ascending: true });
 
-            if (history) renderHistory(history);
+            if (history) {
+                renderHistory(history);
+                
+                // 次回レッスンの自動計算
+                const todayStr = new Date().toISOString().split('T')[0];
+                // 予約状態がstatus-ng (予約中) かつ今日以降のものを対象とする
+                const activeLessons = history.filter(item => item.date >= todayStr && item.status === 'status-ng');
+                // 日付が近い順にソート (historyはdate降順なので)
+                activeLessons.sort((a, b) => {
+                    if (a.date !== b.date) return a.date.localeCompare(b.date);
+                    return a.time_code.localeCompare(b.time_code);
+                });
+                
+                const nextLesson = activeLessons[0];
+                if (nextLesson) {
+                    document.getElementById('nextLessonDisplay').innerText = `${nextLesson.date} ${nextLesson.time_code} (${nextLesson.booking_type || 'レッスン'})`;
+                } else {
+                    document.getElementById('nextLessonDisplay').innerText = '次回予定なし';
+                }
+            }
         }
 
         function renderHistory(list) {
@@ -218,6 +263,9 @@
         }
 
         async function updateStudent() {
+            const course = document.getElementById('s_course').value;
+            const originalMemo = document.getElementById('s_memo').value;
+            
             const updates = {
                 last_name: document.getElementById('s_last_name').value,
                 first_name: document.getElementById('s_first_name').value,
@@ -225,11 +273,29 @@
                 first_furigana: document.getElementById('s_first_furigana').value,
                 email: document.getElementById('s_email').value,
                 phone: document.getElementById('s_phone').value,
-                memo: document.getElementById('s_memo').value
+                memo: originalMemo,
+                course: course
             };
-            const { error } = await client.from('students').update(updates).eq('id', studentId);
+            
+            // 1回目: course列を含めて更新を試みる
+            let { error } = await client.from('students').update(updates).eq('id', studentId);
+            
+            // カラムが存在しないエラーが出た場合のフォールバック処理
+            if (error && (error.message && error.message.includes('column "course"') || error.code === 'PGRST301' || error.status === 400)) {
+                console.log("No course column found for update, attempting fallback to memo field.");
+                // updates から course を削除し、memo の先頭に埋め込む
+                delete updates.course;
+                updates.memo = `[コース: ${course}]\n${originalMemo}`.trim();
+                
+                const result = await client.from('students').update(updates).eq('id', studentId);
+                error = result.error;
+            }
+
             if (error) alert("保存失敗: " + error.message);
-            else alert("保存しました");
+            else {
+                alert("保存しました");
+                fetchDetail(); // 再取得して画面を更新
+            }
         }
 
         async function deleteStudent() {
