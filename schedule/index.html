@@ -15,25 +15,16 @@
     <!-- End Google Tag Manager -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lesson Schedule | ニストスタジオ</title>
+    <title>オンラインスクールUdatsu | ニストスタジオ</title>
+    <meta name="description" content="オンラインスクールUdatsu。人前で話す力・話し方・考え方・稼ぐ力を学ぶオンラインスクールです。">
     <link rel="icon" href="../img/favicon.png?v=2">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&family=Zen+Kaku+Gothic+New:wght@300;400;500;700;900&family=Zen+Old+Mincho:wght@400;500;600&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&family=Zen+Kaku+Gothic+New:wght@300;400;500;700;900&family=Zen+Old+Mincho:wght@400;500;600&family=Zen+Maru+Gothic:wght@400;500;700&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="../style.css?v=120">
-
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17794227403"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
-        gtag('js', new Date());
-
-        gtag('config', 'AW-17794227403');
-    </script>
 </head>
 
 <body>
@@ -45,7 +36,7 @@
     <!-- Header -->
     <header class="header">
         <div class="container header-inner">
-            <a href="../index.html" class="logo">
+            <a href="../" class="logo">
                 <img src="../img/logo_white.png" alt="Nist Studio Logo">
                 ニストスタジオ
             </a>
@@ -56,126 +47,44 @@
                     <li><a href="../school" class="nav-link" style="color: var(--primary-neon);">School</a></li>
                     <li><a href="../training" class="nav-link">Training</a></li>
                     <li><a href="../about" class="nav-link">About</a></li>
-                    <li><a href="../../#contact" class="nav-link">Contact</a></li>
+                    <li><a href=".././#contact" class="nav-link">Contact</a></li>
                 </ul>
                 <div class="menu-toggle"><i class="fas fa-bars"></i></div>
             </nav>
         </div>
     </header>
 
-    <!-- Page Hero -->
-    <section class="page-hero" style="min-height: auto; padding: 60px 0 40px;">
-        <div class="container page-hero-content">
-            <span class="section-subtitle" style="margin-bottom: 10px;">RESERVATION</span>
-            <h1 class="page-title" style="font-size: 2rem; margin-bottom: 15px;">LESSON SCHEDULE</h1>
-            <p class="page-desc" style="font-size: 0.9rem;">
-                レッスンの空き状況をご確認いただけます。<br>
-                ご希望の日時を選択してご予約ください。
-            </p>
-        </div>
-    </section>
-
-    <!-- Calendar Section -->
-    <section class="section bg-dark-concrete">
-        <div class="container">
-
-            <!-- CTA (Moved to Top for Mobile Optimization) -->
-            <div class="cta-grid" style="margin-bottom: 50px;">
-                <div class="cta-card"
-                    style="border: 2px solid var(--primary-neon); background: rgba(255,255,255,0.95);">
-                    <div
-                        style="background:var(--primary-neon); color:black; font-weight:bold; display:inline-block; padding:2px 10px; border-radius:10px; font-size:0.8rem; margin-bottom:10px;">
-                        RECOMMENDED</div>
-                    <h3 style="color: black;">初めての方へ</h3>
-                    <p style="color: #333;">
-                        <strong>無料体験レッスン</strong>の申し込みは、<br>
-                        以下のフォームまたはLINEからご連絡ください。<br>
-                        <span style="font-size: 0.85em; color: #666;">(空き状況の確認は不要です)</span>
-                    </p>
-                    <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 15px;">
-                        <a href="../contact.html" class="btn btn-primary" style="flex: 1;">予約フォーム</a>
-                        <a href="https://lin.ee/QPJ3dva" target="_blank" class="btn"
-                            style="flex: 1; background-color: #06C755; color: white;">LINEで相談</a>
-                    </div>
-                </div>
-                <div class="cta-card">
-                    <h3>会員の方へ</h3>
-                    <p>
-                        いつもご利用ありがとうございます。<br>
-                        2回目以降のご予約は、以下のカレンダーから空き状況をご確認の上、選択してください。
-                    </p>
-                    <a href="#calendar-area" class="btn btn-secondary"
-                        onclick="document.getElementById('calendar-area').scrollIntoView({behavior: 'smooth'}); return false;">カレンダーを見る</a>
-                </div>
-            </div>
-
-            <div id="calendar-area" class="section-title-area"
-                style="margin-top: 60px; margin-bottom: 30px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 40px;">
-                <h2 class="section-title" style="font-size: 1.5rem;">レッスンスケジュール</h2>
-                <p style="color: #ccc; font-size: 0.9rem;">(会員様・2回目以降の方)</p>
-            </div>
-
-            <div class="calendar-controls">
-                <button class="cal-btn" id="prevWeek"><i class="fas fa-chevron-left"></i> 前の週</button>
-                <h2 class="current-month">2025年 12月</h2>
-                <button class="cal-btn" id="nextWeek">次の週 <i class="fas fa-chevron-right"></i></button>
-            </div>
-
-            <div class="calendar-legend">
-                <div class="legend" style="margin-top: 20px;">
-                    <span class="status-ok">◎</span> 予約可能 (ボーカル・ピアノ対面 / オンライン)
-                    <span class="status-online" style="margin-left: 10px;"><i class="fa-solid fa-wifi"></i></span>
-                    オンラインのみ
-                    <div style="margin-top: 5px; font-size: 0.8rem; color: #666;">- 予約不可 (満席または休講)</div>
-                </div>
-            </div>
-
-            <div class="schedule-grid">
-                <div class="schedule-header">
-                    <!-- JS Injected -->
-                </div>
-                <!-- Hourly Grid Body -->
-                <div id="schedule-body">
-                    <!-- JS Injected -->
-                </div>
-            </div>
-
-            <div class="schedule-note">
-                ※ 表示されている時間は開始時間です。<br>
-                ※ ◯・△をクリックすると予約フォームへ進みます。
-            </div>
-
-
-
-        </div>
-    </section>
-
-    <!-- Footer -->
+<main>
+<section class="hero" style="min-height:50vh;height:auto;padding:140px 20px 70px;background:#006888;">
+<div class="hero-content"><span class="hero-subtitle" style="color:#FCC800;">オンラインスクール</span>
+<h1 class="hero-title" style="font-size:clamp(2rem,7vw,3.5rem);">Udatsu</h1>
+<p class="hero-desc">話し方・人前で話すレッスンは<br>オンラインスクールUdatsuで受講できます。</p></div></section>
+<section class="section"><div class="container" style="max-width:800px;text-align:center;">
+<h2 style="font-size:clamp(1.5rem,5vw,2rem);margin-bottom:24px;">話す力を、毎日を進める力に。</h2>
+<p style="line-height:2;margin-bottom:32px;">人前で話す力・話し方・考え方・稼ぐ力を学ぶオンラインスクールです。<br>レッスンの内容・お申し込みは、Udatsuの公式サイトをご覧ください。</p>
+<a href="https://udatsuageteko.com/" class="btn btn-primary" style="background:#FCC800;color:#006888;white-space:normal;max-width:100%;padding:20px 28px;font-size:1.1rem;">オンラインスクールUdatsuへ</a>
+</div></section></main>    <!-- Footer -->
     <footer class="footer">
         <div class="container">
             <div class="footer-grid">
                 <div>
-                    <a href="../index.html" class="footer-logo">ニストスタジオ</a>
-                    <p class="section-description">
-                        「やりたい」を形にするために。<br>
-                        声のプロとして、そして次世代を育てる指導者として。<br>
-                        ニストスタジオは、あなたの可能性を広げ続けます。
-                    </p>
+                    <a href="../" class="footer-logo">ニストスタジオ</a>
+                    <p style="color: #888;">Hiroshima, Japan</p>
                 </div>
                 <div class="footer-links">
                     <div>
                         <h4>Business</h4>
                         <ul>
-                            <li><a href="../voice.html">Voice / Narration</a></li>
-                            <li><a href="../school.html">School</a></li>
-                            <li><a href="../incubation.html">Incubation</a></li>
+                            <li><a href="../voice">Voice / Narration</a></li>
+                            <li><a href="../school">School</a></li>
+                            <li><a href="../training">Training</a></li>
                         </ul>
                     </div>
                     <div>
                         <h4>Studio</h4>
                         <ul>
-                            <li><a href="../about.html">About Us</a></li>
-                            <li><a href="../contact.html">Contact</a></li>
+                            <li><a href="../about">About Us</a></li>
+                            <li><a href="../contact">Contact</a></li>
                         </ul>
                     </div>
                     <div>
@@ -193,279 +102,4 @@
         </div>
     </footer>
 
-    <!-- Reservation Modal -->
-    <div class="modal-overlay" id="bookingModal">
-        <div class="modal-content">
-            <button class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></button>
-            <h2 style="text-align: center; margin-bottom: 20px; font-family: var(--font-serif); color:white;">仮予約フォーム
-            </h2>
-
-            <div class="booking-info">
-                <h4 id="modalDate" style="color: var(--primary-neon);">2025/12/10 (Wed)</h4>
-                <div id="modalTime" style="font-size: 1.5rem; font-weight: bold; color:white;">10:00</div>
-            </div>
-
-            <div id="booking-status" style="margin-bottom: 20px;"></div>
-            <form action="https://formspree.io/f/xanzkprd" method="POST" id="booking-form">
-                <input type="hidden" name="date" id="formDate">
-                <input type="hidden" name="time" id="formTime">
-                <input type="hidden" name="subject" value="レッスン仮予約申し込み">
-
-                <div class="form-group">
-                    <label class="form-label">お名前</label>
-                    <input type="text" name="name" class="form-input" required placeholder="山田 太郎">
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">メールアドレス</label>
-                    <input type="email" name="email" class="form-input" required placeholder="email@example.com">
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">メッセージ・ご要望</label>
-                    <textarea name="message" class="form-textarea" rows="3" placeholder="過去にレッスン経験あり、など"></textarea>
-                </div>
-
-                <div style="margin-bottom: 15px; text-align: center;">
-                    <a href="https://lin.ee/QPJ3dva" target="_blank"
-                        style="color: #06C755; text-decoration: underline; font-size: 0.9rem;">LINEでのお問い合わせはこちら</a>
-                </div>
-
-                <p style="font-size: 0.8rem; color: #888; margin-bottom: 20px;">
-                    ※ご予約はまだ確定ではありません。<br>
-                    ※講師からの返信をもって予約確定となります。
-                </p>
-
-                <button type="submit" class="btn btn-primary" style="width: 100%;">仮予約を送信する</button>
-            </form>
-        </div>
-    </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script>
-        const SUPABASE_URL = 'https://yptegzzukymqotzchgnp.supabase.co';
-        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlwdGVnenp1a3ltcW90emNoZ25wIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM4NDU1MTYsImV4cCI6MjA3OTQyMTUxNn0.iKWkVYwlKrSBlJKUxRebbGRcgvprzkcyAOgDaCHKLSY';
-        const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-        let currentStartDate = new Date();
-
-        const STATUS_TEXT = {
-            'status-ok': '◎',
-            'status-online': '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"></path><path d="M1.42 9a16 16 0 0 1 21.16 0"></path><path d="M8.53 16.11a6 6 0 0 1 6.95 0"></path><line x1="12" y1="20" x2="12.01" y2="20"></line></svg><span style="font-size:0.5em; display:block;">Online</span>',
-            'status-few': '△',
-            'status-full': '×',
-            'status-ng': '-'
-        };
-
-        // Modal Logic
-        function openModal(dateStr, timeStr) {
-            const modal = document.getElementById('bookingModal');
-            document.getElementById('modalDate').innerHTML = dateStr;
-            document.getElementById('modalTime').textContent = timeStr;
-            // For form hidden inputs, use standard YYYY-MM-DD
-            // But here dateStr might be '12/10 (Wed)'
-            // We need to store exact ISO date in dataset or regenerate it
-            // For now let's just use what we have, or better, pass the raw date key
-            // The onclick passes dispDate. 
-            document.getElementById('formDate').value = dateStr;
-            document.getElementById('formTime').value = timeStr;
-            modal.classList.add('active');
-        }
-
-        window.closeModal = function () {
-            document.getElementById('bookingModal').classList.remove('active');
-        }
-
-        // Close on background click
-        document.getElementById('bookingModal').addEventListener('click', function (e) {
-            if (e.target === this) {
-                closeModal();
-            }
-        });
-
-        // Format helpers
-        const formatDateKey = (date) => {
-            const d = new Date(date);
-            return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
-        };
-
-        const formatDisplayDate = (date) => {
-            const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-            return `${date.getMonth() + 1}/${date.getDate()}<br><span style="font-size:0.85em">(${days[date.getDay()]})</span>`;
-        };
-
-        const START_HOUR = 8;
-        const END_HOUR = 22;
-        const HOURS = [];
-        for (let i = START_HOUR; i <= END_HOUR; i++) {
-            HOURS.push(`${i}:00`);
-        }
-
-        async function fetchSchedule(startDate) {
-            const dates = [];
-            for (let i = 0; i < 7; i++) {
-                const d = new Date(startDate);
-                d.setDate(startDate.getDate() + i);
-                dates.push(d);
-            }
-
-            // Headers
-            const headerContainer = document.querySelector('.schedule-header');
-            headerContainer.innerHTML = '';
-            const corner = document.createElement('div');
-            corner.className = 'date-col header-corner';
-            headerContainer.appendChild(corner);
-
-            dates.forEach(d => {
-                const div = document.createElement('div');
-                div.className = 'date-col';
-                if (d.getDay() === 6) div.classList.add('sat');
-                if (d.getDay() === 0) div.classList.add('sun');
-                div.innerHTML = `<span>${formatDisplayDate(d)}</span>`;
-                headerContainer.appendChild(div);
-            });
-
-            // Right Corner
-            const cornerRight = document.createElement('div');
-            cornerRight.className = 'date-col header-corner header-corner-right';
-            headerContainer.appendChild(cornerRight);
-
-            // Data
-            const dateKeys = dates.map(formatDateKey);
-            let dataMap = {};
-
-            const { data, error } = await client
-                .from('schedule_slots')
-                .select('*')
-                .in('date', dateKeys);
-
-            if (data && !error) {
-                data.forEach(item => {
-                    if (!dataMap[item.date]) dataMap[item.date] = {};
-                    dataMap[item.date][item.time_code] = item.status;
-                });
-            }
-
-            // Body
-            const bodyContainer = document.getElementById('schedule-body');
-            bodyContainer.innerHTML = '';
-
-            HOURS.forEach(timeCode => {
-                const row = document.createElement('div');
-                row.className = 'schedule-row';
-
-                const timeLabel = document.createElement('div');
-                timeLabel.className = 'time-label';
-                timeLabel.textContent = timeCode + '~';
-                row.appendChild(timeLabel);
-
-                dates.forEach(d => {
-                    const dateKey = formatDateKey(d);
-
-                    // Default to NG (Unavailable) if no data exists
-                    let status = 'status-ng';
-
-                    if (dataMap[dateKey] && dataMap[dateKey][timeCode]) {
-                        status = dataMap[dateKey][timeCode];
-                    }
-
-                    const div = document.createElement('div');
-                    div.className = `slot ${status}`;
-
-                    // Logic for clickable
-                    const isClickable = (status === 'status-ok' || status === 'status-few' || status === 'status-online');
-
-                    if (isClickable) {
-                        div.style.cursor = 'pointer';
-                        div.onclick = () => openModal(dateKey, timeCode);
-                    }
-
-                    div.innerHTML = STATUS_TEXT[status] || STATUS_TEXT['status-ng'];
-                    row.appendChild(div);
-                });
-
-                // Right Time Label
-                const timeLabelRight = document.createElement('div');
-                timeLabelRight.className = 'time-label time-label-right';
-                timeLabelRight.textContent = timeCode;
-                row.appendChild(timeLabelRight);
-
-                bodyContainer.appendChild(row);
-            });
-
-            const title = document.querySelector('.current-month');
-            title.textContent = `${startDate.getFullYear()}年 ${startDate.getMonth() + 1}月`;
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            fetchSchedule(currentStartDate);
-
-            document.getElementById('prevWeek').addEventListener('click', () => {
-                const newDate = new Date(currentStartDate);
-                newDate.setDate(newDate.getDate() - 7);
-                currentStartDate = newDate;
-                fetchSchedule(currentStartDate);
-            });
-            document.getElementById('nextWeek').addEventListener('click', () => {
-                const newDate = new Date(currentStartDate);
-                newDate.setDate(newDate.getDate() + 7);
-                currentStartDate = newDate;
-                fetchSchedule(currentStartDate);
-            });
-
-            // Hamburger Menu
-            const menuToggle = document.querySelector('.menu-toggle');
-            const navList = document.querySelector('.nav-list');
-            menuToggle.addEventListener('click', () => {
-                navList.classList.toggle('active');
-            });
-
-            // AJAX Form Submission for Booking
-            const bookingForm = document.getElementById('booking-form');
-            const bookingStatus = document.getElementById('booking-status');
-
-            if (bookingForm) {
-                bookingForm.addEventListener('submit', function (e) {
-
-                    // Google Ads Conversion Event (Trigger on Attempt)
-                    if (typeof gtag === 'function') {
-                        gtag('event', 'conversion', { 'send_to': 'AW-17794227403/NLHHCMaejtEbEMu5-aRC' });
-                    }
-
-                    e.preventDefault();
-                    const formData = new FormData(bookingForm);
-
-                    bookingStatus.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 送信中...';
-                    bookingStatus.style.color = '#fff';
-
-                    fetch(bookingForm.action, {
-                        method: 'POST',
-                        body: formData,
-                        headers: {
-                            'Accept': 'application/json'
-                        }
-                    }).then(response => {
-                        if (response.ok) {
-                            // Redirect to Thank You Page
-                            window.location.href = '../thanks.html';
-                        } else {
-                            response.json().then(data => {
-                                if (Object.hasOwn(data, 'errors')) {
-                                    bookingStatus.innerHTML = data["errors"].map(error => error["message"]).join(", ");
-                                } else {
-                                    bookingStatus.innerHTML = '送信に失敗しました。<br>時間をおいて再度お試しください。';
-                                }
-                                bookingStatus.style.color = '#ff4d4d';
-                            });
-                        }
-                    }).catch(error => {
-                        bookingStatus.innerHTML = 'エラーが発生しました。<br>お手数ですが、InstagramのDM等でご連絡ください。';
-                        bookingStatus.style.color = '#ff4d4d';
-                    });
-                });
-            }
-        });
-    </script>
-</body>
-
-</html>
+<script src="../script.js"></script></body></html>
